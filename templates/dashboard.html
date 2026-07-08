@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard | AI Interview Assistant</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+    <div class="dashboard">
+    
+        <!-- Sidebar -->
+    
+        <aside class="sidebar">
+    
+            <div class="logo">
+    
+                <h2>🤖 AI Interview</h2>
+                <span>Assistant</span>
+    
+            </div>
+    
+            <ul class="menu">
+    
+                <li class="active">
+                    <a href="/dashboard">🏠 Dashboard</a>
+                </li>
+    
+                <li>
+                    <a href="/interview">🎤 Mock Interview</a>
+                </li>
+    
+                <li>
+                    <a href="/ats">📄 Resume Analyzer</a>
+                </li>
+    
+                <li>
+                    <a href="/feedback">💬 AI Feedback</a>
+                </li>
+    
+                <li>
+                    <a href="/question-bank">📚 Question Bank</a>
+                </li>
+    
+                <li>
+                    <a href="/progress">📈 Progress</a>
+                </li>
+    
+                <li>
+                    <a href="/history">🕒 Interview History</a>
+                </li>
+    
+                <li>
+                    <a href="/settings">⚙ Settings</a>
+                </li>
+    
+                <li>
+                    <a href="/logout">🚪 Logout</a>
+                </li>
+    
+            </ul>
+    
+        </aside>
+    
+    
+    
+        <!-- Main Content -->
+    
+        <main class="main-content">
+    
+            <header class="topbar">
+    
+                <div>
+    
+                    <h1>Welcome Back, Shravan 👋</h1>
+    
+                    <p>
+                        Let's ace your next interview with AI-powered practice.
+                    </p>
+    
+                </div>
+    
+                <div class="profile">
+    
+                    <div class="profile-circle">
+                        SW
+                    </div>
+    
+                    <span>Shravan</span>
+    
+                </div>
+    
+            </header>
+    
+    
+    
+            <!-- Statistics -->
+    
+            <section class="stats">
+    
+                <div class="stat-card">
+    
+                    <div class="icon">🎤</div>
+    
+                    <div>
+    
+                        <h2>0</h2>
+    
+                        <p>Mock Interviews</p>
+    
+                    </div>
+    
+                </div>
+    
+    
+    
+                <div class="stat-card">
+    
+                    <div class="icon">📄</div>
+    
+                    <div>
+    
+                        <h2>0%</h2>
+    
+                        <p>Average ATS Score</p>
+    
+                    </div>
+    
+                </div>
+    
+    
+    
+                <div class="stat-card">
+    
+                    <div class="icon">❓</div>
+    
+                    <div>
+    
+                        <h2>0</h2>
+    
+                        <p>Questions Attempted</p>
+    
+                    </div>
+    
+                </div>
+    
+    
+    
+                <div class="stat-card">
+    
+                    <div class="icon">⭐</div>
+    
+                    <div>
+    
+                        <h2>0</h2>
+    
+                        <p>Skills Improved</p>
+    
+                    </div>
+    
+                </div>
+    
+            </section>
+                    <!-- Quick Actions -->
+
+        <section class="quick-actions">
+
+            <div class="section-header">
+
+                <h2>Quick Actions</h2>
+
+                <a href="#">View All</a>
+
+            </div>
+
+            <div class="action-grid">
+
+                <a href="/interview" class="action-card">
+
+                    <div class="action-icon">🎤</div>
+
+                    <h3>Start Mock Interview</h3>
+
+                    <p>Practice technical and HR interviews with AI.</p>
+
+                </a>
+
+                <a href="/ats" class="action-card">
+
+                    <div class="action-icon">📄</div>
+
+                    <h3>Resume ATS Analyzer</h3>
+
+                    <p>Upload your resume and receive an ATS score.</p>
+
+                </a>
+
+                <a href="/question-bank" class="action-card">
+
+                    <div class="action-icon">📚</div>
+
+                    <h3>Question Bank</h3>
+
+                    <p>Practice commonly asked interview questions.</p>
+
+                </a>
+
+                <a href="/progress" class="action-card">
+
+                    <div class="action-icon">📈</div>
+
+                    <h3>Track Progress</h3>
+
+                    <p>Monitor your interview performance.</p>
+
+                </a>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- Bottom Grid -->
+
+        <section class="bottom-grid">
+
+            <!-- Recent Activity -->
+
+            <div class="recent-card">
+
+                <div class="section-header">
+
+                    <h2>Recent Activity</h2>
+
+                </div>
+
+                <div class="activity-list">
+
+                    <div class="activity-item">
+
+                        <div class="activity-dot"></div>
+
+                        <div>
+
+                            <h4>No interviews completed yet</h4>
+
+                            <p>Start your first AI interview.</p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="activity-item">
+
+                        <div class="activity-dot"></div>
+
+                        <div>
+
+                            <h4>No resume uploaded</h4>
+
+                            <p>Upload a resume for ATS analysis.</p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="activity-item">
+
+                        <div class="activity-dot"></div>
+
+                        <div>
+
+                            <h4>Progress dashboard waiting</h4>
+
+                            <p>Complete an interview to generate reports.</p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- AI Recommendation -->
+
+            <div class="recommendation-card">
+
+                <div class="section-header">
+
+                    <h2>🤖 AI Recommendation</h2>
+
+                </div>
+
+                <div class="recommendation-box">
+
+                    <h3>Welcome!</h3>
+
+                    <p>
+
+                        Start by uploading your resume. After ATS analysis,
+                        the AI will recommend missing skills and generate
+                        personalized interview questions.
+
+                    </p>
+
+                    <a href="/ats" class="primary-btn">
+
+                        Upload Resume
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- Progress -->
+
+        <section class="progress-section">
+
+            <div class="section-header">
+
+                <h2>Placement Readiness</h2>
+
+                <span>0%</span>
+
+            </div>
+
+            <div class="progress-bar">
+
+                <div class="progress-fill"></div>
+
+            </div>
+
+            <p class="progress-text">
+
+                Complete interviews and ATS analysis to increase your readiness score.
+
+            </p>
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>
