@@ -23,59 +23,66 @@
         <h1>Create Account 🚀</h1>
 
         <p>Join AI Placement Assistant and start preparing today.</p>
-
-        <form>
+        <form method="POST">
 
             <div class="input-group">
-
+        
                 <label>Full Name</label>
-
+        
                 <input
                     type="text"
+                    name="fullname"
                     placeholder="Enter your full name"
+                    required
                 >
-
+        
             </div>
-
+        
             <div class="input-group">
-
+        
                 <label>Email</label>
-
+        
                 <input
                     type="email"
+                    name="email"
                     placeholder="Enter your email"
+                    required
                 >
-
+        
             </div>
-
+        
             <div class="input-group">
-
+        
                 <label>Password</label>
-
+        
                 <input
                     type="password"
+                    name="password"
                     placeholder="Create a password"
+                    required
                 >
-
+        
             </div>
-
+        
             <div class="input-group">
-
+        
                 <label>Confirm Password</label>
-
+        
                 <input
                     type="password"
+                    name="confirm_password"
                     placeholder="Confirm your password"
+                    required
                 >
-
+        
             </div>
-
-            <button class="login-btn">
-
+        
+            <button type="submit" class="login-btn">
+        
                 Create Account
-
+        
             </button>
-
+        
         </form>
 
         <p class="signup-text">
