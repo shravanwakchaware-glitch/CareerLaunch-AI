@@ -71,5 +71,10 @@ def dashboard():
 def logout():
     session.clear()
     return redirect(url_for("home"))
+@app.route('/without_resume')
+def without_resume():
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+    return render_template("without_resume.html")
 if __name__ == '__main__':
     app.run(debug=True)
