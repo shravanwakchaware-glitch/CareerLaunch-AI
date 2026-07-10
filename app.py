@@ -76,5 +76,44 @@ def without_resume():
     if "user_id" not in session:
         return redirect(url_for("login"))
     return render_template("without_resume.html")
+@app.route("/skills")
+def skills():
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    role = request.args.get("job_role")
+
+    return render_template(
+        "skills.html",
+        username=session["username"],
+        role=role
+    )
+
+@app.route("/interview_setup", methods=["POST"])
+def interview_setup():
+
+    # Check if user is logged in
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    # Get data from the form
+    job_role = request.form.get("job_role")
+    skills = request.form.getlist("skills")
+    other_skills = request.form.get("other_skills")
+
+    # Print to terminal for debugging
+    print("Job Role:", job_role)
+    print("Skills:", skills)
+    print("Other Skills:", other_skills)
+
+    # Send data to interview_setup.html
+    return render_template(
+        "interview_setup.html",
+        username=session["username"],
+        job_role=job_role,
+        skills=skills,
+        other_skills=other_skills
+    )
 if __name__ == '__main__':
     app.run(debug=True)

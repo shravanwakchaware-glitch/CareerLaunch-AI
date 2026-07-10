@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Select Skills | CareerLaunch AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="career-page">
+
+    <div class="career-card">
+
+        <h1>💡 Select Your Skills</h1>
+        <p class="selected-role">
+
+            Selected Role:
+            <strong>{{ role }}</strong>
+        
+        </p>
+
+        <p>
+
+            Choose the technologies you're comfortable with.
+
+        </p>
+
+        <form action="/interview_setup" method="POST">
+            <input type="hidden" name="job_role" value="{{ role }}">
+
+            <h2>Your Skills</h2>
+
+            <div class="skills-grid">
+
+                <label class="skill-card">
+                    <input type="checkbox" name="skills" value="Python">
+                    <div class="skill-icon">🐍</div>
+                    <h3>Python</h3>
+                </label>
+            
+                <label class="skill-card">
+                    <input type="checkbox" name="skills" value="Java">
+                    <div class="skill-icon">☕</div>
+                    <h3>Java</h3>
+                </label>
+            
+                <label class="skill-card">
+                    <input type="checkbox" name="skills" value="Flask">
+                    <div class="skill-icon">🌐</div>
+                    <h3>Flask</h3>
+                </label>
+            
+                <label class="skill-card">
+                    <input type="checkbox" name="skills" value="SQL">
+                    <div class="skill-icon">🗄️</div>
+                    <h3>SQL</h3>
+                </label>
+            
+                <label class="skill-card">
+                    <input type="checkbox" name="skills" value="HTML">
+                    <div class="skill-icon">📄</div>
+                    <h3>HTML</h3>
+                </label>
+            
+                <label class="skill-card">
+                    <input type="checkbox" name="skills" value="CSS">
+                    <div class="skill-icon">🎨</div>
+                    <h3>CSS</h3>
+                </label>
+            
+                <label class="skill-card">
+                    <input type="checkbox" name="skills" value="JavaScript">
+                    <div class="skill-icon">⚡</div>
+                    <h3>JavaScript</h3>
+                </label>
+            
+                <label class="skill-card">
+                    <input type="checkbox" name="skills" value="Git">
+                    <div class="skill-icon">📂</div>
+                    <h3>Git</h3>
+                </label>
+            
+                <label class="skill-card">
+                    <input type="checkbox" name="skills" value="Docker">
+                    <div class="skill-icon">🐳</div>
+                    <h3>Docker</h3>
+                </label>
+            
+                <label class="skill-card">
+                    <input type="checkbox" name="skills" value="Linux">
+                    <div class="skill-icon">🐧</div>
+                    <h3>Linux</h3>
+                </label>
+            
+                <label class="skill-card">
+                    <input type="checkbox" name="skills" value="React">
+                    <div class="skill-icon">⚛️</div>
+                    <h3>React</h3>
+                </label>
+            
+                <label class="skill-card">
+                    <input type="checkbox" name="skills" value="AWS">
+                    <div class="skill-icon">☁️</div>
+                    <h3>AWS</h3>
+                </label>
+            
+            </div>
+            <div class="input-group">
+
+                <label>Other Skills (Optional)</label>
+            
+                <input
+                    type="text"
+                    name="other_skills"
+                    placeholder="Example: Django, TensorFlow, Kubernetes"
+                >
+            
+            </div>
+            
+            <div class="next-btn-container">
+            
+                <button type="submit" class="primary-btn">
+            
+                    Start Interview →
+            
+                </button>
+            
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

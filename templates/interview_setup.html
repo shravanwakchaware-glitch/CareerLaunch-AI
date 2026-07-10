@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Interview Setup | CareerLaunch AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="career-page">
+
+    <div class="career-card">
+
+        <h1>🎤 Interview Setup</h1>
+
+        <p>
+
+            <hr>
+
+<h2>Role</h2>
+<p>{{ job_role }}</p>
+
+<h2>Skills</h2>
+
+<ul>
+{% for skill in skills %}
+    <li>✅ {{ skill }}</li>
+{% endfor %}
+</ul>
+
+{% if other_skills %}
+<h2>Other Skills</h2>
+<p>{{ other_skills }}</p>
+{% endif %}
+
+        </p>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>
