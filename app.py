@@ -93,27 +93,84 @@ def skills():
 @app.route("/interview_setup", methods=["POST"])
 def interview_setup():
 
-    # Check if user is logged in
     if "user_id" not in session:
         return redirect(url_for("login"))
 
-    # Get data from the form
     job_role = request.form.get("job_role")
     skills = request.form.getlist("skills")
     other_skills = request.form.get("other_skills")
+    difficulty = request.form.get("difficulty", "Intermediate")
 
-    # Print to terminal for debugging
-    print("Job Role:", job_role)
-    print("Skills:", skills)
-    print("Other Skills:", other_skills)
+    # Save everything in session
+    session["job_role"] = job_role
+    session["skills"] = skills
+    session["other_skills"] = other_skills
+    session["difficulty"] = difficulty
 
-    # Send data to interview_setup.html
     return render_template(
         "interview_setup.html",
         username=session["username"],
         job_role=job_role,
         skills=skills,
-        other_skills=other_skills
+        other_skills=other_skills,
+        difficulty=difficulty
+    )
+@app.route("/interview")
+def interview():
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    return render_template(
+        "interview.html",
+
+        username=session["username"],
+
+        job_role=session.get("job_role"),
+
+        skills=session.get("skills", []),
+
+        other_skills=session.get("other_skills", ""),
+
+        difficulty=session.get("difficulty"),
+
+        question="Tell me about yourself.",
+
+        current_question=1,
+
+        total_questions=10,
+
+        timer="15:00"
+    )
+@app.route("/ats")
+def ats():
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    return render_template(
+        "ats_analyzer.html",
+        username=session["username"]
+    )
+@app.route("/mock_interview")
+def mock_interview():
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    return render_template(
+        "mock_interview.html",
+        username=session["username"]
+    )
+@app.route("/interview_results")
+def interview_results():
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    return render_template(
+        "interview_results.html",
+        username=session["username"]
     )
 if __name__ == '__main__':
     app.run(debug=True)

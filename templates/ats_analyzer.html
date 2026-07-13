@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATS Resume Analyzer | CareerAI</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/ats.css') }}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="hero">
+
+        <h1>Master Your First Impression</h1>
+
+        <p>
+            Upload your resume and let CareerAI analyze it for ATS compatibility,
+            keyword optimization, strengths, weaknesses and improvement suggestions.
+        </p>
+
+    </div>
+
+    <div class="top-section">
+
+        <!-- Upload Card -->
+
+        <div class="upload-card">
+
+            <div class="upload-icon">
+                📄
+            </div>
+
+            <h2>Upload Resume</h2>
+
+            <p>
+                Upload your PDF or DOCX resume to receive an AI-powered ATS analysis.
+            </p>
+
+            <form action="/upload_resume"
+                  method="POST"
+                  enctype="multipart/form-data">
+
+                <input
+                    type="file"
+                    id="resume"
+                    name="resume"
+                    accept=".pdf,.doc,.docx"
+                    required>
+
+                <button type="submit">
+                    Upload Resume
+                </button>
+
+            </form>
+
+            <small>
+                Supported formats: PDF, DOCX
+            </small>
+
+        </div>
+
+        <!-- ATS Score -->
+
+        <div class="score-card">
+
+            <h3>ATS Compatibility</h3>
+
+            <div class="score-circle">
+
+                {% if ats_score %}
+
+                    <span>{{ ats_score }}</span>
+
+                {% else %}
+
+                    <span>--</span>
+
+                {% endif %}
+
+            </div>
+
+            {% if ats_score %}
+
+                <p class="good">
+                    Resume Analyzed
+                </p>
+
+            {% else %}
+
+                <p class="waiting">
+                    Upload Resume
+                </p>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <div class="content-grid">
+
+        <!-- Left Side -->
+
+        <div class="left-column">
+
+            <div class="card">
+
+                <h2>AI Improvement Suggestions</h2>
+                {% if suggestions %}
+
+                {% for suggestion in suggestions %}
+
+                <div class="suggestion-card">
+
+                    <h3>{{ suggestion.title }}</h3>
+
+                    <p>{{ suggestion.description }}</p>
+
+                </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <div class="suggestion-card">
+
+                    <h3>No Analysis Yet</h3>
+
+                    <p>
+                        Upload your resume to receive AI-powered suggestions
+                        for improving your resume.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <!-- Right Side -->
+
+    <div class="right-column">
+
+        <div class="card">
+
+            <h2>Analysis Breakdown</h2>
+
+            <div class="breakdown">
+
+                <div class="strengths">
+
+                    <h4>Strengths</h4>
+
+                    {% if strengths %}
+
+                        {% for item in strengths %}
+
+                            <span class="tag success">
+                                {{ item }}
+                            </span>
+
+                        {% endfor %}
+
+                    {% else %}
+
+                        <span class="tag neutral">
+                            Waiting...
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+                <div class="weaknesses">
+
+                    <h4>Weaknesses</h4>
+
+                    {% if weaknesses %}
+
+                        {% for item in weaknesses %}
+
+                            <span class="tag danger">
+                                {{ item }}
+                            </span>
+
+                        {% endfor %}
+
+                    {% else %}
+
+                        <span class="tag neutral">
+                            Waiting...
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <h2>Keyword Analysis</h2>
+
+            <div class="keywords">
+
+                {% if keywords %}
+
+                    {% for keyword in keywords %}
+
+                        <span class="keyword">
+
+                            {{ keyword }}
+
+                        </span>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <span class="keyword">
+
+                        Upload Resume
+
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+</body>
+
+</html>

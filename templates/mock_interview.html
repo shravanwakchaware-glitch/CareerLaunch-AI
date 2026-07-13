@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Start Mock Interview | CareerAI</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mock_interview.css') }}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="card">
+
+        <div class="icon">
+
+            🎤
+
+        </div>
+
+        <h1>Start Mock Interview</h1>
+
+        <p>
+
+            Upload your resume to generate personalized AI interview questions
+            based on your skills, projects and experience.
+
+        </p>
+
+        <form action="/interview_setup"
+
+              method="POST"
+
+              enctype="multipart/form-data">
+
+            <div class="upload-box">
+
+                <div class="upload-icon">
+
+                    📄
+
+                </div>
+
+                <h2>Upload Resume</h2>
+
+                <p>
+
+                    Drag & Drop your Resume
+
+                </p>
+
+                <span>OR</span>
+
+                <input
+
+                    type="file"
+
+                    name="resume"
+
+                    accept=".pdf,.doc,.docx"
+
+                    required>
+
+            </div>
+
+            <div class="buttons">
+
+                <a href="/dashboard" class="back-btn">
+
+                    ← Back
+
+                </a>
+
+                <button type="submit">
+
+                    Continue →
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

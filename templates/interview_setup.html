@@ -5,13 +5,12 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Interview Setup | CareerLaunch AI</title>
 
     <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/style.css') }}">
+        href="{{ url_for('static', filename='css/style.css') }}">
 
 </head>
 
@@ -24,26 +23,105 @@
         <h1>🎤 Interview Setup</h1>
 
         <p>
+            Welcome, <strong>{{ username }}</strong>! Please review your interview configuration before starting.
+        </p>
+
+        <hr>
+
+        <!-- Role -->
+
+        <h2>💼 Selected Role</h2>
+
+        <div class="info-box">
+
+            {{ job_role }}
+
+        </div>
+
+        <!-- Skills -->
+
+        <h2>🛠 Selected Skills</h2>
+
+        <div class="skills-container">
+
+            {% for skill in skills %}
+
+                <span class="skill-badge">
+
+                    {{ skill }}
+
+                </span>
+
+            {% endfor %}
+
+        </div>
+
+        <!-- Other Skills -->
+
+        {% if other_skills %}
+
+        <h2>➕ Other Skills</h2>
+
+        <div class="skills-container">
+
+            {% for skill in other_skills.split(",") %}
+
+                <span class="skill-badge">
+
+                    {{ skill.strip() }}
+
+                </span>
+
+            {% endfor %}
+
+        </div>
+
+        {% endif %}
+
+        <!-- Difficulty -->
+
+        <h2>🎯 Difficulty</h2>
+
+        <form action="/interview" method="GET">
+
+            <div class="difficulty-options">
+
+                <label>
+                    <input type="radio" name="difficulty" value="Beginner">
+                    Beginner
+                </label>
+
+                <label>
+                    <input type="radio" name="difficulty" value="Intermediate" checked>
+                    Intermediate
+                </label>
+
+                <label>
+                    <input type="radio" name="difficulty" value="Advanced">
+                    Advanced
+                </label>
+
+            </div>
 
             <hr>
 
-<h2>Role</h2>
-<p>{{ job_role }}</p>
+            <h2>📋 Interview Details</h2>
 
-<h2>Skills</h2>
+            <p>⏱ Estimated Time: <strong>15 Minutes</strong></p>
 
-<ul>
-{% for skill in skills %}
-    <li>✅ {{ skill }}</li>
-{% endfor %}
-</ul>
+            <p>❓ Questions: <strong>10</strong></p>
 
-{% if other_skills %}
-<h2>Other Skills</h2>
-<p>{{ other_skills }}</p>
-{% endif %}
+            <div class="next-btn-container">
 
-        </p>
+                <button type="submit" class="primary-btn">
+
+                    🚀 Start AI Interview
+
+                </button>
+
+            </div>
+
+        </form>
 
     </div>
 

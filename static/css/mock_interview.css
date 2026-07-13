@@ -1,0 +1,152 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Poppins',sans-serif;
+    background:#f4f7fc;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+}
+
+.container{
+    width:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:30px;
+}
+
+.card{
+    width:100%;
+    max-width:700px;
+    background:#fff;
+    border-radius:20px;
+    box-shadow:0 15px 35px rgba(0,0,0,0.08);
+    padding:45px;
+    text-align:center;
+}
+
+.icon{
+    width:90px;
+    height:90px;
+    margin:auto;
+    background:#e8f1ff;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:40px;
+    margin-bottom:20px;
+}
+
+.card h1{
+    font-size:38px;
+    color:#1e293b;
+    margin-bottom:12px;
+}
+
+.card p{
+    color:#64748b;
+    line-height:1.7;
+    margin-bottom:30px;
+}
+
+.upload-box{
+    border:2px dashed #3b82f6;
+    border-radius:18px;
+    padding:40px 25px;
+    background:#f8fbff;
+    transition:.3s;
+}
+
+.upload-box:hover{
+    background:#eef5ff;
+    border-color:#2563eb;
+}
+
+.upload-icon{
+    font-size:55px;
+    margin-bottom:15px;
+}
+
+.upload-box h2{
+    color:#2563eb;
+    margin-bottom:10px;
+}
+
+.upload-box span{
+    display:block;
+    margin:18px 0;
+    color:#94a3b8;
+    font-weight:600;
+}
+
+.upload-box input[type=file]{
+    display:block;
+    margin:20px auto;
+    padding:10px;
+}
+
+.buttons{
+    display:flex;
+    justify-content:space-between;
+    margin-top:35px;
+}
+
+.back-btn{
+    text-decoration:none;
+    background:#e2e8f0;
+    color:#334155;
+    padding:14px 26px;
+    border-radius:10px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.back-btn:hover{
+    background:#cbd5e1;
+}
+
+button{
+    border:none;
+    background:#2563eb;
+    color:white;
+    padding:14px 32px;
+    border-radius:10px;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+}
+
+button:hover{
+    background:#1d4ed8;
+    transform:translateY(-2px);
+}
+
+@media(max-width:768px){
+
+    .card{
+        padding:30px;
+    }
+
+    .card h1{
+        font-size:30px;
+    }
+
+    .buttons{
+        flex-direction:column;
+        gap:15px;
+    }
+
+    .back-btn,
+    button{
+        width:100%;
+    }
+
+}

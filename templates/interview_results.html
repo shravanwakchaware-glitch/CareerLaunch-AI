@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Interview Results | CareerAI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/interview_results.css') }}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="result-card">
+
+        <div class="header">
+
+            <div class="trophy">
+
+                🏆
+
+            </div>
+
+            <h1>Interview Completed</h1>
+
+            <p>
+
+                Congratulations {{ username }}!
+                Here is your interview performance.
+
+            </p>
+
+        </div>
+
+        <div class="score-section">
+
+            <div class="overall-score">
+
+                <h2>Overall Score</h2>
+
+                <div class="score-circle">
+
+                    88%
+
+                </div>
+
+            </div>
+
+            <div class="mini-scores">
+
+                <div class="score-box">
+
+                    <h3>Technical</h3>
+
+                    <span>90%</span>
+
+                </div>
+
+                <div class="score-box">
+
+                    <h3>Communication</h3>
+
+                    <span>85%</span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="feedback-grid">
+
+            <div class="card">
+
+                <h2>💪 Strengths</h2>
+
+                <ul>
+
+                    <li>Excellent Python Knowledge</li>
+
+                    <li>Good Problem Solving</li>
+
+                    <li>Strong SQL Skills</li>
+
+                </ul>
+
+            </div>
+
+            <div class="card">
+
+                <h2>📈 Needs Improvement</h2>
+
+                <ul>
+
+                    <li>Communication</li>
+
+                    <li>System Design</li>
+
+                    <li>Confidence</li>
+
+                </ul>
+
+            </div>
+
+        </div>
+        <div class="resources-card">
+
+            <h2>📚 Recommended Learning Resources</h2>
+
+            <div class="resource-list">
+
+                <div class="resource-item">
+
+                    <h3>Python Advanced Concepts</h3>
+
+                    <p>
+                        Improve your OOP, decorators and generators.
+                    </p>
+
+                </div>
+
+                <div class="resource-item">
+
+                    <h3>SQL Interview Questions</h3>
+
+                    <p>
+                        Practice joins, indexing and optimization.
+                    </p>
+
+                </div>
+
+                <div class="resource-item">
+
+                    <h3>System Design Basics</h3>
+
+                    <p>
+                        Learn scalability, load balancing and caching.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="button-group">
+
+            <a href="/dashboard" class="secondary-btn">
+
+                ← Dashboard
+
+            </a>
+
+            <a href="/interview" class="primary-btn">
+
+                Take Another Interview →
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

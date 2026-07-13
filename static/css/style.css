@@ -874,3 +874,38 @@ grid-template-columns:1fr;
 }
 
 }
+.info-box{
+    background:#f8f9fa;
+    padding:15px;
+    border-radius:10px;
+    margin-bottom:25px;
+    font-size:18px;
+    font-weight:600;
+}
+
+.skills-container{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    margin-bottom:25px;
+}
+
+.skill-badge{
+    background:#2563eb;
+    color:white;
+    padding:10px 18px;
+    border-radius:25px;
+    font-weight:600;
+}
+
+.difficulty-options{
+    display:flex;
+    gap:25px;
+    margin:20px 0;
+}
+
+.next-btn-container{
+    display:flex;
+    justify-content:center;
+    margin-top:35px;
+}
