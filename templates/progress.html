@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Progress Tracker</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/progress.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>📈 Progress Tracker</h1>
+
+    <div class="grid">
+
+        <div class="card">
+            <h3>Total Interviews</h3>
+            <p>{{ stats[0] }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Average Score</h3>
+            <p>{{ "%.0f"|format(stats[1]) }}%</p>
+        </div>
+
+        <div class="card">
+            <h3>Best Score</h3>
+            <p>{{ stats[2] }}%</p>
+        </div>
+
+        <div class="card">
+            <h3>Technical Avg.</h3>
+            <p>{{ "%.0f"|format(stats[3]) }}%</p>
+        </div>
+
+        <div class="card">
+            <h3>Communication Avg.</h3>
+            <p>{{ "%.0f"|format(stats[4]) }}%</p>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

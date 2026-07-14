@@ -19,160 +19,111 @@
 
 <body>
 
-<div class="container">
-
-    <div class="result-card">
-
-        <div class="header">
-
-            <div class="trophy">
-
-                🏆
-
+    <div class="container">
+    
+        <div class="result-card">
+    
+            <div class="header">
+    
+                <div class="trophy">
+                    🏆
+                </div>
+    
+                <h1>Interview Completed</h1>
+    
+                <p>
+                    Congratulations {{ username }}!
+                    Here is your interview performance.
+                </p>
+    
             </div>
-
-            <h1>Interview Completed</h1>
-
-            <p>
-
-                Congratulations {{ username }}!
-                Here is your interview performance.
-
-            </p>
-
+    
+            <div class="score-section">
+    
+                <div class="overall-score">
+                    <h2>Overall Score</h2>
+    
+                    <div class="score-circle">
+                        {{ result[5] }}%
+                    </div>
+                </div>
+    
+                <div class="mini-scores">
+    
+                    <div class="score-box">
+                        <h3>Technical</h3>
+                        <span>{{ result[6] }}%</span>
+                    </div>
+    
+                    <div class="score-box">
+                        <h3>Communication</h3>
+                        <span>{{ result[7] }}%</span>
+                    </div>
+    
+                </div>
+    
+            </div>
+    
+            <div class="feedback-grid">
+    
+                <div class="card">
+    
+                    <h2>💪 Strengths</h2>
+    
+                    <ul>
+                        <li>{{ result[8] }}</li>
+                    </ul>
+    
+                </div>
+    
+                <div class="card">
+    
+                    <h2>📈 Needs Improvement</h2>
+    
+                    <ul>
+                        <li>{{ result[9] }}</li>
+                    </ul>
+    
+                </div>
+    
+            </div>
+    
+            <div class="resources-card">
+    
+                <h2>💡 AI Suggestions</h2>
+    
+                <div class="resource-list">
+    
+                    <div class="resource-item">
+    
+                        <h3>Recommended Improvements</h3>
+    
+                        <p>
+                            {{ result[10] }}
+                        </p>
+    
+                    </div>
+    
+                </div>
+    
+            </div>
+    
+            <div class="button-group">
+    
+                <a href="/dashboard" class="secondary-btn">
+                    ← Dashboard
+                </a>
+    
+                <a href="/interview" class="primary-btn">
+                    Take Another Interview →
+                </a>
+    
+            </div>
+    
         </div>
-
-        <div class="score-section">
-
-            <div class="overall-score">
-
-                <h2>Overall Score</h2>
-
-                <div class="score-circle">
-
-                    88%
-
-                </div>
-
-            </div>
-
-            <div class="mini-scores">
-
-                <div class="score-box">
-
-                    <h3>Technical</h3>
-
-                    <span>90%</span>
-
-                </div>
-
-                <div class="score-box">
-
-                    <h3>Communication</h3>
-
-                    <span>85%</span>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="feedback-grid">
-
-            <div class="card">
-
-                <h2>💪 Strengths</h2>
-
-                <ul>
-
-                    <li>Excellent Python Knowledge</li>
-
-                    <li>Good Problem Solving</li>
-
-                    <li>Strong SQL Skills</li>
-
-                </ul>
-
-            </div>
-
-            <div class="card">
-
-                <h2>📈 Needs Improvement</h2>
-
-                <ul>
-
-                    <li>Communication</li>
-
-                    <li>System Design</li>
-
-                    <li>Confidence</li>
-
-                </ul>
-
-            </div>
-
-        </div>
-        <div class="resources-card">
-
-            <h2>📚 Recommended Learning Resources</h2>
-
-            <div class="resource-list">
-
-                <div class="resource-item">
-
-                    <h3>Python Advanced Concepts</h3>
-
-                    <p>
-                        Improve your OOP, decorators and generators.
-                    </p>
-
-                </div>
-
-                <div class="resource-item">
-
-                    <h3>SQL Interview Questions</h3>
-
-                    <p>
-                        Practice joins, indexing and optimization.
-                    </p>
-
-                </div>
-
-                <div class="resource-item">
-
-                    <h3>System Design Basics</h3>
-
-                    <p>
-                        Learn scalability, load balancing and caching.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="button-group">
-
-            <a href="/dashboard" class="secondary-btn">
-
-                ← Dashboard
-
-            </a>
-
-            <a href="/interview" class="primary-btn">
-
-                Take Another Interview →
-
-            </a>
-
-        </div>
-
+    
     </div>
-
-</div>
-
-</body>
+    
+    </body>
 
 </html>

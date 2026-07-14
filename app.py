@@ -168,9 +168,115 @@ def interview_results():
     if "user_id" not in session:
         return redirect(url_for("login"))
 
+    connection = sqlite3.connect("database.db")
+    cursor = connection.cursor()
+
+    cursor.execute("""
+        SELECT *
+        FROM interview_results
+        WHERE user_id = ?
+        ORDER BY interview_date DESC
+        LIMIT 1
+    """, (session["user_id"],))
+
+    result = cursor.fetchone()
+
+    connection.close()
+
     return render_template(
         "interview_results.html",
-        username=session["username"]
+        result=result
+    )
+@app.route("/finish_interview", methods=["POST"])
+def finish_interview():
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    connection = sqlite3.connect("database.db")
+    cursor = connection.cursor()
+
+    cursor.execute("""
+        INSERT INTO interview_results
+        (
+            user_id,
+            job_role,
+            interview_type,
+            overall_score,
+            technical_score,
+            communication_score,
+            strengths,
+            weaknesses,
+            suggestions
+        )
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    """, (
+        session["user_id"],
+        "Python Developer",
+        "Mock Interview",
+        88,
+        90,
+        85,
+        "Python, Flask",
+        "Communication, SQL",
+        "Practice SQL joins and improve communication."
+    ))
+
+    connection.commit()
+    connection.close()
+
+    return redirect(url_for("interview_results"))
+@app.route("/history")
+def history():
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    connection = sqlite3.connect("database.db")
+    cursor = connection.cursor()
+
+    cursor.execute("""
+        SELECT *
+        FROM interview_results
+        WHERE user_id=?
+        ORDER BY interview_date DESC
+    """, (session["user_id"],))
+
+    interviews = cursor.fetchall()
+
+    connection.close()
+
+    return render_template(
+        "history.html",
+        interviews=interviews
+    )
+@app.route("/progress")
+def progress():
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    connection = sqlite3.connect("database.db")
+    cursor = connection.cursor()
+
+    cursor.execute("""
+        SELECT
+            COUNT(*),
+            AVG(overall_score),
+            MAX(overall_score),
+            AVG(technical_score),
+            AVG(communication_score)
+        FROM interview_results
+        WHERE user_id=?
+    """, (session["user_id"],))
+
+    stats = cursor.fetchone()
+
+    connection.close()
+
+    return render_template(
+        "progress.html",
+        stats=stats
     )
 if __name__ == '__main__':
     app.run(debug=True)

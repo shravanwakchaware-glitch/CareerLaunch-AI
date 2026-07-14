@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Interview History</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/history.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>📜 Interview History</h1>
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>Job Role</th>
+                <th>Interview</th>
+                <th>Overall</th>
+                <th>Date</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+        {% for interview in interviews %}
+
+            <tr>
+
+                <td>{{ interview[3] }}</td>
+
+                <td>{{ interview[4] }}</td>
+
+                <td>{{ interview[5] }}%</td>
+
+                <td>{{ interview[11] }}</td>
+
+            </tr>
+
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+</body>
+
+</html>

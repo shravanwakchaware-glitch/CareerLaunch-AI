@@ -3,12 +3,13 @@ import sqlite3
 connection = sqlite3.connect("database.db")
 cursor = connection.cursor()
 
-cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
-tables = cursor.fetchall()
+cursor.execute("SELECT * FROM interview_results")
 
-print("\nTables in database:\n")
+rows = cursor.fetchall()
 
-for table in tables:
-    print("-", table[0])
+print("\nInterview Results:\n")
+
+for row in rows:
+    print(row)
 
 connection.close()
