@@ -7,7 +7,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Dashboard | AI Interview Assistant</title>
+    <title>Dashboard | CareerLaunch AI</title>
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/style.css') }}">
@@ -15,6 +15,7 @@
 </head>
 
 <body>
+    
 
     <div class="dashboard">
     
@@ -24,8 +25,8 @@
     
             <div class="logo">
     
-                <h2>🤖 AI Interview</h2>
-                <span>Assistant</span>
+                <h2>🤖 CareerLaunch AI</h2>
+                
     
             </div>
     
@@ -99,69 +100,69 @@
             <!-- Statistics -->
     
             <section class="stats">
-    
+
                 <div class="stat-card">
-    
+            
                     <div class="icon">🎤</div>
-    
+            
                     <div>
-    
-                        <h2>0</h2>
-    
+            
+                        <h2>{{ stats[0] }}</h2>
+            
                         <p>Mock Interviews</p>
-    
+            
                     </div>
-    
+            
                 </div>
-    
-    
-    
+            
+            
+            
                 <div class="stat-card">
-    
-                    <div class="icon">📄</div>
-    
-                    <div>
-    
-                        <h2>0%</h2>
-    
-                        <p>Average ATS Score</p>
-    
-                    </div>
-    
-                </div>
-    
-    
-    
-                <div class="stat-card">
-    
-                    <div class="icon">❓</div>
-    
-                    <div>
-    
-                        <h2>0</h2>
-    
-                        <p>Questions Attempted</p>
-    
-                    </div>
-    
-                </div>
-    
-    
-    
-                <div class="stat-card">
-    
+            
                     <div class="icon">⭐</div>
-    
+            
                     <div>
-    
-                        <h2>0</h2>
-    
-                        <p>Skills Improved</p>
-    
+            
+                        <h2>{{ "%.0f"|format(stats[1]) }}%</h2>
+            
+                        <p>Average Score</p>
+            
                     </div>
-    
+            
                 </div>
-    
+            
+            
+            
+                <div class="stat-card">
+            
+                    <div class="icon">🏆</div>
+            
+                    <div>
+            
+                        <h2>{{ stats[2] }}%</h2>
+            
+                        <p>Best Score</p>
+            
+                    </div>
+            
+                </div>
+            
+            
+            
+                <div class="stat-card">
+            
+                    <div class="icon">📅</div>
+            
+                    <div>
+            
+                        <h2>{{ stats[3][:10] }}</h2>
+            
+                        <p>Last Interview</p>
+            
+                    </div>
+            
+                </div>
+            
             </section>
                     <!-- Quick Actions -->
 
@@ -234,94 +235,116 @@
             <div class="recent-card">
 
                 <div class="section-header">
-
-                    <h2>Recent Activity</h2>
-
+                    <h2>📋 Recent Activity</h2>
+                    <span class="activity-count">
+                        {{ recent_activities|length if recent_activities else 0 }}
+                    </span>
                 </div>
-
+            
                 <div class="activity-list">
-
-                    <div class="activity-item">
-
-                        <div class="activity-dot"></div>
-
-                        <div>
-
-                            <h4>No interviews completed yet</h4>
-
-                            <p>Start your first AI interview.</p>
-
+            
+                    {% if recent_activities %}
+            
+                        {% for activity in recent_activities %}
+            
+                        <div class="activity-item">
+            
+                            <div class="activity-dot"></div>
+            
+                            <div class="activity-content">
+            
+                                <div class="activity-top">
+            
+                                    <div class="activity-title">
+                                        🎤 Mock Interview
+                                    </div>
+            
+                                    <span class="activity-score">
+                                        {{ activity[1] }}%
+                                    </span>
+            
+                                </div>
+            
+                                <div class="activity-role">
+                                    {{ activity[0] }}
+                                </div>
+            
+                                <div class="activity-date">
+                                    📅 {{ activity[2][:10] }}
+                                </div>
+            
+                            </div>
+            
                         </div>
-
-                    </div>
-
-                    <div class="activity-item">
-
-                        <div class="activity-dot"></div>
-
-                        <div>
-
-                            <h4>No resume uploaded</h4>
-
-                            <p>Upload a resume for ATS analysis.</p>
-
+            
+                        {% endfor %}
+            
+                    {% else %}
+            
+                        <div class="activity-empty">
+            
+                            <div class="empty-icon">🎯</div>
+            
+                            <h3>No Activity Yet</h3>
+            
+                            <p>Complete your first AI mock interview to start building your timeline.</p>
+            
                         </div>
-
-                    </div>
-
-                    <div class="activity-item">
-
-                        <div class="activity-dot"></div>
-
-                        <div>
-
-                            <h4>Progress dashboard waiting</h4>
-
-                            <p>Complete an interview to generate reports.</p>
-
-                        </div>
-
-                    </div>
-
+            
+                    {% endif %}
+            
                 </div>
-
+            
             </div>
-
-
-
             <!-- AI Recommendation -->
 
             <div class="recommendation-card">
 
                 <div class="section-header">
-
-                    <h2>🤖 AI Recommendation</h2>
-
+                    <h2>🤖 AI Career Coach</h2>
                 </div>
-
+            
                 <div class="recommendation-box">
-
-                    <h3>Welcome!</h3>
-
+            
+                    <h3>Hello {{ username }} 👋</h3>
+            
                     <p>
-
-                        Start by uploading your resume. After ATS analysis,
-                        the AI will recommend missing skills and generate
-                        personalized interview questions.
-
+                        {{ ai_message }}
                     </p>
-
+            
+                    <div class="recommendation-list">
+            
+                        <div class="recommendation-item">
+                            ✅ {{ recommendation1 }}
+                        </div>
+            
+                        <div class="recommendation-item">
+                            ✅ {{ recommendation2 }}
+                        </div>
+            
+                        <div class="recommendation-item">
+                            ✅ {{ recommendation3 }}
+                        </div>
+            
+                    </div>
+            
+                    <div class="prediction-box">
+            
+                        <span>📈 Estimated Placement Readiness</span>
+            
+                        <strong>{{ readiness }}% → {{ predicted_readiness }}%</strong>
+            
+                    </div>
+            
                     <a href="/ats" class="primary-btn">
-
-                        Upload Resume
-
+            
+                        Improve My Profile 🚀
+            
                     </a>
-
+            
                 </div>
-
+            
             </div>
-
-        </section>
 
 
 
@@ -330,25 +353,77 @@
         <section class="progress-section">
 
             <div class="section-header">
-
-                <h2>Placement Readiness</h2>
-
-                <span>0%</span>
-
+                <h2>🎯 Placement Readiness</h2>
+                <span class="progress-percent">
+                    {{ readiness }}%
+                </span>
             </div>
-
+        
             <div class="progress-bar">
-
-                <div class="progress-fill"></div>
-
+                <div class="progress-fill" style="width: {{ readiness }}%;"></div>
             </div>
-
+        
+            <div class="readiness-status">
+                <span class="status-badge
+{% if readiness >= 85 %}
+success
+{% elif readiness >= 70 %}
+primary
+{% elif readiness >= 50 %}
+warning
+{% else %}
+danger
+{% endif %}">
+    {{ status }}
+</span>
+            </div>
+        
             <p class="progress-text">
-
-                Complete interviews and ATS analysis to increase your readiness score.
-
+                Your placement readiness is calculated using your interview performance and practice history.
             </p>
-
+        
+            <div class="readiness-stats">
+        
+                <!-- Total Interviews -->
+                <div class="stat-box">
+                    <div class="stat-icon">🎤</div>
+                    <div class="stat-title">
+                        Interviews
+                    </div>
+                    <div class="stat-value">
+                        {{ stats[0] }}
+                    </div>
+                </div>
+        
+                <!-- Average Score -->
+                <div class="stat-box">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-title">
+                        Average Score
+                    </div>
+                    <div class="stat-value">
+                        {{ "%.0f"|format(stats[1] or 0) }}%
+                    </div>
+                </div>
+        
+                <!-- Best Score -->
+                <div class="stat-box">
+                    <div class="stat-icon">🏆</div>
+                    <div class="stat-title">
+                        Best Score
+                    </div>
+                    <div class="stat-value">
+                        {{ stats[2] or 0 }}%
+                    </div>
+                </div>
+        
+            </div>
+        
+            <div class="ai-tip">
+                <strong>💡 AI Tip</strong><br><br>
+                {{ tip }}
+            </div>
+        
         </section>
 
     </main>
