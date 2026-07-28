@@ -84,6 +84,34 @@ CREATE TABLE IF NOT EXISTS interview_messages (
 
 )
 """)
+# ==========================
+# ATS History Table
+# ==========================
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS ats_history (
+
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+    user_id INTEGER NOT NULL,
+
+    resume_name TEXT NOT NULL,
+
+    ats_score INTEGER,
+
+    strengths TEXT,
+
+    weaknesses TEXT,
+
+    keywords TEXT,
+
+    suggestions TEXT,
+
+    analyzed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY(user_id) REFERENCES users(id)
+
+)
+""")
 
 connection.commit()
 connection.close()

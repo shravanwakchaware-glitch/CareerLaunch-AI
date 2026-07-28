@@ -36,7 +36,7 @@
 
         </p>
 
-        <form action="/interview_setup"
+        <form action="/resume_role"
 
               method="POST"
 
@@ -51,6 +51,13 @@
                 </div>
 
                 <h2>Upload Resume</h2>
+                <div class="no-resume">
+                    <p>Don't have a resume?</p>
+                
+                    <a href="{{ url_for('without_resume') }}" class="without-resume-btn">
+                        Continue Without Resume
+                    </a>
+                </div>
 
                 <p>
 

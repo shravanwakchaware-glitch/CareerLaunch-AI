@@ -1,6 +1,11 @@
 from flask import Flask,render_template,request,redirect,url_for,session
 import sqlite3
-from services.interview_ai import InterviewAI, active_interviews
+import json
+from services.interview_ai import InterviewAI, active_interviews, extract_skills
+import os
+from werkzeug.utils import secure_filename
+from services.resume_parser import extract_resume_text
+from services.ats_service import analyze_resume
 app = Flask(__name__)
 app.secret_key = "careerlaunch_secret_key"
 @app.route('/')
@@ -240,6 +245,8 @@ def without_resume():
     if "user_id" not in session:
         return redirect(url_for("login"))
     return render_template("without_resume.html")
+
+
 @app.route("/skills")
 def skills():
 
@@ -253,6 +260,36 @@ def skills():
         username=session["username"],
         role=role
     )
+@app.route("/resume_role", methods=["POST"])
+def resume_role():
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    file = request.files.get("resume")
+
+    if not file or file.filename == "":
+        return redirect(url_for("mock_interview"))
+
+    # Create uploads folder
+    upload_folder = "uploads"
+    os.makedirs(upload_folder, exist_ok=True)
+
+    # Save uploaded resume
+    filename = secure_filename(file.filename)
+    filepath = os.path.join(upload_folder, filename)
+
+    file.save(filepath)
+
+    # Store resume information in session
+    session["resume_path"] = filepath
+    session["resume_mode"] = True
+
+    # Open Resume Role page
+    return render_template(
+        "resume_role.html",
+        username=session["username"]
+    )
 
 @app.route("/interview_setup", methods=["POST"])
 def interview_setup():
@@ -261,11 +298,36 @@ def interview_setup():
         return redirect(url_for("login"))
 
     job_role = request.form.get("job_role")
-    skills = request.form.getlist("skills")
-    other_skills = request.form.get("other_skills")
     difficulty = request.form.get("difficulty", "Intermediate")
 
-    # Save everything in session
+    # ===================================
+    # Resume Interview
+    # ===================================
+    if session.get("resume_mode"):
+
+        resume_path = session["resume_path"]
+
+        # Extract Resume Text
+        resume_text = extract_resume_text(resume_path)
+
+        # Extract Skills using AI
+        skills = extract_skills(resume_text)
+
+        other_skills = ""
+
+        # Clear Resume Session
+        session.pop("resume_path", None)
+        session.pop("resume_mode", None)
+
+    # ===================================
+    # Without Resume
+    # ===================================
+    else:
+
+        skills = request.form.getlist("skills")
+        other_skills = request.form.get("other_skills")
+
+    # Save Everything
     session["job_role"] = job_role
     session["skills"] = skills
     session["other_skills"] = other_skills
@@ -279,6 +341,7 @@ def interview_setup():
         other_skills=other_skills,
         difficulty=difficulty
     )
+
 @app.route("/interview")
 def interview():
 
@@ -339,7 +402,81 @@ def submit_answer():
     result = interview.submit_answer(answer)
 
     if result["finished"]:
-        return redirect(url_for("finish_interview"))
+
+        report = result["report"]
+
+        connection = sqlite3.connect("database.db")
+        cursor = connection.cursor()
+
+        # Save Interview Result
+        cursor.execute("""
+            INSERT INTO interview_results
+            (
+                user_id,
+                job_role,
+                interview_type,
+                overall_score,
+                technical_score,
+                communication_score,
+                strengths,
+                weaknesses,
+                suggestions
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, (
+            session["user_id"],
+            session.get("job_role"),
+            "AI Mock Interview",
+            report["overall_score"],
+            report["technical_score"],
+            report["communication_score"],
+            "\n".join(report["strengths"]),
+            "\n".join(report["weaknesses"]),
+            "\n".join(report["recommendations"])
+        ))
+
+        interview_result_id = cursor.lastrowid
+
+        # Save Questions & Answers
+        for i in range(len(interview.questions)):
+
+            cursor.execute("""
+                INSERT INTO interview_answers
+                (
+                    interview_result_id,
+                    question,
+                    user_answer,
+                    ai_feedback,
+                    score
+                )
+                VALUES (?, ?, ?, ?, ?)
+            """, (
+                interview_result_id,
+                interview.questions[i],
+                interview.answers[i],
+                "",
+                0
+            ))
+
+        connection.commit()
+        connection.close()
+
+        active_interviews.pop(interview_session_id, None)
+
+        return redirect(url_for("interview_results"))
+
+    return render_template(
+        "interview.html",
+        username=session["username"],
+        job_role=session.get("job_role"),
+        skills=session.get("skills", []),
+        other_skills=session.get("other_skills", ""),
+        difficulty=session.get("difficulty"),
+        question=result["question"],
+        current_question=result["question_number"],
+        total_questions=15,
+        timer="15:00"
+    )
 
     return render_template(
         "interview.html",
@@ -362,11 +499,82 @@ def submit_answer():
 
         timer="15:00"
     )
-@app.route("/ats")
+@app.route("/ats", methods=["GET", "POST"])
 def ats():
 
     if "user_id" not in session:
         return redirect(url_for("login"))
+
+    if request.method == "POST":
+
+        file = request.files.get("resume")
+
+        if not file or file.filename == "":
+            return render_template(
+                "ats_analyzer.html",
+                username=session["username"]
+            )
+
+        upload_folder = "uploads"
+        os.makedirs(upload_folder, exist_ok=True)
+
+        filename = secure_filename(file.filename)
+        filepath = os.path.join(upload_folder, filename)
+
+        # Save Resume
+        file.save(filepath)
+        print("Resume Saved:", filepath)
+
+        # Extract Resume Text
+        resume_text = extract_resume_text(filepath)
+        print("Resume extracted successfully.")
+
+        # Analyze Resume using Gemini
+        analysis = analyze_resume(resume_text)
+        print("Gemini analysis completed.")
+
+        # Save Analysis to Database
+        conn = sqlite3.connect("database.db")
+        cursor = conn.cursor()
+
+        cursor.execute("""
+        INSERT INTO ats_history (
+            user_id,
+            resume_name,
+            ats_score,
+            strengths,
+            weaknesses,
+            keywords,
+            suggestions
+        )
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+        """, (
+            session["user_id"],
+            file.filename,
+            analysis["ats_score"],
+            json.dumps(analysis["strengths"]),
+            json.dumps(analysis["weaknesses"]),
+            json.dumps(analysis["keywords"]),
+            json.dumps(analysis["suggestions"])
+        ))
+
+        conn.commit()
+        conn.close()
+
+        return render_template(
+            "ats_analyzer.html",
+            username=session["username"],
+            ats_score=analysis["ats_score"],
+            strengths=analysis["strengths"],
+            weaknesses=analysis["weaknesses"],
+            keywords=analysis["keywords"],
+            suggestions=analysis["suggestions"]
+        )
+
+    return render_template(
+        "ats_analyzer.html",
+        username=session["username"]
+    )
 
     return render_template(
         "ats_analyzer.html",
@@ -382,6 +590,7 @@ def mock_interview():
         "mock_interview.html",
         username=session["username"]
     )
+
 @app.route("/interview_results")
 def interview_results():
 

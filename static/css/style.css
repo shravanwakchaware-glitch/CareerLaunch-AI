@@ -1178,3 +1178,29 @@ grid-template-columns:1fr;
     }
 
 }
+.no-resume{
+    margin-top:25px;
+    text-align:center;
+}
+
+.no-resume p{
+    color:#6b7280;
+    margin-bottom:10px;
+    font-size:15px;
+}
+
+.without-resume-btn{
+    display:inline-block;
+    padding:10px 22px;
+    border:2px solid #2563eb;
+    border-radius:8px;
+    color:#2563eb;
+    text-decoration:none;
+    font-weight:600;
+    transition:.3s;
+}
+
+.without-resume-btn:hover{
+    background:#2563eb;
+    color:#fff;
+}

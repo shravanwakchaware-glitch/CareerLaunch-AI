@@ -1,6 +1,6 @@
 import uuid
-
-from services.gemini_service import GeminiChat
+import json
+from services.gemini_service import GeminiChat,ask_gemini
 
 
 class InterviewAI:
@@ -172,11 +172,71 @@ Interview:
 
             report = self.chat.send(evaluation_prompt)
 
+            try:
+                report = report.replace("```json", "")
+                report = report.replace("```", "")
+                report = report.strip()
+
+                report_json = json.loads(report)
+
+            except Exception:
+
+                report_json = {
+                    "overall_score": 0,
+                    "aptitude_score": 0,
+                    "technical_score": 0,
+                    "hr_score": 0,
+                    "communication_score": 0,
+                    "confidence_score": 0,
+                    "strengths": ["Unable to generate"],
+                    "weaknesses": ["Unable to generate"],
+                    "recommendations": ["Try again"]
+                }
+
             return {
                 "finished": True,
-                "report": report
+                "report": report_json
             }
+def extract_skills(resume_text):
 
+    prompt = f"""
+You are an AI Resume Analyzer.
+
+Extract only the technical skills from the resume.
+
+Return ONLY valid JSON.
+
+Example:
+
+{{
+    "skills": [
+        "Python",
+        "Flask",
+        "SQL",
+        "Machine Learning"
+    ]
+}}
+
+Resume:
+
+{resume_text}
+"""
+
+    response = ask_gemini(prompt)
+
+    try:
+        response = response.replace("```json", "")
+        response = response.replace("```", "")
+        response = response.strip()
+
+        data = json.loads(response)
+
+        return data["skills"]
+
+    except Exception:
+        return []
 
 # Store all active interview sessions
 active_interviews = {}
+
+
