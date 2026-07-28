@@ -1,0 +1,535 @@
+/* =====================================
+   GOOGLE FONT
+===================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+/* =====================================
+   RESET
+===================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:'Poppins',sans-serif;
+    background:#f8fafc;
+    color:#1e293b;
+    overflow-x:hidden;
+}
+
+/* =====================================
+   NAVBAR
+===================================== */
+
+.navbar{
+
+    position:absolute;
+    top:0;
+    left:0;
+
+    width:100%;
+
+    padding:28px 8%;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    z-index:1000;
+}
+
+.logo{
+
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    font-size:32px;
+    font-weight:700;
+
+    color:#ffffff;
+
+    letter-spacing:.5px;
+
+    user-select:none;
+}
+
+.nav-links{
+
+    display:flex;
+    align-items:center;
+    gap:18px;
+
+}
+
+.nav-links a{
+
+    text-decoration:none;
+
+    color:white;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.nav-links a:hover{
+
+    color:#93c5fd;
+
+}
+
+.signup-btn{
+
+    padding:12px 28px;
+
+    border-radius:40px;
+
+    background:#2563eb;
+
+    color:white !important;
+
+    box-shadow:0 10px 25px rgba(37,99,235,.35);
+
+}
+
+.signup-btn:hover{
+
+    background:#1d4ed8;
+
+    transform:translateY(-3px);
+
+}
+/* =====================================
+   HERO
+===================================== */
+
+.hero{
+
+    position:relative;
+
+    min-height:100vh;
+
+    display:flex;
+
+    align-items:center;
+
+    padding:0 8%;
+
+    background:
+    linear-gradient(
+    rgba(0,0,0,.65),
+    rgba(0,0,0,.70)
+    ),
+    url("../images/hero.png");
+
+    background-size:cover;
+
+    background-position:center;
+
+    background-repeat:no-repeat;
+
+}
+
+.overlay{
+    display:none;
+}
+
+.hero-content{
+
+    position:relative;
+
+    z-index:2;
+
+    max-width:700px;
+
+    color:white;
+
+}
+
+.hero-content h1{
+
+    font-size:72px;
+
+    font-weight:700;
+
+    line-height:1.15;
+
+    margin-bottom:25px;
+
+}
+
+.hero-content p{
+
+    font-size:20px;
+
+    line-height:1.8;
+
+    color:#e2e8f0;
+
+    margin-bottom:40px;
+
+    max-width:650px;
+
+}
+
+.hero-btn{
+
+    display:inline-block;
+
+    padding:18px 40px;
+
+    background:#2563eb;
+
+    color:white;
+
+    text-decoration:none;
+
+    font-size:18px;
+
+    font-weight:600;
+
+    border-radius:50px;
+
+    transition:.35s;
+
+    box-shadow:0 15px 35px rgba(37,99,235,.35);
+
+}
+
+.hero-btn:hover{
+
+    background:#1d4ed8;
+
+    transform:translateY(-4px);
+
+    box-shadow:0 20px 40px rgba(37,99,235,.45);
+
+}
+/* =====================================
+   FEATURES
+===================================== */
+
+.features{
+
+    padding:100px 8%;
+
+    background:#f8fafc;
+
+    text-align:center;
+
+}
+
+.features h2{
+
+    font-size:48px;
+
+    color:#0f172a;
+
+    margin-bottom:18px;
+
+    font-weight:700;
+
+}
+
+.features>p{
+
+    font-size:19px;
+
+    color:#64748b;
+
+    margin-bottom:70px;
+
+}
+
+/* ===== Grid ===== */
+
+.feature-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+
+    gap:35px;
+
+}
+
+/* ===== Card ===== */
+
+.feature-card{
+
+    background:white;
+
+    border-radius:24px;
+
+    padding:40px 30px;
+
+    text-decoration:none;
+
+    color:inherit;
+
+    text-align:left;
+
+    transition:.35s;
+
+    border:1px solid #e5e7eb;
+
+    box-shadow:0 12px 30px rgba(0,0,0,.05);
+
+}
+
+.feature-card:hover{
+
+    transform:translateY(-10px);
+
+    box-shadow:0 20px 45px rgba(37,99,235,.18);
+
+    border-color:#2563eb;
+
+}
+
+/* ===== Icon ===== */
+
+.icon{
+
+    width:75px;
+
+    height:75px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:34px;
+
+    background:#eff6ff;
+
+    border-radius:18px;
+
+    margin-bottom:25px;
+
+}
+
+/* ===== Title ===== */
+
+.feature-card h3{
+
+    font-size:24px;
+
+    color:#0f172a;
+
+    margin-bottom:15px;
+
+}
+
+/* ===== Description ===== */
+
+.feature-card p{
+
+    color:#64748b;
+
+    line-height:1.8;
+
+    font-size:16px;
+
+}
+/* =====================================
+   CALL TO ACTION
+===================================== */
+
+.cta{
+
+    background:linear-gradient(135deg,#2563eb,#1d4ed8);
+
+    color:white;
+
+    text-align:center;
+
+    padding:90px 8%;
+
+}
+
+.cta h2{
+
+    font-size:46px;
+
+    margin-bottom:18px;
+
+    font-weight:700;
+
+}
+
+.cta p{
+
+    font-size:20px;
+
+    color:#dbeafe;
+
+    margin-bottom:40px;
+
+}
+
+.cta a{
+
+    display:inline-block;
+
+    background:white;
+
+    color:#2563eb;
+
+    text-decoration:none;
+
+    padding:18px 42px;
+
+    border-radius:50px;
+
+    font-size:18px;
+
+    font-weight:600;
+
+    transition:.35s;
+
+    box-shadow:0 12px 30px rgba(0,0,0,.15);
+
+}
+
+.cta a:hover{
+
+    transform:translateY(-5px);
+
+    box-shadow:0 20px 40px rgba(0,0,0,.22);
+
+}
+
+
+/* =====================================
+   FOOTER
+===================================== */
+
+footer{
+
+    background:#0f172a;
+
+    color:#cbd5e1;
+
+    text-align:center;
+
+    padding:28px;
+
+    font-size:15px;
+
+}
+
+
+/* =====================================
+   RESPONSIVE
+===================================== */
+
+@media(max-width:1000px){
+
+    .hero-content h1{
+        font-size:56px;
+    }
+
+    .hero-content p{
+        font-size:18px;
+    }
+
+    .features h2{
+        font-size:38px;
+    }
+
+    .cta h2{
+        font-size:36px;
+    }
+
+}
+
+@media(max-width:768px){
+
+    .navbar{
+
+        padding:20px 6%;
+
+        flex-direction:column;
+
+        gap:20px;
+
+    }
+
+    .logo{
+
+        font-size:26px;
+
+    }
+
+    .hero{
+
+        text-align:center;
+
+        justify-content:center;
+
+        padding:0 6%;
+
+    }
+
+    .hero-content h1{
+
+        font-size:42px;
+
+    }
+
+    .hero-content p{
+
+        font-size:17px;
+
+    }
+
+    .hero-btn{
+
+        padding:16px 34px;
+
+    }
+
+    .features{
+
+        padding:70px 6%;
+
+    }
+
+    .features h2{
+
+        font-size:32px;
+
+    }
+
+    .cta{
+
+        padding:70px 6%;
+
+    }
+
+    .cta h2{
+
+        font-size:30px;
+
+    }
+
+    .cta p{
+
+        font-size:17px;
+
+    }
+
+}

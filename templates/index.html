@@ -2,72 +2,245 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
     <title>CareerLaunch AI</title>
+
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='css/landing.css') }}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
 </head>
 
 <body>
 
-    <!-- Navbar -->
+    <!-- ================= NAVBAR ================= -->
+
     <nav class="navbar">
 
-        <h2 class="logo">CareerLaunch AI</h2>
+        <div class="logo">
+
+            🚀 CareerLaunch AI
+
+        </div>
 
         <div class="nav-links">
-            <a href="#">Home</a>
-            <a href="#features">Features</a>
-            <a href="#">About</a>
+
             <a href="/login">Login</a>
-            <a href="/signup">Sign Up</a>
+
+            <a href="/signup" class="signup-btn">
+
+                Sign Up
+
+            </a>
+
         </div>
 
     </nav>
 
-    <!-- Hero Section -->
-    <main class="hero">
 
-        <h1>AI Placement Assistant</h1>
 
-        <p>Welcome to your AI-powered placement preparation platform.</p>
+    <!-- ================= HERO ================= -->
 
-        <a href="/login" class="btn">Get Started</a>
+    <section class="hero">
 
-    </main>
+        <div class="overlay"></div>
 
-    <!-- Features Section -->
-    <section class="features" id="features">
+        <div class="hero-content">
 
-        <h2>Everything You Need to Crack Your Dream Job</h2>
+            <h1>
 
-        <div class="feature-container">
+                AI Placement Assistant
 
-            <div class="card">
-                <h3>📄 Resume ATS Analyzer</h3>
-                <p>Analyze your resume and get ATS score.</p>
-            </div>
+            </h1>
 
-            <div class="card">
-                <h3>🤖 AI Mock Interview</h3>
-                <p>Practice interviews based on your skills.</p>
-            </div>
+            <p>
 
-            <div class="card">
-                <h3>📊 Progress Dashboard</h3>
-                <p>Track your progress and improve your skills.</p>
-            </div>
+                Analyze your resume, practice AI-powered mock interviews,
+                improve your placement readiness, and land your dream job
+                with CareerLaunch AI.
 
-            <div class="card">
-                <h3>🎯 Skill Gap Analysis</h3>
-                <p>Identify your missing skills and improve them.</p>
-            </div>
+            </p>
+
+            <a href="/login" class="hero-btn">
+
+                Get Started →
+
+            </a>
 
         </div>
 
     </section>
+
+
+
+    <!-- ================= FEATURES ================= -->
+
+    <section class="features">
+
+        <h2>
+
+            Everything You Need To Crack Your Dream Job
+
+        </h2>
+
+        <p>
+
+            Everything required for placement preparation in one platform.
+
+        </p>
+
+        <div class="feature-grid">
+
+            <a href="/login" class="feature-card">
+
+                <div class="icon">
+
+                    📄
+
+                </div>
+
+                <h3>
+
+                    Resume ATS Analyzer
+
+                </h3>
+
+                <p>
+
+                    Upload your resume and receive an AI-powered ATS score,
+                    strengths, weaknesses, and improvement suggestions.
+
+                </p>
+
+            </a>
+
+
+
+            <a href="/login" class="feature-card">
+
+                <div class="icon">
+
+                    🤖
+
+                </div>
+
+                <h3>
+
+                    AI Mock Interview
+
+                </h3>
+
+                <p>
+
+                    Practice technical interviews generated according to your
+                    resume and selected job role.
+
+                </p>
+
+            </a>
+
+
+
+            <a href="/login" class="feature-card">
+
+                <div class="icon">
+
+                    📊
+
+                </div>
+
+                <h3>
+
+                    Progress Dashboard
+
+                </h3>
+
+                <p>
+
+                    Monitor interview performance, scores,
+                    placement readiness and improvement over time.
+
+                </p>
+
+            </a>
+
+
+
+            <a href="/login" class="feature-card">
+
+                <div class="icon">
+
+                    🎯
+
+                </div>
+
+                <h3>
+
+                    Skill Gap Analysis
+
+                </h3>
+
+                <p>
+
+                    Identify missing skills and receive personalized AI
+                    recommendations to improve your profile.
+
+                </p>
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= CTA ================= -->
+
+    <section class="cta">
+
+        <h2>
+
+            Ready To Become Placement Ready?
+
+        </h2>
+
+        <p>
+
+            Join CareerLaunch AI and start preparing today.
+
+        </p>
+
+        <a href="/login">
+
+            Start Your Journey
+
+        </a>
+
+    </section>
+
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        © 2026 CareerLaunch AI • Built with ❤️ using Flask & Gemini AI
+
+    </footer>
 
 </body>
 
