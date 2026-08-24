@@ -1,0 +1,5 @@
+environment creation 
+python -m venv myenv
+
+environment activation
+myenv\Scripts\activate 

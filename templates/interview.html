@@ -11,30 +11,41 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100;300;400;500;600;700;800&display=swap"
+          rel="stylesheet">
 
     <style>
 
-        body{
-            font-family:'Geist',sans-serif;
-            background:#f3f6fc;
+        body {
+            font-family: 'Geist', sans-serif;
+            background: #f3f6fc;
         }
 
-        .chat-card{
-            background:white;
-            border-radius:18px;
-            box-shadow:0 10px 35px rgba(0,0,0,.06);
+        .chat-card {
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 10px 35px rgba(0,0,0,.06);
+        }
+
+        /* Disabled button while AI is generating */
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
         }
 
     </style>
 
 </head>
 
+
 <body>
 
 <div class="min-h-screen">
 
-<!-- ================= HEADER ================= -->
+
+<!-- ========================================================= -->
+<!-- HEADER -->
+<!-- ========================================================= -->
 
 <header class="bg-white shadow-sm border-b sticky top-0 z-50">
 
@@ -55,6 +66,7 @@
             </p>
 
         </div>
+
 
         <div class="text-right">
 
@@ -78,11 +90,18 @@
 
 </header>
 
-<!-- ================= MAIN ================= -->
+
+
+<!-- ========================================================= -->
+<!-- MAIN -->
+<!-- ========================================================= -->
 
 <div class="max-w-5xl mx-auto py-10 px-6">
 
-    <!-- Interview Details -->
+
+    <!-- ===================================================== -->
+    <!-- INTERVIEW DETAILS -->
+    <!-- ===================================================== -->
 
     <div class="flex justify-between items-center mb-6">
 
@@ -102,6 +121,7 @@
 
         </div>
 
+
         <div class="text-right">
 
             <p class="font-semibold">
@@ -109,6 +129,7 @@
                 Question {{ current_question }} / {{ total_questions }}
 
             </p>
+
 
             <div class="w-64 bg-gray-200 rounded-full h-3 mt-3">
 
@@ -126,17 +147,21 @@
 
 
 
-    <!-- ================= AI MESSAGE ================= -->
+    <!-- ===================================================== -->
+    <!-- AI MESSAGE -->
+    <!-- ===================================================== -->
 
     <div class="chat-card p-8 mb-8">
 
         <div class="flex items-center gap-3 mb-6">
 
-            <div class="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-white text-xl">
+            <div
+                class="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-white text-xl">
 
                 🤖
 
             </div>
+
 
             <div>
 
@@ -156,6 +181,7 @@
 
         </div>
 
+
         <div class="bg-gray-50 rounded-xl p-6 border">
 
             <p class="text-gray-500 text-sm mb-3">
@@ -163,6 +189,7 @@
                 AI Question
 
             </p>
+
 
             <h2 class="text-2xl font-semibold leading-relaxed">
 
@@ -176,17 +203,25 @@
 
 
 
-    <!-- ================= ANSWER FORM ================= -->
+    <!-- ===================================================== -->
+    <!-- ANSWER FORM -->
+    <!-- ===================================================== -->
 
     <form
+        id="interviewForm"
         action="/submit_answer"
         method="POST"
         class="chat-card p-8">
+
 
         <input
             type="hidden"
             name="question_number"
             value="{{ current_question }}">
+
+
+
+        <!-- ANSWER HEADER -->
 
         <div class="flex justify-between items-center mb-5">
 
@@ -196,6 +231,7 @@
 
             </h3>
 
+
             <span class="text-gray-500 text-sm">
 
                 Be clear and explain your thought process.
@@ -203,76 +239,103 @@
             </span>
 
         </div>
+
+
+
+        <!-- ANSWER BOX -->
+
         <textarea
-        name="answer"
-        rows="16"
-        class="w-full rounded-2xl border border-gray-300 p-5 text-gray-700 text-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
-        placeholder="Type your answer here...">{{ answer if answer else "" }}</textarea>
+            id="answerBox"
+            name="answer"
+            rows="16"
+            class="w-full rounded-2xl border border-gray-300 p-5 text-gray-700 text-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Type your answer here...">{{ answer if answer else "" }}</textarea>
 
-    <!-- Interview Details -->
 
-    <div class="mt-8 rounded-2xl bg-blue-50 border border-blue-100 p-6">
 
-        <h3 class="text-lg font-bold mb-4">
+        <!-- ================================================= -->
+        <!-- INTERVIEW DETAILS -->
+        <!-- ================================================= -->
 
-            📋 Interview Details
+        <div class="mt-8 rounded-2xl bg-blue-50 border border-blue-100 p-6">
 
-        </h3>
+            <h3 class="text-lg font-bold mb-4">
 
-        <div class="grid md:grid-cols-3 gap-6">
+                📋 Interview Details
 
-            <div>
+            </h3>
 
-                <p class="text-gray-500 text-sm">
 
-                    Job Role
+            <div class="grid md:grid-cols-3 gap-6">
 
-                </p>
 
-                <p class="font-semibold mt-1">
+                <!-- JOB ROLE -->
 
-                    {{ job_role }}
+                <div>
 
-                </p>
+                    <p class="text-gray-500 text-sm">
 
-            </div>
+                        Job Role
 
-            <div>
+                    </p>
 
-                <p class="text-gray-500 text-sm">
 
-                    Difficulty
+                    <p class="font-semibold mt-1">
 
-                </p>
+                        {{ job_role }}
 
-                <p class="font-semibold mt-1">
+                    </p>
 
-                    {{ difficulty }}
+                </div>
 
-                </p>
 
-            </div>
 
-            <div>
+                <!-- DIFFICULTY -->
 
-                <p class="text-gray-500 text-sm">
+                <div>
 
-                    Skills
+                    <p class="text-gray-500 text-sm">
 
-                </p>
+                        Difficulty
 
-                <div class="flex flex-wrap gap-2 mt-2">
+                    </p>
 
-                    {% for skill in skills %}
 
-                    <span
-                        class="bg-blue-600 text-white text-sm px-3 py-1 rounded-full">
+                    <p class="font-semibold mt-1">
 
-                        {{ skill }}
+                        {{ difficulty }}
 
-                    </span>
+                    </p>
 
-                    {% endfor %}
+                </div>
+
+
+
+                <!-- SKILLS -->
+
+                <div>
+
+                    <p class="text-gray-500 text-sm">
+
+                        Skills
+
+                    </p>
+
+
+                    <div class="flex flex-wrap gap-2 mt-2">
+
+                        {% for skill in skills %}
+
+                        <span
+                            class="bg-blue-600 text-white text-sm px-3 py-1 rounded-full">
+
+                            {{ skill }}
+
+                        </span>
+
+                        {% endfor %}
+
+                    </div>
 
                 </div>
 
@@ -280,50 +343,79 @@
 
         </div>
 
-    </div>
 
-    <!-- Buttons -->
 
-    <div class="flex justify-between items-center mt-8">
+        <!-- ================================================= -->
+        <!-- BUTTONS -->
+        <!-- ================================================= -->
 
-        <button
-            type="button"
-            onclick="history.back()"
-            class="px-6 py-3 rounded-xl border border-gray-300 hover:bg-gray-100 transition">
+        <div class="flex justify-between items-center mt-8">
 
-            ← Previous
 
-        </button>
-
-        <div class="flex gap-4">
+            <!-- PREVIOUS -->
 
             <button
-                type="submit"
-                class="px-8 py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition">
+                type="button"
+                onclick="history.back()"
+                class="px-6 py-3 rounded-xl border border-gray-300 hover:bg-gray-100 transition">
 
-                Next Question →
+                ← Previous
 
             </button>
 
-            <button
-                type="submit"
-                formaction="/finish_interview"
-                formmethod="POST"
-                class="px-8 py-3 rounded-xl bg-green-600 text-white font-semibold hover:bg-green-700 transition">
 
-                Finish Interview
 
-            </button>
+            <div class="flex gap-4">
+
+
+                {% if current_question == total_questions %}
+
+
+                <!-- FINISH -->
+
+                <button
+                    id="finishButton"
+                    type="submit"
+                    class="px-8 py-3 rounded-xl bg-green-600 text-white font-semibold hover:bg-green-700">
+
+                    Finish Interview
+
+                </button>
+
+
+                {% else %}
+
+
+                <!-- NEXT -->
+
+                <button
+                    id="nextButton"
+                    type="submit"
+                    class="px-8 py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700">
+
+                    Next Question →
+
+                </button>
+
+
+                {% endif %}
+
+
+            </div>
 
         </div>
 
-    </div>
-
-</form>
+    </form>
 
 </div>
 
 </div>
+
+
+
+<!-- ========================================================= -->
+<!-- TIMER -->
+<!-- ========================================================= -->
 
 <script>
 
@@ -331,28 +423,130 @@ let timeString = "{{ timer }}";
 
 let parts = timeString.split(":");
 
-let totalSeconds = parseInt(parts[0]) * 60 + parseInt(parts[1]);
+let totalSeconds =
+    parseInt(parts[0]) * 60 +
+    parseInt(parts[1]);
 
-const timer = document.getElementById("timer");
+
+const timer =
+    document.getElementById("timer");
+
 
 setInterval(() => {
 
-if(totalSeconds > 0){
+    if (totalSeconds > 0) {
 
-    totalSeconds--;
+        totalSeconds--;
 
-    let m = Math.floor(totalSeconds / 60);
+        let m =
+            Math.floor(totalSeconds / 60);
 
-    let s = totalSeconds % 60;
+        let s =
+            totalSeconds % 60;
 
-    timer.innerHTML =
-        m + ":" + String(s).padStart(2,'0');
+
+        timer.innerHTML =
+            m + ":" +
+            String(s).padStart(2, "0");
+
+    }
+
+}, 1000);
+
+</script>
+
+
+
+<!-- ========================================================= -->
+<!-- PREVENT DOUBLE SUBMISSION -->
+<!-- ========================================================= -->
+
+<script>
+
+const interviewForm =
+    document.getElementById("interviewForm");
+
+
+if (interviewForm) {
+
+    interviewForm.addEventListener(
+        "submit",
+        function(event) {
+
+            /*
+             * Prevent the user from submitting the
+             * same answer multiple times while
+             * Gemini is generating the next question.
+             */
+
+            const submitButtons =
+                interviewForm.querySelectorAll(
+                    "button[type='submit']"
+                );
+
+
+            submitButtons.forEach(
+                function(button) {
+
+                    button.disabled = true;
+
+                }
+            );
+
+
+            /*
+             * Change button text so the user knows
+             * the AI is processing the answer.
+             */
+
+            const nextButton =
+                document.getElementById("nextButton");
+
+
+            const finishButton =
+                document.getElementById("finishButton");
+
+
+            if (nextButton) {
+
+                nextButton.innerText =
+                    "Generating...";
+
+            }
+
+
+            if (finishButton) {
+
+                finishButton.innerText =
+                    "Generating Result...";
+
+            }
+
+
+            /*
+             * Prevent accidental double submission
+             * using keyboard / rapid clicks.
+             */
+
+            setTimeout(function() {
+
+                submitButtons.forEach(
+                    function(button) {
+
+                        button.disabled = true;
+
+                    }
+                );
+
+            }, 0);
+
+        }
+    );
 
 }
 
-},1000);
-
 </script>
+
 
 </body>
 

@@ -75,6 +75,7 @@ def dashboard():
     # ==========================
     # Dashboard Statistics
     # ==========================
+
     cursor.execute("""
         SELECT
             COUNT(*),
@@ -87,14 +88,51 @@ def dashboard():
 
     stats = cursor.fetchone()
 
-    total_interviews = stats[0] or 0
-    average_score = stats[1] or 0
-    highest_score = stats[2] or 0
-    latest_interview = stats[3]
+    print("DEBUG STATS FROM DATABASE:", stats)
+
+    # ==========================
+    # SAFELY HANDLE EMPTY DATA
+    # ==========================
+
+    # For a new user with no interviews,
+    # SQLite returns:
+    # (0, None, None, None)
+
+    total_interviews = (
+        stats[0] if stats[0] is not None else 0
+    )
+
+    average_score = (
+        stats[1] if stats[1] is not None else 0
+    )
+
+    highest_score = (
+        stats[2] if stats[2] is not None else 0
+    )
+
+    latest_interview = (
+        stats[3]
+        if stats[3] is not None
+        else "No interviews yet"
+    )
+
+    # IMPORTANT:
+    # Replace the original stats tuple with
+    # safe values before sending it to dashboard.html.
+
+    stats = (
+        total_interviews,
+        average_score,
+        highest_score,
+        latest_interview
+    )
+
+    print("DEBUG SAFE STATS:", stats)
 
     # ==========================
     # Placement Readiness
     # ==========================
+
     readiness = min(
         100,
         int(
@@ -106,93 +144,151 @@ def dashboard():
     # ==========================
     # Readiness Status
     # ==========================
+
     if readiness >= 85:
+
         status = "🟢 Placement Ready"
 
     elif readiness >= 70:
+
         status = "🔵 Good Progress"
 
     elif readiness >= 50:
+
         status = "🟡 Improving"
 
     else:
+
         status = "🔴 Needs Improvement"
 
     # ==========================
     # AI Tip
     # ==========================
+
     if readiness >= 85:
-        tip = "Excellent work! Keep practicing to maintain your performance."
+
+        tip = (
+            "Excellent work! Keep practicing "
+            "to maintain your performance."
+        )
 
     elif readiness >= 70:
-        tip = "Complete one more mock interview to become placement ready."
+
+        tip = (
+            "Complete one more mock interview "
+            "to become placement ready."
+        )
 
     elif readiness >= 50:
-        tip = "Improve your interview performance and resume ATS score."
+
+        tip = (
+            "Improve your interview performance "
+            "and resume ATS score."
+        )
 
     else:
-        tip = "Upload your resume and complete your first mock interview to start improving."
+
+        tip = (
+            "Upload your resume and complete your "
+            "first mock interview to start improving."
+        )
 
     # ==========================
     # AI Career Coach
     # ==========================
+
     if readiness >= 85:
 
         ai_message = (
-            "Excellent performance! You are almost placement-ready. "
-            "Continue practicing company-specific interviews."
+            "Excellent performance! You are almost "
+            "placement-ready. Continue practicing "
+            "company-specific interviews."
         )
 
-        recommendation1 = "Practice one advanced mock interview."
+        recommendation1 = (
+            "Practice one advanced mock interview."
+        )
 
-        recommendation2 = "Improve communication confidence."
+        recommendation2 = (
+            "Improve communication confidence."
+        )
 
-        recommendation3 = "Apply for internships and placements."
+        recommendation3 = (
+            "Apply for internships and placements."
+        )
 
     elif readiness >= 70:
 
         ai_message = (
-            "You're making great progress. A little more practice can "
-            "significantly improve your placement chances."
+            "You're making great progress. A little "
+            "more practice can significantly improve "
+            "your placement chances."
         )
 
-        recommendation1 = "Complete two mock interviews."
+        recommendation1 = (
+            "Complete two mock interviews."
+        )
 
-        recommendation2 = "Improve ATS score above 80%."
+        recommendation2 = (
+            "Improve ATS score above 80%."
+        )
 
-        recommendation3 = "Practice HR interview questions."
+        recommendation3 = (
+            "Practice HR interview questions."
+        )
 
     elif readiness >= 50:
 
         ai_message = (
-            "Your fundamentals are improving. Focus on technical concepts "
-            "and communication."
+            "Your fundamentals are improving. Focus "
+            "on technical concepts and communication."
         )
 
-        recommendation1 = "Upload your resume."
+        recommendation1 = (
+            "Upload your resume."
+        )
 
-        recommendation2 = "Practice SQL and DSA."
+        recommendation2 = (
+            "Practice SQL and DSA."
+        )
 
-        recommendation3 = "Complete one mock interview."
+        recommendation3 = (
+            "Complete one mock interview."
+        )
 
     else:
 
         ai_message = (
-            "Let's start building your placement journey. Small improvements "
-            "every day will make a big difference."
+            "Let's start building your placement journey. "
+            "Small improvements every day will make a "
+            "big difference."
         )
 
-        recommendation1 = "Upload your resume."
+        recommendation1 = (
+            "Upload your resume."
+        )
 
-        recommendation2 = "Take your first mock interview."
+        recommendation2 = (
+            "Take your first mock interview."
+        )
 
-        recommendation3 = "Build one real-world project."
+        recommendation3 = (
+            "Build one real-world project."
+        )
 
-    predicted_readiness = min(readiness + 10, 100)
+    # ==========================
+    # Predicted Readiness
+    # ==========================
+
+    predicted_readiness = min(
+        readiness + 10,
+        100
+    )
 
     # ==========================
     # Recent Activities
     # ==========================
+
     cursor.execute("""
         SELECT
             job_role,
@@ -211,6 +307,7 @@ def dashboard():
     # ==========================
     # Render Dashboard
     # ==========================
+
     return render_template(
         "dashboard.html",
 
@@ -390,7 +487,7 @@ def submit_answer():
     if "user_id" not in session:
         return redirect(url_for("login"))
 
-    answer = request.form.get("answer")
+    answer = request.form.get("answer", "").strip()
 
     interview_session_id = session.get("interview_session_id")
 
@@ -399,16 +496,92 @@ def submit_answer():
     if interview is None:
         return "Interview session expired. Please start a new interview."
 
+
+    # =========================================================
+    # SUBMIT ANSWER TO AI
+    # =========================================================
+
     result = interview.submit_answer(answer)
+
+
+    # =========================================================
+    # INTERVIEW FINISHED
+    # =========================================================
 
     if result["finished"]:
 
-        report = result["report"]
+        report = result.get("report", {})
 
-        connection = sqlite3.connect("database.db")
+
+        print()
+        print("================================")
+        print("FINAL REPORT RECEIVED BY APP.PY")
+        print("================================")
+        print(report)
+        print("================================")
+        print()
+
+
+        # -----------------------------------------------------
+        # Safely get every field
+        # -----------------------------------------------------
+
+        overall_score = report.get(
+            "overall_score",
+            0
+        )
+
+        technical_score = report.get(
+            "technical_score",
+            0
+        )
+
+        communication_score = report.get(
+            "communication_score",
+            0
+        )
+
+        strengths = report.get(
+            "strengths",
+            ["Unable to generate evaluation."]
+        )
+
+        weaknesses = report.get(
+            "weaknesses",
+            ["Unable to generate evaluation."]
+        )
+
+        recommendations = report.get(
+            "recommendations",
+            ["Please try the interview again."]
+        )
+
+
+        # -----------------------------------------------------
+        # Make sure lists are actually lists
+        # -----------------------------------------------------
+
+        if not isinstance(strengths, list):
+            strengths = [str(strengths)]
+
+        if not isinstance(weaknesses, list):
+            weaknesses = [str(weaknesses)]
+
+        if not isinstance(recommendations, list):
+            recommendations = [str(recommendations)]
+
+
+        # =====================================================
+        # SAVE INTERVIEW RESULT
+        # =====================================================
+
+        connection = sqlite3.connect(
+            "database.db"
+        )
+
         cursor = connection.cursor()
 
-        # Save Interview Result
+
         cursor.execute("""
             INSERT INTO interview_results
             (
@@ -424,21 +597,50 @@ def submit_answer():
             )
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, (
+
             session["user_id"],
-            session.get("job_role"),
+
+            session.get(
+                "job_role"
+            ),
+
             "AI Mock Interview",
-            report["overall_score"],
-            report["technical_score"],
-            report["communication_score"],
-            "\n".join(report["strengths"]),
-            "\n".join(report["weaknesses"]),
-            "\n".join(report["recommendations"])
+
+            overall_score,
+
+            technical_score,
+
+            communication_score,
+
+            "\n".join(
+                str(x) for x in strengths
+            ),
+
+            "\n".join(
+                str(x) for x in weaknesses
+            ),
+
+            "\n".join(
+                str(x) for x in recommendations
+            )
+
         ))
+
 
         interview_result_id = cursor.lastrowid
 
-        # Save Questions & Answers
-        for i in range(len(interview.questions)):
+
+        # =====================================================
+        # SAVE QUESTIONS AND ANSWERS
+        # =====================================================
+
+        total_items = min(
+            len(interview.questions),
+            len(interview.answers)
+        )
+
+
+        for i in range(total_items):
 
             cursor.execute("""
                 INSERT INTO interview_answers
@@ -451,53 +653,82 @@ def submit_answer():
                 )
                 VALUES (?, ?, ?, ?, ?)
             """, (
+
                 interview_result_id,
+
                 interview.questions[i],
+
                 interview.answers[i],
+
                 "",
+
                 0
+
             ))
 
+
         connection.commit()
+
         connection.close()
 
-        active_interviews.pop(interview_session_id, None)
 
-        return redirect(url_for("interview_results"))
+        # =====================================================
+        # REMOVE ACTIVE INTERVIEW
+        # =====================================================
+
+        active_interviews.pop(
+            interview_session_id,
+            None
+        )
+
+
+        # =====================================================
+        # GO TO RESULT PAGE
+        # =====================================================
+
+        return redirect(
+            url_for("interview_results")
+        )
+
+
+    # =========================================================
+    # NEXT QUESTION
+    # =========================================================
 
     return render_template(
-        "interview.html",
-        username=session["username"],
-        job_role=session.get("job_role"),
-        skills=session.get("skills", []),
-        other_skills=session.get("other_skills", ""),
-        difficulty=session.get("difficulty"),
-        question=result["question"],
-        current_question=result["question_number"],
-        total_questions=15,
-        timer="15:00"
-    )
 
-    return render_template(
         "interview.html",
 
         username=session["username"],
 
-        job_role=session.get("job_role"),
+        job_role=session.get(
+            "job_role"
+        ),
 
-        skills=session.get("skills", []),
+        skills=session.get(
+            "skills",
+            []
+        ),
 
-        other_skills=session.get("other_skills", ""),
+        other_skills=session.get(
+            "other_skills",
+            ""
+        ),
 
-        difficulty=session.get("difficulty"),
+        difficulty=session.get(
+            "difficulty"
+        ),
 
         question=result["question"],
 
-        current_question=result["question_number"],
+        current_question=result[
+            "question_number"
+        ],
 
         total_questions=15,
 
         timer="15:00"
+
     )
 @app.route("/ats", methods=["GET", "POST"])
 def ats():
@@ -616,45 +847,7 @@ def interview_results():
         "interview_results.html",
         result=result
     )
-@app.route("/finish_interview", methods=["POST"])
-def finish_interview():
 
-    if "user_id" not in session:
-        return redirect(url_for("login"))
-
-    connection = sqlite3.connect("database.db")
-    cursor = connection.cursor()
-
-    cursor.execute("""
-        INSERT INTO interview_results
-        (
-            user_id,
-            job_role,
-            interview_type,
-            overall_score,
-            technical_score,
-            communication_score,
-            strengths,
-            weaknesses,
-            suggestions
-        )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-    """, (
-        session["user_id"],
-        "Python Developer",
-        "Mock Interview",
-        88,
-        90,
-        85,
-        "Python, Flask",
-        "Communication, SQL",
-        "Practice SQL joins and improve communication."
-    ))
-
-    connection.commit()
-    connection.close()
-
-    return redirect(url_for("interview_results"))
 @app.route("/history")
 def history():
 
