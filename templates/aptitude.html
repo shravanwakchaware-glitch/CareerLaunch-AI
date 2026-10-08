@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Aptitude Practice | CareerLaunch AI</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+
+            font-family: Arial, Helvetica, sans-serif;
+
+            background: #f4f7fb;
+
+            color: #172b4d;
+
+            min-height: 100vh;
+
+        }
+
+
+        /* ==============================
+           HEADER
+        ============================== */
+
+        .navbar {
+
+            height: 72px;
+
+            background: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 7%;
+
+            border-bottom: 1px solid #e5e7eb;
+
+        }
+
+
+        .logo {
+
+            font-size: 23px;
+
+            font-weight: 700;
+
+            color: #172b4d;
+
+        }
+
+
+        .logo span {
+
+            color: #2563eb;
+
+        }
+
+
+        .dashboard-btn {
+
+            text-decoration: none;
+
+            color: #2563eb;
+
+            font-weight: 600;
+
+            padding: 10px 18px;
+
+            border-radius: 10px;
+
+        }
+
+
+        .dashboard-btn:hover {
+
+            background: #eef4ff;
+
+        }
+
+
+        /* ==============================
+           MAIN
+        ============================== */
+
+        .container {
+
+            width: 90%;
+
+            max-width: 900px;
+
+            margin: 60px auto;
+
+        }
+
+
+        .card {
+
+            background: white;
+
+            border-radius: 24px;
+
+            padding: 55px;
+
+            text-align: center;
+
+            box-shadow: 0 12px 35px rgba(0,0,0,0.07);
+
+        }
+
+
+        .icon {
+
+            width: 90px;
+
+            height: 90px;
+
+            margin: 0 auto 25px;
+
+            border-radius: 25px;
+
+            background: #fff3dc;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 45px;
+
+        }
+
+
+        h1 {
+
+            font-size: 34px;
+
+            margin-bottom: 12px;
+
+        }
+
+
+        .subtitle {
+
+            color: #718096;
+
+            font-size: 16px;
+
+            line-height: 1.6;
+
+            max-width: 600px;
+
+            margin: 0 auto 35px;
+
+        }
+
+
+        /* ==============================
+           INFO CARDS
+        ============================== */
+
+        .info-grid {
+
+            display: grid;
+
+            grid-template-columns: repeat(3, 1fr);
+
+            gap: 15px;
+
+            margin-bottom: 35px;
+
+        }
+
+
+        .info-box {
+
+            background: #f8fafc;
+
+            border: 1px solid #e5e7eb;
+
+            border-radius: 14px;
+
+            padding: 20px 10px;
+
+        }
+
+
+        .info-box strong {
+
+            display: block;
+
+            font-size: 21px;
+
+            color: #2563eb;
+
+            margin-bottom: 6px;
+
+        }
+
+
+        .info-box span {
+
+            color: #718096;
+
+            font-size: 13px;
+
+        }
+
+
+        /* ==============================
+           START BUTTON
+        ============================== */
+
+        .start-btn {
+
+            display: inline-block;
+
+            text-decoration: none;
+
+            background: #2563eb;
+
+            color: white;
+
+            padding: 15px 38px;
+
+            border-radius: 12px;
+
+            font-size: 16px;
+
+            font-weight: 700;
+
+            transition: 0.25s;
+
+        }
+
+
+        .start-btn:hover {
+
+            background: #1d4ed8;
+
+            transform: translateY(-2px);
+
+            box-shadow: 0 8px 20px rgba(37,99,235,0.25);
+
+        }
+
+
+        .note {
+
+            margin-top: 20px;
+
+            font-size: 13px;
+
+            color: #718096;
+
+        }
+
+
+        /* ==============================
+           RESPONSIVE
+        ============================== */
+
+        @media (max-width: 650px) {
+
+            .card {
+
+                padding: 35px 20px;
+
+            }
+
+            h1 {
+
+                font-size: 27px;
+
+            }
+
+            .info-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header class="navbar">
+
+    <div class="logo">
+
+        🚀 CareerLaunch <span>AI</span>
+
+    </div>
+
+
+    <a href="/dashboard" class="dashboard-btn">
+
+        ← Dashboard
+
+    </a>
+
+</header>
+
+
+
+<main class="container">
+
+    <div class="card">
+
+
+        <div class="icon">
+
+            🧮
+
+        </div>
+
+
+        <h1>
+
+            Aptitude Practice
+
+        </h1>
+
+
+        <p class="subtitle">
+
+            Test your quantitative aptitude, logical reasoning,
+
+            numerical ability and problem-solving skills.
+
+        </p>
+
+
+
+        <div class="info-grid">
+
+
+            <div class="info-box">
+
+                <strong>5</strong>
+
+                <span>Questions</span>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <strong>10 min</strong>
+
+                <span>Estimated Time</span>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <strong>AI</strong>
+
+                <span>Evaluation</span>
+
+            </div>
+
+
+        </div>
+
+
+
+        <a href="/aptitude-interview" class="start-btn">
+
+            🚀 Start Interview
+
+        </a>
+
+
+        <p class="note">
+
+            Answer 5 questions and receive your score with correct
+
+            and incorrect answers.
+
+        </p>
+
+
+    </div>
+
+</main>
+
+
+</body>
+
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CareerLaunch AI - Interview Starting</title>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Geist Font -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Page CSS -->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/interview_instructions.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+<div class="page-wrapper">
+
+
+    <!-- =====================================================
+         MAIN CARD
+         ===================================================== -->
+
+    <div class="main-card">
+
+
+        <!-- =================================================
+             HEADER
+             ================================================= -->
+
+        <div class="header">
+
+            <div class="logo">
+                🚀
+            </div>
+
+            <h1>
+                CareerLaunch AI
+            </h1>
+
+            <p>
+                Your interview is about to begin
+            </p>
+
+        </div>
+
+
+
+        <!-- =================================================
+             INTERVIEW OVERVIEW
+             ================================================= -->
+
+        <div class="overview">
+
+            <h2>
+                Interview Overview
+            </h2>
+
+            <p class="subtitle">
+                15 questions • 3 rounds
+            </p>
+
+        </div>
+
+
+
+        <!-- =================================================
+             ROUND CARDS
+             ================================================= -->
+
+        <div class="round-container">
+
+
+            <!-- =================================================
+                 APTITUDE
+                 ================================================= -->
+
+            <div class="round-box aptitude">
+
+                <div class="round-icon">
+                    🧮
+                </div>
+
+                <h3>
+                    Aptitude
+                </h3>
+
+                <p class="question-range">
+                    Questions 1–5
+                </p>
+
+                <p class="round-description">
+                    MCQ with A, B, C and D.
+                    Select the correct option.
+                </p>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 TECHNICAL / CODING
+                 ================================================= -->
+
+            <div class="round-box coding">
+
+                <div class="round-icon">
+                    💻
+                </div>
+
+                <h3>
+                    Technical & Coding
+                </h3>
+
+                <p class="question-range">
+                    Questions 6–10
+                </p>
+
+                <p class="round-description">
+                    Solve DSA problems using
+                    any programming language.
+                </p>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 HR
+                 ================================================= -->
+
+            <div class="round-box hr">
+
+                <div class="round-icon">
+                    🤝
+                </div>
+
+                <h3>
+                    HR
+                </h3>
+
+                <p class="question-range">
+                    Questions 11–15
+                </p>
+
+                <p class="round-description">
+                    Answer behavioral questions
+                    clearly and honestly.
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             BASIC INSTRUCTION
+             ================================================= -->
+
+        <div class="basic-instruction">
+
+            💡 Read each question carefully and answer
+            before moving to the next question.
+
+        </div>
+
+
+
+        <!-- =================================================
+             COUNTDOWN
+             ================================================= -->
+
+        <div class="countdown-section">
+
+            <p class="countdown-label">
+                Interview starts in
+            </p>
+
+
+            <div class="countdown">
+
+                <span id="countdownNumber">
+                    20
+                </span>
+
+            </div>
+
+
+            <p
+                id="startingText"
+                class="starting-text">
+
+                Get ready...
+
+            </p>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     PAGE JAVASCRIPT
+     ========================================================= -->
+
+<script
+    src="{{ url_for('static', filename='js/interview_instructions.js') }}">
+</script>
+
+
+</body>
+
+</html>

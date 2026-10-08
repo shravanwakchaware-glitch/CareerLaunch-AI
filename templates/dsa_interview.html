@@ -1,0 +1,1803 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DSA Practice - CareerLaunch AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/dsa_interview.css') }}">
+
+    <!-- Monaco Editor -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.52.2/min/vs/loader.min.js"></script>
+
+</head>
+
+<body>
+
+
+<!-- =========================================================
+     TOP BAR
+========================================================= -->
+
+<header class="topbar">
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            🚀
+        </div>
+
+        <div>
+
+            <h2>
+                CareerLaunch AI
+            </h2>
+
+            <span>
+                DSA Practice
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="top-actions">
+
+        <div class="timer">
+
+            ⏱️
+
+            <span id="timer">
+                10:00
+            </span>
+
+        </div>
+
+
+        <a href="/dashboard"
+           class="dashboard-btn">
+
+            Dashboard
+
+        </a>
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================================================
+     MAIN CONTAINER
+========================================================= -->
+
+<main class="main-container">
+
+
+    <!-- =====================================================
+         LEFT SIDE - PROBLEM
+    ====================================================== -->
+
+    <section class="problem-panel">
+
+
+        <!-- QUESTION HEADER -->
+
+        <div class="problem-header">
+
+            <div>
+
+                <span class="question-number"
+                      id="questionNumber">
+
+                    Question 1 of 5
+
+                </span>
+
+
+                <h1 id="problemTitle">
+                    Loading...
+                </h1>
+
+            </div>
+
+
+            <span class="difficulty"
+                  id="difficulty">
+
+                DSA
+
+            </span>
+
+        </div>
+
+
+
+        <!-- PROBLEM CONTENT -->
+
+        <div class="problem-content">
+
+
+            <!-- Problem -->
+
+            <h3>
+                Problem
+            </h3>
+
+            <p id="problemStatement">
+                Loading problem...
+            </p>
+
+
+
+            <!-- Examples -->
+
+            <h3>
+                Examples
+            </h3>
+
+            <div id="examples">
+                Loading examples...
+            </div>
+
+
+
+            <!-- Constraints -->
+
+            <h3>
+                Constraints
+            </h3>
+
+            <ul id="constraints">
+                <li>Loading constraints...</li>
+            </ul>
+
+
+
+            <!-- Expected Complexity -->
+
+            <div class="expected">
+
+                <strong>
+                    Expected Complexity
+                </strong>
+
+
+                <div>
+
+                    Time:
+
+                    <span id="expectedTime">
+                        -
+                    </span>
+
+                </div>
+
+
+                <div>
+
+                    Space:
+
+                    <span id="expectedSpace">
+                        -
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         RIGHT SIDE - CODE EDITOR
+    ====================================================== -->
+
+    <section class="editor-panel">
+
+
+        <!-- EDITOR TOOLBAR -->
+
+        <div class="editor-toolbar">
+
+
+            <div class="language-box">
+
+                <label for="language">
+                    Language
+                </label>
+
+
+                <select id="language">
+
+                    <option value="python">
+                        Python
+                    </option>
+
+                    <option value="javascript">
+                        JavaScript
+                    </option>
+
+                    <option value="java">
+                        Java
+                    </option>
+
+                    <option value="cpp">
+                        C++
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="editor-status"
+                 id="editorStatus">
+
+                Ready
+
+            </div>
+
+        </div>
+
+
+
+        <!-- MONACO EDITOR -->
+
+        <div id="editor"></div>
+
+
+
+        <!-- =================================================
+             BOTTOM AREA
+        ================================================== -->
+
+        <div class="editor-bottom">
+
+
+            <!-- PROGRESS -->
+
+            <div class="progress-container">
+
+                <div class="progress-text">
+
+                    <span>
+                        Progress
+                    </span>
+
+                    <span id="progressText">
+                        1 / 5
+                    </span>
+
+                </div>
+
+
+                <div class="progress-bar">
+
+                    <div id="progressBar"></div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- BUTTONS -->
+
+            <div class="bottom-buttons">
+
+
+                <!-- SKIP -->
+
+                <button
+                    type="button"
+                    id="skipBtn"
+                    class="skip-btn"
+                    onclick="skipQuestion()">
+
+                    Skip →
+
+                </button>
+
+
+
+                <!-- SUBMIT -->
+
+                <button
+                    type="button"
+                    id="submitBtn"
+                    class="submit-btn"
+                    onclick="submitSolution()">
+
+                    Submit Solution 🚀
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+
+<script>
+
+/* =========================================================
+   DSA QUESTIONS FROM FLASK / SQLITE
+========================================================= */
+
+/*
+    Flask sends 5 random questions from the database.
+
+    Example structure:
+
+    {
+        id: 12,
+        title: "Two Sum",
+        description: "...",
+        examples: "...",
+        constraints: "...",
+        expected_time_complexity: "O(n)",
+        expected_space_complexity: "O(n)",
+        starter_code_python: "...",
+        starter_code_java: "...",
+        starter_code_cpp: "...",
+        starter_code_javascript: "..."
+    }
+*/
+
+const questions = {{ questions | tojson }};
+
+
+/* =========================================================
+   VALIDATE QUESTIONS
+========================================================= */
+
+if (!questions || questions.length === 0) {
+
+    document.body.innerHTML = `
+        <div style="
+            min-height:100vh;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-family:Arial;
+            background:#f4f7fb;
+        ">
+
+            <div style="
+                background:white;
+                padding:40px;
+                border-radius:20px;
+                text-align:center;
+                box-shadow:0 10px 30px rgba(0,0,0,.08);
+            ">
+
+                <h2>
+                    No DSA questions available
+                </h2>
+
+                <p style="margin:15px 0;color:#666;">
+                    Please try starting the DSA practice again.
+                </p>
+
+                <a href="/dsa"
+                   style="
+                       display:inline-block;
+                       padding:12px 22px;
+                       background:#2563eb;
+                       color:white;
+                       text-decoration:none;
+                       border-radius:10px;
+                   ">
+
+                    Back to DSA
+
+                </a>
+
+            </div>
+
+        </div>
+    `;
+
+    throw new Error("No DSA questions received.");
+}
+
+
+/* =========================================================
+   VARIABLES
+========================================================= */
+
+let currentQuestion = 0;
+
+let submittedAnswers = {};
+
+let editor = null;
+
+let timerSeconds = 10 * 60;
+
+let timerInterval = null;
+
+let submitting = false;
+
+let movingQuestion = false;
+
+
+/* =========================================================
+   MONACO CONFIGURATION
+========================================================= */
+
+require.config({
+
+    paths: {
+
+        vs:
+            "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.52.2/min/vs"
+
+    }
+
+});
+
+
+/* =========================================================
+   HELPER - GET STARTER CODE
+========================================================= */
+
+function getStarterCode(question, language) {
+
+    if (!question) {
+        return "";
+    }
+
+
+    if (language === "python") {
+
+        return question.starter_code_python || "";
+
+    }
+
+
+    if (language === "java") {
+
+        return question.starter_code_java || "";
+
+    }
+
+
+    if (language === "cpp") {
+
+        return question.starter_code_cpp || "";
+
+    }
+
+
+    if (language === "javascript") {
+
+        return question.starter_code_javascript || "";
+
+    }
+
+
+    return "";
+
+}
+
+
+/* =========================================================
+   HELPER - PARSE DATABASE TEXT
+========================================================= */
+
+function parseDatabaseList(value) {
+
+    if (!value) {
+        return [];
+    }
+
+
+    /*
+        Sometimes examples/constraints are stored as:
+
+        ["Example 1", "Example 2"]
+
+        and sometimes as normal text.
+
+        This function handles both.
+    */
+
+    if (Array.isArray(value)) {
+        return value;
+    }
+
+
+    if (typeof value === "string") {
+
+        const trimmed = value.trim();
+
+
+        if (!trimmed) {
+            return [];
+        }
+
+
+        /*
+            Try JSON first.
+        */
+
+        try {
+
+            const parsed = JSON.parse(trimmed);
+
+            if (Array.isArray(parsed)) {
+
+                return parsed;
+
+            }
+
+        }
+
+        catch (error) {
+
+            // Not JSON.
+            // Continue as normal text.
+
+        }
+
+
+        /*
+            Try newline-separated content.
+        */
+
+        if (trimmed.includes("\n")) {
+
+            return trimmed
+                .split("\n")
+                .map(item => item.trim())
+                .filter(item => item.length > 0);
+
+        }
+
+
+        return [trimmed];
+
+    }
+
+
+    return [String(value)];
+
+}
+
+
+/* =========================================================
+   LOAD MONACO EDITOR
+========================================================= */
+
+require(
+
+    ["vs/editor/editor.main"],
+
+    function () {
+
+        editor = monaco.editor.create(
+
+            document.getElementById("editor"),
+
+            {
+
+                value:
+                    getStarterCode(
+                        questions[0],
+                        "python"
+                    ),
+
+                language:
+                    "python",
+
+                theme:
+                    "vs-dark",
+
+                automaticLayout:
+                    true,
+
+                minimap: {
+
+                    enabled:
+                        false
+
+                },
+
+                fontSize:
+                    15,
+
+                lineNumbers:
+                    "on",
+
+                roundedSelection:
+                    false,
+
+                scrollBeyondLastLine:
+                    false,
+
+                wordWrap:
+                    "on"
+
+            }
+
+        );
+
+    }
+
+);
+
+
+/* =========================================================
+   LOAD QUESTION
+========================================================= */
+
+function loadQuestion(index) {
+
+    currentQuestion = index;
+
+
+    const question =
+        questions[index];
+
+
+    if (!question) {
+
+        console.error(
+            "Question not found:",
+            index
+        );
+
+        return;
+
+    }
+
+
+    /* =====================================================
+       QUESTION NUMBER
+    ====================================================== */
+
+    document.getElementById(
+        "questionNumber"
+    ).textContent =
+
+        `Question ${index + 1} of ${questions.length}`;
+
+
+
+    /* =====================================================
+       TITLE
+    ====================================================== */
+
+    document.getElementById(
+        "problemTitle"
+    ).textContent =
+
+        question.title || "DSA Problem";
+
+
+
+    /* =====================================================
+       DIFFICULTY
+    ====================================================== */
+
+    /*
+        Your current dsa_questions table does not have
+        a difficulty column.
+
+        Therefore we show "DSA" instead of inventing
+        a difficulty level.
+    */
+
+    document.getElementById(
+        "difficulty"
+    ).textContent =
+
+        "DSA";
+
+
+
+    /* =====================================================
+       PROBLEM
+    ====================================================== */
+
+    document.getElementById(
+        "problemStatement"
+    ).textContent =
+
+        question.description || "No description available.";
+
+
+
+    /* =====================================================
+       EXAMPLES
+    ====================================================== */
+
+    const examplesContainer =
+        document.getElementById(
+            "examples"
+        );
+
+
+    examplesContainer.innerHTML = "";
+
+
+    const examples =
+        parseDatabaseList(
+            question.examples
+        );
+
+
+    if (examples.length === 0) {
+
+        const div =
+            document.createElement("div");
+
+        div.className =
+            "example";
+
+        div.textContent =
+            "No examples available.";
+
+        examplesContainer.appendChild(
+            div
+        );
+
+    }
+
+    else {
+
+        examples.forEach(
+
+            function (example) {
+
+                const div =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                div.className =
+                    "example";
+
+
+                div.textContent =
+                    example;
+
+
+                examplesContainer.appendChild(
+                    div
+                );
+
+            }
+
+        );
+
+    }
+
+
+
+    /* =====================================================
+       CONSTRAINTS
+    ====================================================== */
+
+    const constraintsContainer =
+        document.getElementById(
+            "constraints"
+        );
+
+
+    constraintsContainer.innerHTML = "";
+
+
+    const constraints =
+        parseDatabaseList(
+            question.constraints
+        );
+
+
+    if (constraints.length === 0) {
+
+        const li =
+            document.createElement("li");
+
+        li.textContent =
+            "No constraints available.";
+
+        constraintsContainer.appendChild(
+            li
+        );
+
+    }
+
+    else {
+
+        constraints.forEach(
+
+            function (constraint) {
+
+                const li =
+                    document.createElement(
+                        "li"
+                    );
+
+
+                li.textContent =
+                    constraint;
+
+
+                constraintsContainer.appendChild(
+                    li
+                );
+
+            }
+
+        );
+
+    }
+
+
+
+    /* =====================================================
+       EXPECTED COMPLEXITY
+    ====================================================== */
+
+    document.getElementById(
+        "expectedTime"
+    ).textContent =
+
+        question.expected_time_complexity ||
+        "Not specified";
+
+
+    document.getElementById(
+        "expectedSpace"
+    ).textContent =
+
+        question.expected_space_complexity ||
+        "Not specified";
+
+
+
+    /* =====================================================
+       RESTORE SAVED CODE
+    ====================================================== */
+
+    if (editor) {
+
+        const savedAnswer =
+            submittedAnswers[index];
+
+
+        if (savedAnswer) {
+
+            editor.setValue(
+                savedAnswer.code || ""
+            );
+
+        }
+
+        else {
+
+            const language =
+                document.getElementById(
+                    "language"
+                ).value;
+
+
+            editor.setValue(
+                getStarterCode(
+                    question,
+                    language
+                )
+            );
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       RESTORE LANGUAGE
+    ====================================================== */
+
+    const savedAnswer =
+        submittedAnswers[index];
+
+
+    if (
+        savedAnswer &&
+        savedAnswer.language
+    ) {
+
+        document.getElementById(
+            "language"
+        ).value =
+
+            savedAnswer.language;
+
+
+        if (editor) {
+
+            monaco.editor.setModelLanguage(
+
+                editor.getModel(),
+
+                savedAnswer.language
+
+            );
+
+        }
+
+    }
+
+    else {
+
+        document.getElementById(
+            "language"
+        ).value =
+            "python";
+
+
+        if (editor) {
+
+            monaco.editor.setModelLanguage(
+
+                editor.getModel(),
+
+                "python"
+
+            );
+
+        }
+
+    }
+
+
+
+    /* =====================================================
+       UPDATE PROGRESS
+    ====================================================== */
+
+    updateProgress();
+
+
+    /* =====================================================
+       STATUS
+    ====================================================== */
+
+    document.getElementById(
+        "editorStatus"
+    ).textContent =
+
+        "Ready";
+
+
+    /* =====================================================
+       SKIP BUTTON
+    ====================================================== */
+
+    updateSkipButton();
+
+}
+
+
+/* =========================================================
+   UPDATE SKIP BUTTON
+========================================================= */
+
+function updateSkipButton() {
+
+    const skipButton =
+        document.getElementById(
+            "skipBtn"
+        );
+
+
+    if (
+        currentQuestion ===
+        questions.length - 1
+    ) {
+
+        skipButton.textContent =
+            "Skip & Finish →";
+
+    }
+
+    else {
+
+        skipButton.textContent =
+            "Skip →";
+
+    }
+
+}
+
+
+/* =========================================================
+   LANGUAGE CHANGE
+========================================================= */
+
+document.getElementById(
+    "language"
+).addEventListener(
+
+    "change",
+
+    function () {
+
+        if (!editor) {
+            return;
+        }
+
+
+        const language =
+            this.value;
+
+
+        /*
+            Change Monaco syntax highlighting.
+        */
+
+        monaco.editor.setModelLanguage(
+
+            editor.getModel(),
+
+            language
+
+        );
+
+
+        /*
+            Only replace the editor with starter code
+            if the current question has not been answered.
+        */
+
+        if (
+            !submittedAnswers[currentQuestion]
+        ) {
+
+            const question =
+                questions[currentQuestion];
+
+
+            editor.setValue(
+
+                getStarterCode(
+                    question,
+                    language
+                )
+
+            );
+
+        }
+
+    }
+
+);
+
+
+/* =========================================================
+   SUBMIT SOLUTION
+========================================================= */
+
+async function submitSolution() {
+
+
+    /* =====================================================
+       PREVENT DOUBLE CLICK
+    ====================================================== */
+
+    if (
+        submitting ||
+        movingQuestion
+    ) {
+
+        return;
+
+    }
+
+
+    /* =====================================================
+       EDITOR CHECK
+    ====================================================== */
+
+    if (!editor) {
+
+        alert(
+            "Editor is still loading. Please wait."
+        );
+
+        return;
+
+    }
+
+
+    /* =====================================================
+       GET CODE
+    ====================================================== */
+
+    const code =
+        editor.getValue().trim();
+
+
+    /* =====================================================
+       EMPTY CODE
+    ====================================================== */
+
+    if (!code) {
+
+        alert(
+            "Please write your solution first or use Skip."
+        );
+
+        return;
+
+    }
+
+
+    submitting =
+        true;
+
+    movingQuestion =
+        true;
+
+
+    /* =====================================================
+       BUTTONS
+    ====================================================== */
+
+    const submitButton =
+        document.getElementById(
+            "submitBtn"
+        );
+
+
+    const skipButton =
+        document.getElementById(
+            "skipBtn"
+        );
+
+
+    submitButton.disabled =
+        true;
+
+
+    skipButton.disabled =
+        true;
+
+
+    submitButton.textContent =
+        "🤖 Evaluating...";
+
+
+    document.getElementById(
+        "editorStatus"
+    ).textContent =
+
+        "AI evaluating...";
+
+
+    /* =====================================================
+       LANGUAGE
+    ====================================================== */
+
+    const language =
+        document.getElementById(
+            "language"
+        ).value;
+
+
+    /* =====================================================
+       SAVE LOCALLY
+    ====================================================== */
+
+    submittedAnswers[
+        currentQuestion
+    ] = {
+
+        code:
+            code,
+
+        language:
+            language,
+
+        skipped:
+            false
+
+    };
+
+
+    try {
+
+
+        /* =================================================
+           SEND TO FLASK
+        ================================================== */
+
+        const response =
+            await fetch(
+
+                "/dsa-submit",
+
+                {
+
+                    method:
+                        "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json"
+
+                    },
+
+                    body:
+
+                        JSON.stringify({
+
+                            question_id:
+
+                                questions[
+                                    currentQuestion
+                                ].id,
+
+                            title:
+
+                                questions[
+                                    currentQuestion
+                                ].title,
+
+                            language:
+
+                                language,
+
+                            code:
+
+                                code
+
+                        })
+
+                }
+
+            );
+
+
+        /* =================================================
+           GET JSON
+        ================================================== */
+
+        const data =
+            await response.json();
+
+
+        /* =================================================
+           ERROR
+        ================================================== */
+
+        if (!response.ok) {
+
+            throw new Error(
+
+                data.error ||
+                "AI evaluation failed."
+
+            );
+
+        }
+
+
+        /*
+            IMPORTANT:
+
+            We intentionally do NOT display AI feedback
+            here.
+
+            Flask has already saved the evaluation.
+
+            The candidate immediately moves to the
+            next question.
+
+            Feedback is shown on dsa_result.html.
+        */
+
+
+        /* =================================================
+           LAST QUESTION
+        ================================================= */
+
+        if (
+
+            currentQuestion ===
+            questions.length - 1
+
+        ) {
+
+            window.location.href =
+                "/dsa-result";
+
+            return;
+
+        }
+
+
+        /* =================================================
+           NEXT QUESTION
+        ================================================= */
+
+        currentQuestion++;
+
+
+        loadQuestion(
+            currentQuestion
+        );
+
+
+        /* =================================================
+           RE-ENABLE
+        ================================================= */
+
+        submitButton.disabled =
+            false;
+
+
+        skipButton.disabled =
+            false;
+
+
+        submitButton.textContent =
+            "Submit Solution 🚀";
+
+
+        submitting =
+            false;
+
+
+        movingQuestion =
+            false;
+
+    }
+
+
+    catch (error) {
+
+        console.error(
+            "DSA evaluation error:",
+            error
+        );
+
+
+        alert(
+
+            "AI evaluation failed.\n\n" +
+            error.message
+
+        );
+
+
+        submitButton.disabled =
+            false;
+
+
+        skipButton.disabled =
+            false;
+
+
+        submitButton.textContent =
+            "Submit Solution 🚀";
+
+
+        document.getElementById(
+            "editorStatus"
+        ).textContent =
+
+            "Evaluation failed";
+
+
+        submitting =
+            false;
+
+
+        movingQuestion =
+            false;
+
+    }
+
+}
+
+
+/* =========================================================
+   SKIP QUESTION
+========================================================= */
+
+async function skipQuestion() {
+
+
+    if (
+        submitting ||
+        movingQuestion
+    ) {
+
+        return;
+
+    }
+
+
+    movingQuestion =
+        true;
+
+
+    const skipButton =
+        document.getElementById(
+            "skipBtn"
+        );
+
+
+    const submitButton =
+        document.getElementById(
+            "submitBtn"
+        );
+
+
+    skipButton.disabled =
+        true;
+
+
+    submitButton.disabled =
+        true;
+
+
+    skipButton.textContent =
+        "Skipping...";
+
+
+    document.getElementById(
+        "editorStatus"
+    ).textContent =
+
+        "Question skipped";
+
+
+    try {
+
+
+        /* =================================================
+           SAVE SKIP TO FLASK
+        ================================================== */
+
+        const response =
+            await fetch(
+
+                "/dsa-skip",
+
+                {
+
+                    method:
+                        "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json"
+
+                    },
+
+                    body:
+
+                        JSON.stringify({
+
+                            question_id:
+
+                                questions[
+                                    currentQuestion
+                                ].id,
+
+                            title:
+
+                                questions[
+                                    currentQuestion
+                                ].title
+
+                        })
+
+                }
+
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+
+                data.error ||
+                "Unable to skip question."
+
+            );
+
+        }
+
+
+        /* =================================================
+           SAVE LOCALLY
+        ================================================== */
+
+        submittedAnswers[
+            currentQuestion
+        ] = {
+
+            code:
+                "",
+
+            language:
+
+                document.getElementById(
+                    "language"
+                ).value,
+
+            skipped:
+                true
+
+        };
+
+
+        /* =================================================
+           LAST QUESTION
+        ================================================= */
+
+        if (
+
+            currentQuestion ===
+            questions.length - 1
+
+        ) {
+
+            window.location.href =
+                "/dsa-result";
+
+            return;
+
+        }
+
+
+        /* =================================================
+           NEXT QUESTION
+        ================================================= */
+
+        currentQuestion++;
+
+
+        loadQuestion(
+            currentQuestion
+        );
+
+
+        skipButton.disabled =
+            false;
+
+
+        submitButton.disabled =
+            false;
+
+
+        movingQuestion =
+            false;
+
+
+        updateSkipButton();
+
+    }
+
+
+    catch (error) {
+
+        console.error(
+            "Skip error:",
+            error
+        );
+
+
+        alert(
+
+            "Unable to skip this question.\n\n" +
+            error.message
+
+        );
+
+
+        skipButton.disabled =
+            false;
+
+
+        submitButton.disabled =
+            false;
+
+
+        updateSkipButton();
+
+
+        document.getElementById(
+            "editorStatus"
+        ).textContent =
+
+            "Ready";
+
+
+        movingQuestion =
+            false;
+
+    }
+
+}
+
+
+/* =========================================================
+   UPDATE PROGRESS
+========================================================= */
+
+function updateProgress() {
+
+    const percentage =
+
+        (
+
+            (currentQuestion + 1) /
+            questions.length
+
+        ) * 100;
+
+
+    document.getElementById(
+        "progressText"
+    ).textContent =
+
+        `${currentQuestion + 1} / ${questions.length}`;
+
+
+    document.getElementById(
+        "progressBar"
+    ).style.width =
+
+        percentage + "%";
+
+}
+
+
+/* =========================================================
+   TIMER
+========================================================= */
+
+function startTimer() {
+
+
+    timerInterval =
+
+        setInterval(
+
+            function () {
+
+
+                timerSeconds--;
+
+
+                /* =================================================
+                   TIME FINISHED
+                ================================================== */
+
+                if (
+                    timerSeconds <= 0
+                ) {
+
+                    clearInterval(
+                        timerInterval
+                    );
+
+
+                    alert(
+                        "Time is up. Your DSA practice has ended."
+                    );
+
+
+                    window.location.href =
+                        "/dsa-result";
+
+
+                    return;
+
+                }
+
+
+                const minutes =
+                    Math.floor(
+                        timerSeconds / 60
+                    );
+
+
+                const seconds =
+                    timerSeconds % 60;
+
+
+                document.getElementById(
+                    "timer"
+                ).textContent =
+
+                    `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+
+            },
+
+            1000
+
+        );
+
+}
+
+
+/* =========================================================
+   PAGE LOAD
+========================================================= */
+
+window.addEventListener(
+
+    "load",
+
+    function () {
+
+
+        /*
+            Wait for Monaco to initialize,
+            then load the first question.
+        */
+
+        const checkEditor =
+
+            setInterval(
+
+                function () {
+
+                    if (editor) {
+
+                        clearInterval(
+                            checkEditor
+                        );
+
+
+                        loadQuestion(0);
+
+                    }
+
+                },
+
+                100
+
+            );
+
+
+        startTimer();
+
+    }
+
+);
+
+</script>
+
+
+</body>
+
+</html>

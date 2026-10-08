@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>HR Result - CareerLaunch AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/hr_result.css') }}">
+
+</head>
+
+
+<body>
+
+
+<header class="topbar">
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            👔
+        </div>
+
+        <div>
+            <h2>CareerLaunch AI</h2>
+            <span>HR Practice Result</span>
+        </div>
+
+    </div>
+
+
+    <a href="/dashboard"
+       class="dashboard-btn">
+
+        Dashboard
+
+    </a>
+
+</header>
+
+
+
+<main class="container">
+
+
+    <!-- HERO -->
+
+    <section class="result-hero">
+
+        <div class="trophy">
+            🏆
+        </div>
+
+        <h1>
+            HR Practice Completed
+        </h1>
+
+        <p>
+            Great work, {{ username }}!
+            Here is your AI-evaluated HR performance.
+        </p>
+
+
+        <div class="score-circle">
+
+            <strong>
+                {{ score }}%
+            </strong>
+
+            <span>
+                Overall Score
+            </span>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- STATS -->
+
+    <section class="stats">
+
+        <div class="stat-card">
+
+            <span class="icon">
+                📚
+            </span>
+
+            <h3>
+                {{ total }}
+            </h3>
+
+            <p>
+                Total Questions
+            </p>
+
+        </div>
+
+
+        <div class="stat-card attempted">
+
+            <span class="icon">
+                📝
+            </span>
+
+            <h3>
+                {{ attempted }}
+            </h3>
+
+            <p>
+                Attempted
+            </p>
+
+        </div>
+
+
+        <div class="stat-card correct">
+
+            <span class="icon">
+                ⭐
+            </span>
+
+            <h3>
+                {{ average_score }}%
+            </h3>
+
+            <p>
+                Average Answer Score
+            </p>
+
+        </div>
+
+
+        <div class="stat-card skipped">
+
+            <span class="icon">
+                ⏭️
+            </span>
+
+            <h3>
+                {{ skipped }}
+            </h3>
+
+            <p>
+                Skipped
+            </p>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- PERFORMANCE -->
+
+    <section class="performance">
+
+        <h2>
+            AI Performance Analysis
+        </h2>
+
+        <div class="performance-grid">
+
+
+            <div class="performance-card">
+
+                <div class="performance-icon">
+                    💬
+                </div>
+
+                <div>
+
+                    <span>
+                        Communication
+                    </span>
+
+                    <strong>
+                        {{ communication }}%
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="performance-card">
+
+                <div class="performance-icon">
+                    🎯
+                </div>
+
+                <div>
+
+                    <span>
+                        Relevance
+                    </span>
+
+                    <strong>
+                        {{ relevance }}%
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="performance-card">
+
+                <div class="performance-icon">
+                    💪
+                </div>
+
+                <div>
+
+                    <span>
+                        Confidence
+                    </span>
+
+                    <strong>
+                        {{ confidence }}%
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="performance-card">
+
+                <div class="performance-icon">
+                    🧠
+                </div>
+
+                <div>
+
+                    <span>
+                        Answer Quality
+                    </span>
+
+                    <strong>
+                        {{ answer_quality }}%
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- QUESTION RESULTS -->
+
+    <section class="questions">
+
+        <div class="section-heading">
+
+            <h2>
+                Question-wise AI Feedback
+            </h2>
+
+            <p>
+                Review your answers and understand how you can improve.
+            </p>
+
+        </div>
+
+
+        {% for result in results %}
+
+        <div class="question-card
+            {% if result.skipped %}
+                skipped-card
+            {% else %}
+                answered-card
+            {% endif %}">
+
+
+            <div class="question-top">
+
+                <div>
+
+                    <span class="question-number">
+                        Question {{ loop.index }}
+                    </span>
+
+                    <h3>
+                        {{ result.question }}
+                    </h3>
+
+                </div>
+
+
+                {% if result.skipped %}
+
+                    <span class="status skipped-status">
+                        ⏭️ Skipped
+                    </span>
+
+                {% else %}
+
+                    <span class="score-badge">
+                        {{ result.score }}/10
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+
+
+            {% if result.skipped %}
+
+                <div class="skipped-message">
+
+                    <strong>
+                        Question Skipped
+                    </strong>
+
+                    <p>
+                        You chose to skip this question.
+                    </p>
+
+                </div>
+
+            {% else %}
+
+
+                <!-- USER ANSWER -->
+
+                <div class="answer-section">
+
+                    <div class="answer-title">
+                        Your Answer
+                    </div>
+
+                    <p>
+                        {{ result.answer }}
+                    </p>
+
+                </div>
+
+
+
+                <!-- AI FEEDBACK -->
+
+                <div class="feedback-section">
+
+                    <div class="feedback-title">
+                        🤖 AI Feedback
+                    </div>
+
+                    <p>
+                        {{ result.feedback }}
+                    </p>
+
+                </div>
+
+
+
+                <!-- STRENGTHS -->
+
+                {% if result.strengths %}
+
+                <div class="strengths-section">
+
+                    <strong>
+                        ✅ Strengths
+                    </strong>
+
+                    <ul>
+
+                        {% for item in result.strengths %}
+
+                        <li>
+                            {{ item }}
+                        </li>
+
+                        {% endfor %}
+
+                    </ul>
+
+                </div>
+
+                {% endif %}
+
+
+
+                <!-- IMPROVEMENTS -->
+
+                {% if result.improvements %}
+
+                <div class="improvements-section">
+
+                    <strong>
+                        💡 Areas for Improvement
+                    </strong>
+
+                    <ul>
+
+                        {% for item in result.improvements %}
+
+                        <li>
+                            {{ item }}
+                        </li>
+
+                        {% endfor %}
+
+                    </ul>
+
+                </div>
+
+                {% endif %}
+
+            {% endif %}
+
+        </div>
+
+        {% endfor %}
+
+    </section>
+
+
+
+    <!-- ACTIONS -->
+
+    <div class="bottom-actions">
+
+        <a href="/hr"
+           class="secondary-btn">
+
+            Try Again
+
+        </a>
+
+
+        <a href="/dashboard"
+           class="primary-btn">
+
+            Back to Dashboard
+
+        </a>
+
+    </div>
+
+
+</main>
+
+
+</body>
+
+</html>

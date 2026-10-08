@@ -1204,3 +1204,458 @@ grid-template-columns:1fr;
     background:#2563eb;
     color:#fff;
 }
+/* =========================================
+   QUICK PRACTICE SECTION
+========================================= */
+
+.quick-practice-section {
+    margin-top: 30px;
+    padding: 28px;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+}
+
+.quick-practice-header {
+    margin-bottom: 22px;
+}
+
+.quick-practice-header h2 {
+    margin: 0;
+    font-size: 24px;
+    color: #172b4d;
+}
+
+.quick-practice-header p {
+    margin: 6px 0 0;
+    color: #718096;
+    font-size: 14px;
+}
+
+
+/* =========================================
+   THREE CARDS
+========================================= */
+
+.quick-practice-grid {
+    display: grid;
+
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    gap: 22px;
+
+    width: 100%;
+}
+
+
+/* =========================================
+   PRACTICE CARD
+========================================= */
+
+.quick-practice-card {
+
+    display: grid;
+
+    grid-template-columns: 64px minmax(0, 1fr) 30px;
+
+    align-items: center;
+
+    column-gap: 16px;
+
+    min-width: 0;
+
+    padding: 24px;
+
+    background: #f8fafc;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 18px;
+
+    text-decoration: none;
+
+    color: inherit;
+
+    transition: all 0.25s ease;
+
+    box-sizing: border-box;
+}
+
+
+.quick-practice-card:hover {
+
+    transform: translateY(-5px);
+
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.10);
+
+    border-color: #2563eb;
+
+}
+
+
+/* =========================================
+   ICON
+========================================= */
+
+.practice-icon {
+
+    width: 64px;
+
+    height: 64px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 17px;
+
+    font-size: 29px;
+
+    flex-shrink: 0;
+
+    background: #eef4ff;
+}
+
+
+.aptitude-card .practice-icon {
+    background: #fff4df;
+}
+
+
+.dsa-card .practice-icon {
+    background: #eaf2ff;
+}
+
+
+.hr-card .practice-icon {
+    background: #f4eaff;
+}
+
+
+/* =========================================
+   CONTENT
+========================================= */
+
+.practice-content {
+
+    min-width: 0;
+
+    text-align: left;
+}
+
+
+.practice-content h3 {
+
+    margin: 0 0 7px;
+
+    font-size: 19px;
+
+    color: #172b4d;
+
+}
+
+
+.practice-content p {
+
+    margin: 0 0 10px;
+
+    font-size: 13px;
+
+    line-height: 1.55;
+
+    color: #718096;
+
+}
+
+
+.question-count {
+
+    display: inline-block;
+
+    padding: 5px 11px;
+
+    border-radius: 20px;
+
+    background: #e8f0ff;
+
+    color: #2563eb;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================
+   ARROW
+========================================= */
+
+.practice-arrow {
+
+    font-size: 27px;
+
+    color: #2563eb;
+
+    text-align: center;
+
+    transition: transform 0.2s ease;
+}
+
+
+.quick-practice-card:hover .practice-arrow {
+
+    transform: translateX(5px);
+
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1200px) {
+
+    .quick-practice-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .quick-practice-card {
+
+        grid-template-columns: 64px minmax(0, 1fr) 35px;
+
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .quick-practice-section {
+
+        padding: 20px;
+
+    }
+
+    .quick-practice-card {
+
+        grid-template-columns: 55px minmax(0, 1fr) 25px;
+
+        column-gap: 12px;
+
+        padding: 18px;
+
+    }
+
+    .practice-icon {
+
+        width: 55px;
+
+        height: 55px;
+
+        font-size: 25px;
+
+    }
+
+    .practice-content h3 {
+
+        font-size: 17px;
+
+    }
+
+}
+/* =====================================================
+   DASHBOARD SPACING & LAYOUT FIX
+   Added for Quick Practice + Recent Activity
+===================================================== */
+
+
+/* -----------------------------------------------------
+   QUICK PRACTICE
+----------------------------------------------------- */
+
+.quick-practice-section {
+    margin-top: 40px !important;
+    margin-bottom: 40px !important;
+    padding: 32px !important;
+}
+
+
+/* Space between heading and cards */
+
+.quick-practice-header {
+    margin-bottom: 26px !important;
+}
+
+
+/* Three practice cards */
+
+.quick-practice-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 24px !important;
+}
+
+
+/* Make cards comfortably sized */
+
+.quick-practice-card {
+    min-height: 150px !important;
+    padding: 24px !important;
+}
+
+
+/* -----------------------------------------------------
+   BOTTOM SECTION
+   Recent Activity + AI Career Coach
+----------------------------------------------------- */
+
+.bottom-grid {
+
+    display: grid !important;
+
+    grid-template-columns:
+        minmax(0, 1.6fr)
+        minmax(320px, 0.8fr) !important;
+
+    gap: 28px !important;
+
+    margin-top: 0 !important;
+
+    align-items: start !important;
+
+}
+
+
+/* -----------------------------------------------------
+   RECENT ACTIVITY
+----------------------------------------------------- */
+
+.recent-card {
+
+    min-width: 0;
+
+    padding: 28px !important;
+
+    border-radius: 20px !important;
+
+    background: #ffffff;
+
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+
+}
+
+
+/* Activity list */
+
+.activity-list {
+
+    gap: 14px !important;
+
+    margin-top: 12px !important;
+
+}
+
+
+/* Individual activity */
+
+.activity-item {
+
+    padding: 18px 20px !important;
+
+    min-height: 75px;
+
+    box-sizing: border-box;
+
+}
+
+
+/* Activity content */
+
+.activity-content {
+
+    min-width: 0;
+
+}
+
+
+/* -----------------------------------------------------
+   AI CAREER COACH
+----------------------------------------------------- */
+
+.recommendation-card {
+
+    min-width: 0;
+
+    padding: 28px !important;
+
+    border-radius: 20px !important;
+
+    background: #ffffff;
+
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+
+}
+
+
+/* -----------------------------------------------------
+   RESPONSIVE
+----------------------------------------------------- */
+
+@media (max-width: 1200px) {
+
+    .quick-practice-grid {
+
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+
+        gap: 18px !important;
+
+    }
+
+    .bottom-grid {
+
+        grid-template-columns: 1fr !important;
+
+        gap: 25px !important;
+
+    }
+
+}
+
+
+@media (max-width: 900px) {
+
+    .quick-practice-grid {
+
+        grid-template-columns: 1fr !important;
+
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .quick-practice-section {
+
+        padding: 20px !important;
+
+        margin-top: 25px !important;
+
+        margin-bottom: 25px !important;
+
+    }
+
+    .recent-card,
+    .recommendation-card {
+
+        padding: 20px !important;
+
+    }
+
+}

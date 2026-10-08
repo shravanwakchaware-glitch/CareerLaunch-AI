@@ -4,15 +4,16 @@
 <head>
 
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>CareerLaunch AI - Interview</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100;300;400;500;600;700;800&display=swap"
-          rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@100;300;400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
 
     <style>
 
@@ -27,10 +28,104 @@
             box-shadow: 0 10px 35px rgba(0,0,0,.06);
         }
 
-        /* Disabled button while AI is generating */
         button:disabled {
             opacity: 0.6;
             cursor: not-allowed;
+        }
+
+        /* =====================================================
+           VOICE BUTTON
+           ===================================================== */
+
+        .voice-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+
+            padding: 12px 20px;
+
+            border-radius: 12px;
+
+            border: 1px solid #d1d5db;
+
+            background: white;
+
+            color: #374151;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: all 0.2s ease;
+        }
+
+        .voice-button:hover {
+            background: #f3f4f6;
+        }
+
+        .voice-button.listening {
+            background: #fee2e2;
+            border-color: #ef4444;
+            color: #dc2626;
+        }
+
+        .voice-status {
+            display: none;
+
+            align-items: center;
+
+            gap: 8px;
+
+            margin-top: 10px;
+
+            font-size: 14px;
+
+            color: #dc2626;
+
+            font-weight: 500;
+        }
+
+        .voice-status.active {
+            display: flex;
+        }
+
+        .recording-dot {
+            width: 9px;
+            height: 9px;
+
+            border-radius: 50%;
+
+            background: #ef4444;
+
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: .4;
+                transform: scale(1.25);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+        }
+
+        .voice-help {
+            margin-top: 8px;
+
+            font-size: 13px;
+
+            color: #6b7280;
         }
 
     </style>
@@ -43,297 +138,101 @@
 <div class="min-h-screen">
 
 
-<!-- ========================================================= -->
-<!-- HEADER -->
-<!-- ========================================================= -->
+    <!-- =========================================================
+         HEADER
+         ========================================================= -->
 
-<header class="bg-white shadow-sm border-b sticky top-0 z-50">
+    <header class="bg-white shadow-sm border-b sticky top-0 z-50">
 
-    <div class="max-w-6xl mx-auto px-8 h-20 flex justify-between items-center">
-
-        <div>
-
-            <h1 class="text-2xl font-bold text-blue-700">
-
-                🚀 CareerLaunch AI
-
-            </h1>
-
-            <p class="text-gray-500 text-sm">
-
-                AI Powered Mock Interview
-
-            </p>
-
-        </div>
-
-
-        <div class="text-right">
-
-            <p class="text-gray-500 text-sm">
-
-                Time Remaining
-
-            </p>
-
-            <h2
-                id="timer"
-                class="text-2xl font-bold text-red-500">
-
-                {{ timer }}
-
-            </h2>
-
-        </div>
-
-    </div>
-
-</header>
-
-
-
-<!-- ========================================================= -->
-<!-- MAIN -->
-<!-- ========================================================= -->
-
-<div class="max-w-5xl mx-auto py-10 px-6">
-
-
-    <!-- ===================================================== -->
-    <!-- INTERVIEW DETAILS -->
-    <!-- ===================================================== -->
-
-    <div class="flex justify-between items-center mb-6">
-
-        <div>
-
-            <h2 class="text-3xl font-bold">
-
-                {{ job_role }}
-
-            </h2>
-
-            <p class="text-gray-500 mt-1">
-
-                Welcome {{ username }}
-
-            </p>
-
-        </div>
-
-
-        <div class="text-right">
-
-            <p class="font-semibold">
-
-                Question {{ current_question }} / {{ total_questions }}
-
-            </p>
-
-
-            <div class="w-64 bg-gray-200 rounded-full h-3 mt-3">
-
-                <div
-                    class="bg-blue-600 h-3 rounded-full"
-                    style="width: {{ (current_question / total_questions) * 100 }}%;">
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-
-    <!-- ===================================================== -->
-    <!-- AI MESSAGE -->
-    <!-- ===================================================== -->
-
-    <div class="chat-card p-8 mb-8">
-
-        <div class="flex items-center gap-3 mb-6">
-
-            <div
-                class="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-white text-xl">
-
-                🤖
-
-            </div>
-
+        <div class="max-w-6xl mx-auto px-8 h-20 flex justify-between items-center">
 
             <div>
 
-                <h3 class="font-bold text-lg">
+                <h1 class="text-2xl font-bold text-blue-700">
 
-                    AI Interviewer
+                    🚀 CareerLaunch AI
 
-                </h3>
+                </h1>
 
                 <p class="text-gray-500 text-sm">
 
-                    Ready to evaluate your interview.
+                    AI Powered Mock Interview
 
                 </p>
 
             </div>
 
-        </div>
 
+            <div class="text-right">
 
-        <div class="bg-gray-50 rounded-xl p-6 border">
+                <p class="text-gray-500 text-sm">
 
-            <p class="text-gray-500 text-sm mb-3">
+                    Time Remaining
 
-                AI Question
+                </p>
 
-            </p>
+                <h2
+                    id="timer"
+                    class="text-2xl font-bold text-red-500"
+                >
 
+                    {{ timer }}
 
-            <h2 class="text-2xl font-semibold leading-relaxed">
+                </h2>
 
-                {{ question }}
-
-            </h2>
-
-        </div>
-
-    </div>
-
-
-
-    <!-- ===================================================== -->
-    <!-- ANSWER FORM -->
-    <!-- ===================================================== -->
-
-    <form
-        id="interviewForm"
-        action="/submit_answer"
-        method="POST"
-        class="chat-card p-8">
-
-
-        <input
-            type="hidden"
-            name="question_number"
-            value="{{ current_question }}">
-
-
-
-        <!-- ANSWER HEADER -->
-
-        <div class="flex justify-between items-center mb-5">
-
-            <h3 class="text-xl font-semibold">
-
-                💬 Your Answer
-
-            </h3>
-
-
-            <span class="text-gray-500 text-sm">
-
-                Be clear and explain your thought process.
-
-            </span>
+            </div>
 
         </div>
 
-
-
-        <!-- ANSWER BOX -->
-
-        <textarea
-            id="answerBox"
-            name="answer"
-            rows="16"
-            class="w-full rounded-2xl border border-gray-300 p-5 text-gray-700 text-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Type your answer here...">{{ answer if answer else "" }}</textarea>
+    </header>
 
 
 
-        <!-- ================================================= -->
-        <!-- INTERVIEW DETAILS -->
-        <!-- ================================================= -->
+    <!-- =========================================================
+         MAIN
+         ========================================================= -->
 
-        <div class="mt-8 rounded-2xl bg-blue-50 border border-blue-100 p-6">
-
-            <h3 class="text-lg font-bold mb-4">
-
-                📋 Interview Details
-
-            </h3>
+    <div class="max-w-5xl mx-auto py-10 px-6">
 
 
-            <div class="grid md:grid-cols-3 gap-6">
+        <!-- =====================================================
+             INTERVIEW DETAILS
+             ===================================================== -->
+
+        <div class="flex justify-between items-center mb-6">
+
+            <div>
+
+                <h2 class="text-3xl font-bold">
+
+                    {{ job_role }}
+
+                </h2>
+
+                <p class="text-gray-500 mt-1">
+
+                    Welcome {{ username }}
+
+                </p>
+
+            </div>
 
 
-                <!-- JOB ROLE -->
+            <div class="text-right">
 
-                <div>
+                <p class="font-semibold">
 
-                    <p class="text-gray-500 text-sm">
+                    Question {{ current_question }} / {{ total_questions }}
 
-                        Job Role
-
-                    </p>
+                </p>
 
 
-                    <p class="font-semibold mt-1">
+                <div class="w-64 bg-gray-200 rounded-full h-3 mt-3">
 
-                        {{ job_role }}
-
-                    </p>
-
-                </div>
-
-
-
-                <!-- DIFFICULTY -->
-
-                <div>
-
-                    <p class="text-gray-500 text-sm">
-
-                        Difficulty
-
-                    </p>
-
-
-                    <p class="font-semibold mt-1">
-
-                        {{ difficulty }}
-
-                    </p>
-
-                </div>
-
-
-
-                <!-- SKILLS -->
-
-                <div>
-
-                    <p class="text-gray-500 text-sm">
-
-                        Skills
-
-                    </p>
-
-
-                    <div class="flex flex-wrap gap-2 mt-2">
-
-                        {% for skill in skills %}
-
-                        <span
-                            class="bg-blue-600 text-white text-sm px-3 py-1 rounded-full">
-
-                            {{ skill }}
-
-                        </span>
-
-                        {% endfor %}
+                    <div
+                        class="bg-blue-600 h-3 rounded-full"
+                        style="width: {{ (current_question / total_questions) * 100 }}%;"
+                    >
 
                     </div>
 
@@ -345,190 +244,752 @@
 
 
 
-        <!-- ================================================= -->
-        <!-- BUTTONS -->
-        <!-- ================================================= -->
+        <!-- =====================================================
+             AI MESSAGE
+             ===================================================== -->
 
-        <div class="flex justify-between items-center mt-8">
+        <div class="chat-card p-8 mb-8">
 
+            <div class="flex items-center gap-3 mb-6">
 
-            <!-- PREVIOUS -->
+                <div
+                    class="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-white text-xl"
+                >
 
-            <button
-                type="button"
-                onclick="history.back()"
-                class="px-6 py-3 rounded-xl border border-gray-300 hover:bg-gray-100 transition">
+                    🤖
 
-                ← Previous
-
-            </button>
+                </div>
 
 
+                <div>
 
-            <div class="flex gap-4">
+                    <h3 class="font-bold text-lg">
 
+                        AI Interviewer
 
-                {% if current_question == total_questions %}
+                    </h3>
 
+                    <p class="text-gray-500 text-sm">
 
-                <!-- FINISH -->
+                        Ready to evaluate your interview.
 
-                <button
-                    id="finishButton"
-                    type="submit"
-                    class="px-8 py-3 rounded-xl bg-green-600 text-white font-semibold hover:bg-green-700">
+                    </p>
 
-                    Finish Interview
+                </div>
 
-                </button>
-
-
-                {% else %}
+            </div>
 
 
-                <!-- NEXT -->
+            <div class="bg-gray-50 rounded-xl p-6 border">
 
-                <button
-                    id="nextButton"
-                    type="submit"
-                    class="px-8 py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700">
+                <p class="text-gray-500 text-sm mb-3">
 
-                    Next Question →
+                    AI Question
 
-                </button>
+                </p>
 
 
-                {% endif %}
+                <h2 class="text-2xl font-semibold leading-relaxed">
 
+                    {{ question }}
+
+                </h2>
 
             </div>
 
         </div>
 
-    </form>
+
+
+        <!-- =====================================================
+             ANSWER FORM
+             ===================================================== -->
+
+        <form
+            id="interviewForm"
+            action="/submit_answer"
+            method="POST"
+            class="chat-card p-8"
+        >
+
+
+            <input
+                type="hidden"
+                name="question_number"
+                value="{{ current_question }}"
+            >
+
+
+            <!-- =================================================
+                 ANSWER HEADER
+                 ================================================= -->
+
+            <div class="flex justify-between items-center mb-5">
+
+                <h3 class="text-xl font-semibold">
+
+                    💬 Your Answer
+
+                </h3>
+
+
+                <span class="text-gray-500 text-sm">
+
+                    Be clear and explain your thought process.
+
+                </span>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 ANSWER BOX
+                 ================================================= -->
+
+            <textarea
+                id="answerBox"
+                name="answer"
+                rows="16"
+                class="w-full rounded-2xl border border-gray-300 p-5 text-gray-700 text-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Type your answer here..."
+            >{{ answer if answer else "" }}</textarea>
+
+
+
+            <!-- =================================================
+                 VOICE ANSWER
+                 ================================================= -->
+
+            <div class="mt-5">
+
+                <button
+                    type="button"
+                    id="voiceButton"
+                    class="voice-button"
+                >
+
+                    🎙️
+                    <span id="voiceButtonText">
+                        Start Speaking
+                    </span>
+
+                </button>
+
+
+                <div
+                    id="voiceStatus"
+                    class="voice-status"
+                >
+
+                    <span class="recording-dot"></span>
+
+                    <span id="voiceStatusText">
+                        Listening...
+                    </span>
+
+                </div>
+
+
+                <p class="voice-help">
+
+                    Speak your answer naturally. Your speech will be converted
+                    into text in the answer box.
+
+                </p>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 INTERVIEW DETAILS
+                 ================================================= -->
+
+            <div class="mt-8 rounded-2xl bg-blue-50 border border-blue-100 p-6">
+
+                <h3 class="text-lg font-bold mb-4">
+
+                    📋 Interview Details
+
+                </h3>
+
+
+                <div class="grid md:grid-cols-3 gap-6">
+
+
+                    <!-- JOB ROLE -->
+
+                    <div>
+
+                        <p class="text-gray-500 text-sm">
+
+                            Job Role
+
+                        </p>
+
+                        <p class="font-semibold mt-1">
+
+                            {{ job_role }}
+
+                        </p>
+
+                    </div>
+
+
+
+                    <!-- DIFFICULTY -->
+
+                    <div>
+
+                        <p class="text-gray-500 text-sm">
+
+                            Difficulty
+
+                        </p>
+
+                        <p class="font-semibold mt-1">
+
+                            {{ difficulty }}
+
+                        </p>
+
+                    </div>
+
+
+
+                    <!-- SKILLS -->
+
+                    <div>
+
+                        <p class="text-gray-500 text-sm">
+
+                            Skills
+
+                        </p>
+
+                        <div class="flex flex-wrap gap-2 mt-2">
+
+                            {% for skill in skills %}
+
+                                <span
+                                    class="bg-blue-600 text-white text-sm px-3 py-1 rounded-full"
+                                >
+
+                                    {{ skill }}
+
+                                </span>
+
+                            {% endfor %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 BUTTONS
+                 ================================================= -->
+
+            <div class="flex justify-between items-center mt-8">
+
+
+                <!-- PREVIOUS -->
+
+                <button
+                    type="button"
+                    onclick="history.back()"
+                    class="px-6 py-3 rounded-xl border border-gray-300 hover:bg-gray-100 transition"
+                >
+
+                    ← Previous
+
+                </button>
+
+
+
+                <div class="flex gap-4">
+
+
+                    {% if current_question == total_questions %}
+
+
+                        <!-- FINISH -->
+
+                        <button
+                            id="finishButton"
+                            type="submit"
+                            class="px-8 py-3 rounded-xl bg-green-600 text-white font-semibold hover:bg-green-700"
+                        >
+
+                            Finish Interview
+
+                        </button>
+
+
+                    {% else %}
+
+
+                        <!-- NEXT -->
+
+                        <button
+                            id="nextButton"
+                            type="submit"
+                            class="px-8 py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700"
+                        >
+
+                            Next Question →
+
+                        </button>
+
+
+                    {% endif %}
+
+
+                </div>
+
+            </div>
+
+
+        </form>
+
+    </div>
 
 </div>
 
-</div>
 
 
-
-<!-- ========================================================= -->
-<!-- TIMER -->
-<!-- ========================================================= -->
+<!-- =========================================================
+     TIMER
+     ========================================================= -->
 
 <script>
 
-let timeString = "{{ timer }}";
+    let timeString = "{{ timer }}";
 
-let parts = timeString.split(":");
+    let parts = timeString.split(":");
 
-let totalSeconds =
-    parseInt(parts[0]) * 60 +
-    parseInt(parts[1]);
-
-
-const timer =
-    document.getElementById("timer");
+    let totalSeconds =
+        parseInt(parts[0]) * 60 +
+        parseInt(parts[1]);
 
 
-setInterval(() => {
-
-    if (totalSeconds > 0) {
-
-        totalSeconds--;
-
-        let m =
-            Math.floor(totalSeconds / 60);
-
-        let s =
-            totalSeconds % 60;
+    const timer =
+        document.getElementById("timer");
 
 
-        timer.innerHTML =
-            m + ":" +
-            String(s).padStart(2, "0");
+    setInterval(() => {
 
-    }
+        if (totalSeconds > 0) {
 
-}, 1000);
+            totalSeconds--;
+
+            let m =
+                Math.floor(totalSeconds / 60);
+
+            let s =
+                totalSeconds % 60;
+
+
+            timer.innerHTML =
+                m + ":" +
+                String(s).padStart(2, "0");
+
+        }
+
+    }, 1000);
 
 </script>
 
 
 
-<!-- ========================================================= -->
-<!-- PREVENT DOUBLE SUBMISSION -->
-<!-- ========================================================= -->
+<!-- =========================================================
+     VOICE RECOGNITION
+     ========================================================= -->
 
 <script>
 
-const interviewForm =
-    document.getElementById("interviewForm");
+    const voiceButton =
+        document.getElementById("voiceButton");
+
+    const voiceButtonText =
+        document.getElementById("voiceButtonText");
+
+    const voiceStatus =
+        document.getElementById("voiceStatus");
+
+    const voiceStatusText =
+        document.getElementById("voiceStatusText");
+
+    const answerBox =
+        document.getElementById("answerBox");
 
 
-if (interviewForm) {
+    /*
+     * Check whether the browser supports
+     * the Web Speech API.
+     */
 
-    interviewForm.addEventListener(
-        "submit",
-        function(event) {
-
-            /*
-             * Prevent the user from submitting the
-             * same answer multiple times while
-             * Gemini is generating the next question.
-             */
-
-            const submitButtons =
-                interviewForm.querySelectorAll(
-                    "button[type='submit']"
-                );
+    const SpeechRecognition =
+        window.SpeechRecognition ||
+        window.webkitSpeechRecognition;
 
 
-            submitButtons.forEach(
-                function(button) {
+    let recognition = null;
 
-                    button.disabled = true;
+    let isListening = false;
+
+
+    if (!SpeechRecognition) {
+
+        voiceButton.disabled = true;
+
+        voiceButtonText.innerText =
+            "Voice Not Supported";
+
+        voiceStatusText.innerText =
+            "Please use Google Chrome or Microsoft Edge.";
+
+    }
+
+
+    if (SpeechRecognition) {
+
+        recognition =
+            new SpeechRecognition();
+
+
+        /*
+         * Keep listening while the candidate
+         * is speaking.
+         */
+
+        recognition.continuous = true;
+
+
+        /*
+         * Return both temporary and final
+         * speech recognition results.
+         */
+
+        recognition.interimResults = true;
+
+
+        /*
+         * English - India.
+         */
+
+        recognition.lang = "en-IN";
+
+
+        recognition.onstart = function() {
+
+            isListening = true;
+
+            voiceButton.classList.add("listening");
+
+            voiceButtonText.innerText =
+                "Stop Speaking";
+
+            voiceStatus.classList.add("active");
+
+            voiceStatusText.innerText =
+                "Listening...";
+
+        };
+
+
+        recognition.onresult = function(event) {
+
+            let finalTranscript = "";
+
+            let interimTranscript = "";
+
+
+            for (
+                let i = event.resultIndex;
+                i < event.results.length;
+                i++
+            ) {
+
+                const transcript =
+                    event.results[i][0].transcript;
+
+
+                if (event.results[i].isFinal) {
+
+                    finalTranscript +=
+                        transcript + " ";
+
+                } else {
+
+                    interimTranscript +=
+                        transcript;
 
                 }
+
+            }
+
+
+            /*
+             * Add finalized speech to whatever
+             * text is already in the answer box.
+             */
+
+            if (finalTranscript) {
+
+                const existingText =
+                    answerBox.value.trim();
+
+
+                if (existingText) {
+
+                    answerBox.value =
+                        existingText +
+                        " " +
+                        finalTranscript.trim();
+
+                } else {
+
+                    answerBox.value =
+                        finalTranscript.trim();
+
+                }
+
+
+                /*
+                 * Put the cursor at the end.
+                 */
+
+                answerBox.focus();
+
+                answerBox.selectionStart =
+                    answerBox.value.length;
+
+                answerBox.selectionEnd =
+                    answerBox.value.length;
+
+            }
+
+
+            /*
+             * Show temporary speech while listening.
+             */
+
+            if (interimTranscript) {
+
+                voiceStatusText.innerText =
+                    "Listening: " +
+                    interimTranscript;
+
+            } else {
+
+                voiceStatusText.innerText =
+                    "Listening...";
+
+            }
+
+        };
+
+
+        recognition.onerror = function(event) {
+
+            console.log(
+                "Speech recognition error:",
+                event.error
             );
 
 
-            /*
-             * Change button text so the user knows
-             * the AI is processing the answer.
-             */
+            if (event.error === "not-allowed") {
 
-            const nextButton =
-                document.getElementById("nextButton");
+                voiceStatusText.innerText =
+                    "Microphone permission was denied.";
 
+                stopListening();
 
-            const finishButton =
-                document.getElementById("finishButton");
-
-
-            if (nextButton) {
-
-                nextButton.innerText =
-                    "Generating...";
+                return;
 
             }
 
 
-            if (finishButton) {
+            if (event.error === "no-speech") {
 
-                finishButton.innerText =
-                    "Generating Result...";
+                voiceStatusText.innerText =
+                    "No speech detected. Try again.";
+
+                return;
 
             }
 
 
+            voiceStatusText.innerText =
+                "Voice recognition error. Please try again.";
+
+        };
+
+
+        recognition.onend = function() {
+
             /*
-             * Prevent accidental double submission
-             * using keyboard / rapid clicks.
+             * Some browsers automatically stop
+             * recognition after a period of silence.
+             *
+             * If the user hasn't pressed Stop,
+             * start it again.
              */
 
-            setTimeout(function() {
+            if (isListening) {
+
+                try {
+
+                    recognition.start();
+
+                } catch (error) {
+
+                    console.log(
+                        "Recognition restart:",
+                        error
+                    );
+
+                }
+
+            }
+
+        };
+
+
+        voiceButton.addEventListener(
+            "click",
+            function() {
+
+                if (isListening) {
+
+                    stopListening();
+
+                } else {
+
+                    startListening();
+
+                }
+
+            }
+        );
+
+    }
+
+
+    function startListening() {
+
+        if (!recognition) {
+
+            return;
+
+        }
+
+
+        try {
+
+            recognition.start();
+
+        } catch (error) {
+
+            console.log(
+                "Recognition start error:",
+                error
+            );
+
+        }
+
+    }
+
+
+    function stopListening() {
+
+        isListening = false;
+
+
+        voiceButton.classList.remove(
+            "listening"
+        );
+
+
+        voiceButtonText.innerText =
+            "Start Speaking";
+
+
+        voiceStatus.classList.remove(
+            "active"
+        );
+
+
+        if (recognition) {
+
+            try {
+
+                recognition.stop();
+
+            } catch (error) {
+
+                console.log(
+                    "Recognition stop error:",
+                    error
+                );
+
+            }
+
+        }
+
+    }
+
+</script>
+
+
+
+<!-- =========================================================
+     PREVENT DOUBLE SUBMISSION
+     ========================================================= -->
+
+<script>
+
+    const interviewForm =
+        document.getElementById("interviewForm");
+
+
+    if (interviewForm) {
+
+        interviewForm.addEventListener(
+            "submit",
+            function(event) {
+
+
+                /*
+                 * Stop voice recognition before
+                 * submitting the answer.
+                 */
+
+                if (isListening) {
+
+                    stopListening();
+
+                }
+
+
+                /*
+                 * Prevent the user from submitting
+                 * the same answer multiple times while
+                 * the AI is generating the next question.
+                 */
+
+                const submitButtons =
+                    interviewForm.querySelectorAll(
+                        "button[type='submit']"
+                    );
+
 
                 submitButtons.forEach(
                     function(button) {
@@ -538,12 +999,57 @@ if (interviewForm) {
                     }
                 );
 
-            }, 0);
 
-        }
-    );
+                /*
+                 * Change button text so the user knows
+                 * the AI is processing the answer.
+                 */
 
-}
+                const nextButton =
+                    document.getElementById("nextButton");
+
+
+                const finishButton =
+                    document.getElementById("finishButton");
+
+
+                if (nextButton) {
+
+                    nextButton.innerText =
+                        "Generating...";
+
+                }
+
+
+                if (finishButton) {
+
+                    finishButton.innerText =
+                        "Generating Result...";
+
+                }
+
+
+                /*
+                 * Prevent accidental double submission
+                 * using keyboard / rapid clicks.
+                 */
+
+                setTimeout(function() {
+
+                    submitButtons.forEach(
+                        function(button) {
+
+                            button.disabled = true;
+
+                        }
+                    );
+
+                }, 0);
+
+            }
+        );
+
+    }
 
 </script>
 

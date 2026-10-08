@@ -31,11 +31,11 @@ GEMINI_BASE_URL = "https://generativelanguage.googleapis.com/v1beta"
 
 
 # ------------------------------------------------------------
-# DO NOT CHANGE THIS
-# This is your current interview question model.
+ # OpenRouter free router.
+# This keeps the project from requiring purchased OpenRouter credits.
 # ------------------------------------------------------------
 
-MODEL_NAME = "deepseek/deepseek-r1"
+MODEL_NAME = "openrouter/free"
 
 
 # ------------------------------------------------------------
@@ -46,12 +46,12 @@ OLLAMA_MODEL = "llama3.2:latest"
 
 
 # ------------------------------------------------------------
-# Gemini model ONLY for final interview result
+ # Gemini model used as the second provider in the fallback chain
 # ------------------------------------------------------------
 
 # IMPORTANT:
-# Gemini is used ONLY for final interview evaluation.
-#
+# Gemini is the second provider in the fallback chain.
+# It is also used for final interview evaluation.
 # Do not use the old gemini-2.5-flash model here.
 
 GEMINI_MODEL = "gemini-3.6-flash"
@@ -360,12 +360,25 @@ def _call_ollama(
 # ============================================================
 # NORMAL AI CALL
 #
-# THIS IS FOR INTERVIEW QUESTIONS.
+# FALLBACK ORDER:
+# OpenRouter (30s) → Gemini (30s) → Ollama (180s)
 #
-# DO NOT CHANGE THE MODEL/FLOW.
-#
-# OpenRouter → Ollama
+# Used by interview questions and ATS analysis through ask_gemini().
 # ============================================================
+
+def _messages_to_gemini_prompt(messages):
+    """Convert OpenAI-style messages into a single Gemini prompt."""
+    parts = []
+
+    for message in messages:
+        role = message.get("role", "user").upper()
+        content = message.get("content", "")
+
+        if content:
+            parts.append(f"[{role}]\n{content}")
+
+    return "\n\n".join(parts)
+
 
 def _call_ai(
     messages,
@@ -373,10 +386,12 @@ def _call_ai(
     max_tokens=2048
 ):
 
+    # --------------------------------------------------------
+    # 1. OPENROUTER — maximum 30 seconds
+    # --------------------------------------------------------
     try:
-
         print()
-        print("☁️ Trying OpenRouter...")
+        print("☁️ Trying OpenRouter (30s timeout)...")
         print()
 
         response = _call_openrouter(
@@ -386,39 +401,68 @@ def _call_ai(
         )
 
         print("✅ OpenRouter response received.")
-
+        print("🤖 Provider used: OpenRouter")
         return response
 
-
     except Exception as openrouter_error:
-
         print()
         print("=" * 60)
         print("⚠️ OPENROUTER FAILED")
         print("=" * 60)
         print(str(openrouter_error))
         print("=" * 60)
+        print("🔄 Falling back to Gemini (30s timeout)...")
+        print("=" * 60)
+        print()
+
+    # --------------------------------------------------------
+    # 2. GEMINI — maximum 30 seconds
+    # --------------------------------------------------------
+    try:
+        gemini_prompt = _messages_to_gemini_prompt(messages)
+
+        response = _call_gemini(
+            prompt=gemini_prompt,
+            temperature=temperature,
+            max_tokens=max_tokens
+        )
+
+        print("✅ Gemini response received.")
+        print("🤖 Provider used: Gemini")
+        return response
+
+    except Exception as gemini_error:
+        print()
+        print("=" * 60)
+        print("⚠️ GEMINI FAILED")
+        print("=" * 60)
+        print(str(gemini_error))
+        print("=" * 60)
         print("🔄 Falling back to Ollama...")
         print("=" * 60)
         print()
 
-        try:
+    # --------------------------------------------------------
+    # 3. OLLAMA — final fallback
+    # --------------------------------------------------------
+    try:
+        response = _call_ollama(
+            messages=messages,
+            temperature=temperature,
+            max_tokens=max_tokens
+        )
 
-            return _call_ollama(
-                messages=messages,
-                temperature=temperature,
-                max_tokens=max_tokens
-            )
+        print("✅ Ollama response received.")
+        print("🤖 Provider used: Ollama")
+        return response
 
-        except Exception as ollama_error:
-
-            raise RuntimeError(
-                "Both AI providers failed.\n\n"
-                f"OpenRouter error:\n"
-                f"{openrouter_error}\n\n"
-                f"Ollama error:\n"
-                f"{ollama_error}"
-            )
+    except Exception as ollama_error:
+        raise RuntimeError(
+            "All three AI providers failed.\n\n"
+            f"OpenRouter error:\n{openrouter_error}\n\n"
+            f"Gemini error:\n{gemini_error}\n\n"
+            f"Ollama error:\n{ollama_error}"
+        )
 
 
 # ============================================================
@@ -605,9 +649,11 @@ def _call_gemini(
 # ============================================================
 # FINAL INTERVIEW EVALUATION
 #
-# Gemini → OpenRouter → Ollama
+# FALLBACK ORDER:
+# OpenRouter (30s) → Gemini (30s) → Ollama (180s)
 #
-# ONLY THE RESULT USES THIS.
+# The function name is kept as evaluate_with_gemini() so existing
+# project imports/routes continue to work.
 # ============================================================
 
 def evaluate_with_gemini(
@@ -616,132 +662,20 @@ def evaluate_with_gemini(
     max_tokens=4096
 ):
 
-    # --------------------------------------------------------
-    # 1. GEMINI
-    # --------------------------------------------------------
+    messages = [
+        {
+            "role": "user",
+            "content": prompt
+        }
+    ]
 
-    try:
-
-        return _call_gemini(
-            prompt=prompt,
-            temperature=temperature,
-            max_tokens=max_tokens
-        )
-
-
-    except Exception as gemini_error:
-
-        print()
-        print("=" * 60)
-        print("⚠️ GEMINI FINAL EVALUATION FAILED")
-        print("=" * 60)
-        print(str(gemini_error))
-        print("=" * 60)
-        print("🔄 Falling back to OpenRouter...")
-        print("=" * 60)
-        print()
-
-
-    # --------------------------------------------------------
-    # 2. OPENROUTER
-    # --------------------------------------------------------
-
-    try:
-
-        messages = [
-
-            {
-                "role": "user",
-                "content": prompt
-            }
-
-        ]
-
-
-        response = _call_openrouter(
-
-            messages=messages,
-
-            temperature=temperature,
-
-            max_tokens=max_tokens
-
-        )
-
-
-        print(
-            "✅ OpenRouter final evaluation received."
-        )
-
-
-        return response
-
-
-    except Exception as openrouter_error:
-
-        print()
-        print("=" * 60)
-        print("⚠️ OPENROUTER FINAL EVALUATION FAILED")
-        print("=" * 60)
-        print(str(openrouter_error))
-        print("=" * 60)
-        print("🔄 Falling back to Ollama...")
-        print("=" * 60)
-        print()
-
-
-    # --------------------------------------------------------
-    # 3. OLLAMA
-    # --------------------------------------------------------
-
-    try:
-
-        messages = [
-
-            {
-                "role": "user",
-                "content": prompt
-            }
-
-        ]
-
-
-        response = _call_ollama(
-
-            messages=messages,
-
-            temperature=temperature,
-
-            max_tokens=max_tokens
-
-        )
-
-
-        print(
-            "✅ Ollama final evaluation received."
-        )
-
-
-        return response
-
-
-    except Exception as ollama_error:
-
-        raise RuntimeError(
-
-            "All three AI providers failed "
-            "during final evaluation.\n\n"
-
-            f"Gemini error:\n"
-            f"{gemini_error}\n\n"
-
-            f"OpenRouter error:\n"
-            f"{openrouter_error}\n\n"
-
-            f"Ollama error:\n"
-            f"{ollama_error}"
-
-        )
+    # Use the same provider order as the rest of CareerLaunch AI:
+    # OpenRouter → Gemini → Ollama.
+    return _call_ai(
+        messages=messages,
+        temperature=temperature,
+        max_tokens=max_tokens
+    )
 
 
 # ============================================================
@@ -749,7 +683,8 @@ def evaluate_with_gemini(
 #
 # EXISTING PROJECT FUNCTION.
 #
-# This remains OpenRouter → Ollama.
+# This uses the common fallback chain:
+# OpenRouter (30s) → Gemini (30s) → Ollama.
 # ============================================================
 
 def ask_gemini(prompt):

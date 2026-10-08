@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Aptitude Interview | CareerLaunch AI</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Inter", "Segoe UI", sans-serif;
+        }
+
+
+        body {
+            background: #f5f7fb;
+            color: #1f2937;
+            min-height: 100vh;
+        }
+
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+            height: 70px;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 40px;
+
+            position: sticky;
+            top: 0;
+
+            z-index: 100;
+        }
+
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            color: #111827;
+        }
+
+
+        .logo span {
+            color: #6366f1;
+        }
+
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+
+        .candidate-name {
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+
+        .dashboard-btn {
+            text-decoration: none;
+            color: #374151;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            padding: 9px 16px;
+
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+
+            transition: 0.2s;
+        }
+
+
+        .dashboard-btn:hover {
+            background: #f3f4f6;
+        }
+
+
+        /* ================= MAIN ================= */
+
+        .page {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px 50px;
+        }
+
+
+        /* ================= HEADER ================= */
+
+        .interview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 25px;
+        }
+
+
+        .title-section h1 {
+            font-size: 28px;
+            color: #111827;
+            margin-bottom: 6px;
+        }
+
+
+        .title-section p {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+
+        /* ================= TIMER ================= */
+
+        .timer {
+            background: white;
+
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+
+            padding: 12px 20px;
+
+            text-align: center;
+
+            min-width: 120px;
+        }
+
+
+        .timer-label {
+            font-size: 11px;
+            color: #9ca3af;
+
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+
+            margin-bottom: 3px;
+        }
+
+
+        .timer-value {
+            font-size: 22px;
+            font-weight: 700;
+            color: #111827;
+        }
+
+
+        .timer.warning .timer-value {
+            color: #dc2626;
+        }
+
+
+        /* ================= PROGRESS ================= */
+
+        .progress-container {
+            background: white;
+
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+
+            padding: 18px 20px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+
+            font-size: 13px;
+
+            margin-bottom: 10px;
+        }
+
+
+        .progress-info span:first-child {
+            color: #374151;
+            font-weight: 600;
+        }
+
+
+        .progress-info span:last-child {
+            color: #6b7280;
+        }
+
+
+        .progress-bar {
+            width: 100%;
+            height: 7px;
+
+            background: #e5e7eb;
+
+            border-radius: 20px;
+
+            overflow: hidden;
+        }
+
+
+        .progress-fill {
+            height: 100%;
+            width: 20%;
+
+            background: #6366f1;
+
+            border-radius: 20px;
+
+            transition: width 0.3s ease;
+        }
+
+
+        /* ================= QUESTION CARD ================= */
+
+        .question-card {
+            background: white;
+
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+
+            padding: 35px;
+
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.04);
+        }
+
+
+        .question-number {
+            display: inline-block;
+
+            background: #eef2ff;
+            color: #4f46e5;
+
+            padding: 7px 12px;
+
+            border-radius: 7px;
+
+            font-size: 12px;
+            font-weight: 700;
+
+            margin-bottom: 18px;
+        }
+
+
+        .question-text {
+            font-size: 21px;
+            line-height: 1.5;
+
+            color: #111827;
+
+            font-weight: 600;
+
+            margin-bottom: 28px;
+        }
+
+
+        /* ================= OPTIONS ================= */
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+
+        .option {
+            position: relative;
+        }
+
+
+        .option input {
+            position: absolute;
+            opacity: 0;
+        }
+
+
+        .option label {
+            display: flex;
+            align-items: center;
+
+            gap: 14px;
+
+            width: 100%;
+
+            padding: 16px 18px;
+
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+
+            cursor: pointer;
+
+            font-size: 15px;
+            color: #374151;
+
+            transition: 0.2s;
+
+            background: white;
+        }
+
+
+        .option label:hover {
+            border-color: #a5b4fc;
+            background: #f8f8ff;
+        }
+
+
+        .option-letter {
+            width: 32px;
+            height: 32px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border: 1px solid #d1d5db;
+
+            border-radius: 7px;
+
+            font-size: 13px;
+            font-weight: 700;
+
+            color: #6b7280;
+
+            flex-shrink: 0;
+        }
+
+
+        .option input:checked + label {
+            border-color: #6366f1;
+            background: #eef2ff;
+            color: #3730a3;
+        }
+
+
+        .option input:checked + label .option-letter {
+            background: #6366f1;
+            border-color: #6366f1;
+            color: white;
+        }
+
+
+        /* ================= NAVIGATION ================= */
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-top: 28px;
+
+            gap: 12px;
+        }
+
+
+        .previous-btn,
+        .next-btn,
+        .submit-btn {
+
+            border: none;
+
+            border-radius: 9px;
+
+            padding: 12px 22px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+
+        .previous-btn {
+            background: white;
+
+            border: 1px solid #e5e7eb;
+
+            color: #374151;
+        }
+
+
+        .previous-btn:hover {
+            background: #f3f4f6;
+        }
+
+
+        .next-btn {
+            background: #6366f1;
+
+            color: white;
+
+            margin-left: auto;
+        }
+
+
+        .next-btn:hover {
+            background: #4f46e5;
+        }
+
+
+        .submit-btn {
+            background: #16a34a;
+
+            color: white;
+
+            display: none;
+
+            margin-left: auto;
+        }
+
+
+        .submit-btn:hover {
+            background: #15803d;
+        }
+
+
+        .bottom-note {
+            text-align: center;
+
+            margin-top: 20px;
+
+            font-size: 12px;
+
+            color: #9ca3af;
+        }
+
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                padding: 0 18px;
+            }
+
+
+            .candidate-name {
+                display: none;
+            }
+
+
+            .page {
+                margin-top: 25px;
+            }
+
+
+            .interview-header {
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+
+            .title-section h1 {
+                font-size: 23px;
+            }
+
+
+            .timer {
+                min-width: 95px;
+                padding: 9px 12px;
+            }
+
+
+            .question-card {
+                padding: 22px;
+            }
+
+
+            .question-text {
+                font-size: 18px;
+            }
+
+
+            .navigation {
+                gap: 10px;
+            }
+
+
+            .previous-btn,
+            .next-btn,
+            .submit-btn {
+                padding: 11px 15px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ================= NAVBAR ================= -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            Career<span>Launch</span> AI
+        </div>
+
+
+        <div class="nav-right">
+
+            <span class="candidate-name">
+                {{ username }}
+            </span>
+
+
+            <a href="/dashboard" class="dashboard-btn">
+                ← Dashboard
+            </a>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="page">
+
+
+        <!-- HEADER -->
+
+        <div class="interview-header">
+
+            <div class="title-section">
+
+                <h1>Aptitude Practice</h1>
+
+                <p>
+                    Test your logical and quantitative aptitude skills.
+                </p>
+
+            </div>
+
+
+            <div class="timer" id="timerBox">
+
+                <div class="timer-label">
+                    Time Left
+                </div>
+
+                <div class="timer-value" id="timer">
+                    10:00
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ================= PROGRESS ================= -->
+
+        <div class="progress-container">
+
+            <div class="progress-info">
+
+                <span id="questionCounter">
+                    Question 1 of 5
+                </span>
+
+                <span id="answeredCounter">
+                    0 answered
+                </span>
+
+            </div>
+
+
+            <div class="progress-bar">
+
+                <div
+                    class="progress-fill"
+                    id="progressFill">
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ================= QUESTION ================= -->
+
+        <div class="question-card">
+
+
+            <div
+                class="question-number"
+                id="questionNumber">
+
+                QUESTION 1
+
+            </div>
+
+
+
+            <div
+                class="question-text"
+                id="questionText">
+
+            </div>
+
+
+
+            <!-- OPTIONS -->
+
+            <div
+                class="options"
+                id="optionsContainer">
+
+            </div>
+
+
+
+            <!-- ================= NAVIGATION ================= -->
+
+            <div class="navigation">
+
+
+                <button
+                    type="button"
+                    class="previous-btn"
+                    id="previousBtn"
+                    onclick="previousQuestion()">
+
+                    ← Previous
+
+                </button>
+
+
+
+                <button
+                    type="button"
+                    class="next-btn"
+                    id="nextBtn"
+                    onclick="nextQuestion()">
+
+                    Next →
+
+                </button>
+
+
+
+                <button
+                    type="button"
+                    class="submit-btn"
+                    id="submitBtn"
+                    onclick="submitInterview()">
+
+                    Submit Interview ✓
+
+                </button>
+
+
+            </div>
+
+        </div>
+
+
+
+        <div class="bottom-note">
+
+            5 questions • 10 minutes • Choose the best answer for each question
+
+        </div>
+
+
+    </main>
+
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script>
+
+
+        /*
+        =====================================================
+        QUESTIONS FROM FLASK / SQLITE
+        =====================================================
+
+        IMPORTANT:
+
+        Do NOT hardcode questions here.
+
+        Flask selects 5 random questions from:
+
+        aptitude_questions
+
+        and sends them to this template.
+
+        The correct answer is NOT sent to the browser.
+        */
+
+        const questions = {{ questions | tojson }};
+
+
+        console.log(
+            "Aptitude questions received from database:",
+            questions
+        );
+
+
+        /*
+        =====================================================
+        SAFETY CHECK
+        =====================================================
+        */
+
+        if (!questions || questions.length === 0) {
+
+            alert(
+                "No aptitude questions were loaded. Please restart the test."
+            );
+
+        }
+
+
+        /*
+        =====================================================
+        VARIABLES
+        =====================================================
+        */
+
+        let currentQuestion = 0;
+
+
+        let answers =
+            Array(questions.length).fill(null);
+
+
+        let submitting = false;
+
+
+
+        /*
+        =====================================================
+        LOAD QUESTION
+        =====================================================
+        */
+
+        function loadQuestion() {
+
+
+            const question =
+                questions[currentQuestion];
+
+
+            /*
+            Question text
+            */
+
+            document.getElementById(
+                "questionText"
+            ).textContent =
+                question.question;
+
+
+
+            /*
+            Question number
+            */
+
+            document.getElementById(
+                "questionNumber"
+            ).textContent =
+                `QUESTION ${currentQuestion + 1}`;
+
+
+
+            /*
+            Question counter
+            */
+
+            document.getElementById(
+                "questionCounter"
+            ).textContent =
+                `Question ${currentQuestion + 1} of ${questions.length}`;
+
+
+
+            /*
+            Options container
+            */
+
+            const optionsContainer =
+                document.getElementById(
+                    "optionsContainer"
+                );
+
+
+            optionsContainer.innerHTML = "";
+
+
+
+            /*
+            Option letters
+            */
+
+            const letters = [
+                "A",
+                "B",
+                "C",
+                "D"
+            ];
+
+
+
+            /*
+            Create options
+            */
+
+            question.options.forEach(
+                (option, index) => {
+
+
+                    const wrapper =
+                        document.createElement("div");
+
+
+                    wrapper.className =
+                        "option";
+
+
+
+                    const input =
+                        document.createElement("input");
+
+
+                    input.type = "radio";
+
+
+                    input.name = "answer";
+
+
+                    input.id =
+                        `option${index}`;
+
+
+                    /*
+                    IMPORTANT
+
+                    Store A/B/C/D as the answer.
+
+                    This matches the database evaluation.
+                    */
+
+                    input.value =
+                        letters[index];
+
+
+
+                    const label =
+                        document.createElement("label");
+
+
+                    label.htmlFor =
+                        `option${index}`;
+
+
+
+                    const letter =
+                        document.createElement("span");
+
+
+                    letter.className =
+                        "option-letter";
+
+
+                    letter.textContent =
+                        letters[index];
+
+
+
+                    const text =
+                        document.createElement("span");
+
+
+                    text.textContent =
+                        option;
+
+
+
+                    label.appendChild(letter);
+
+
+                    label.appendChild(text);
+
+
+                    wrapper.appendChild(input);
+
+
+                    wrapper.appendChild(label);
+
+
+                    optionsContainer.appendChild(
+                        wrapper
+                    );
+
+
+
+                    /*
+                    Save answer when selected
+                    */
+
+                    input.addEventListener(
+                        "change",
+                        saveAnswer
+                    );
+
+                }
+            );
+
+
+
+            /*
+            =================================================
+            RESTORE PREVIOUSLY SELECTED ANSWER
+            =================================================
+            */
+
+            if (answers[currentQuestion]) {
+
+
+                const selected =
+                    document.querySelector(
+                        `input[name="answer"][value="${CSS.escape(answers[currentQuestion])}"]`
+                    );
+
+
+                if (selected) {
+
+                    selected.checked = true;
+
+                }
+
+            }
+
+
+
+            /*
+            =================================================
+            PROGRESS
+            =================================================
+            */
+
+            const progress =
+                (
+                    (currentQuestion + 1)
+                    /
+                    questions.length
+                ) * 100;
+
+
+            document.getElementById(
+                "progressFill"
+            ).style.width =
+                progress + "%";
+
+
+
+            /*
+            =================================================
+            PREVIOUS BUTTON
+            =================================================
+            */
+
+            if (currentQuestion === 0) {
+
+
+                document.getElementById(
+                    "previousBtn"
+                ).style.visibility =
+                    "hidden";
+
+
+            } else {
+
+
+                document.getElementById(
+                    "previousBtn"
+                ).style.visibility =
+                    "visible";
+
+            }
+
+
+
+            /*
+            =================================================
+            LAST QUESTION
+            =================================================
+            */
+
+            if (
+                currentQuestion
+                ===
+                questions.length - 1
+            ) {
+
+
+                document.getElementById(
+                    "nextBtn"
+                ).style.display =
+                    "none";
+
+
+                document.getElementById(
+                    "submitBtn"
+                ).style.display =
+                    "block";
+
+
+            } else {
+
+
+                document.getElementById(
+                    "nextBtn"
+                ).style.display =
+                    "block";
+
+
+                document.getElementById(
+                    "submitBtn"
+                ).style.display =
+                    "none";
+
+            }
+
+
+
+            updateAnsweredCounter();
+
+        }
+
+
+
+        /*
+        =====================================================
+        SAVE ANSWER
+        =====================================================
+        */
+
+        function saveAnswer() {
+
+
+            const selected =
+                document.querySelector(
+                    'input[name="answer"]:checked'
+                );
+
+
+            if (selected) {
+
+
+                answers[currentQuestion] =
+                    selected.value;
+
+            }
+
+
+            updateAnsweredCounter();
+
+        }
+
+
+
+        /*
+        =====================================================
+        ANSWER COUNT
+        =====================================================
+        */
+
+        function updateAnsweredCounter() {
+
+
+            const count =
+                answers.filter(
+                    answer => answer !== null
+                ).length;
+
+
+            document.getElementById(
+                "answeredCounter"
+            ).textContent =
+                `${count} answered`;
+
+        }
+
+
+
+        /*
+        =====================================================
+        NEXT QUESTION
+        =====================================================
+        */
+
+        function nextQuestion() {
+
+
+            saveAnswer();
+
+
+            if (
+                currentQuestion
+                <
+                questions.length - 1
+            ) {
+
+
+                currentQuestion++;
+
+
+                loadQuestion();
+
+            }
+
+        }
+
+
+
+        /*
+        =====================================================
+        PREVIOUS QUESTION
+        =====================================================
+        */
+
+        function previousQuestion() {
+
+
+            saveAnswer();
+
+
+            if (currentQuestion > 0) {
+
+
+                currentQuestion--;
+
+
+                loadQuestion();
+
+            }
+
+        }
+
+
+
+        /*
+        =====================================================
+        SUBMIT INTERVIEW
+        =====================================================
+        */
+
+        async function submitInterview() {
+
+
+            if (submitting) {
+
+                return;
+
+            }
+
+
+            /*
+            Save current answer
+            */
+
+            saveAnswer();
+
+
+
+            /*
+            Count unanswered
+            */
+
+            const unanswered =
+                answers.filter(
+                    answer => answer === null
+                ).length;
+
+
+
+            /*
+            Ask confirmation
+            */
+
+            if (unanswered > 0) {
+
+
+                const confirmSubmit =
+                    confirm(
+                        `You have ${unanswered} unanswered question(s). Do you want to submit?`
+                    );
+
+
+                if (!confirmSubmit) {
+
+                    return;
+
+                }
+
+            }
+
+
+
+            submitting = true;
+
+
+
+            const submitButton =
+                document.getElementById(
+                    "submitBtn"
+                );
+
+
+            submitButton.disabled = true;
+
+
+            submitButton.textContent =
+                "Submitting...";
+
+
+
+            try {
+
+
+                /*
+                =================================================
+                SEND ANSWERS TO FLASK
+                =================================================
+                */
+
+                const response =
+                    await fetch(
+                        "/aptitude-submit-all",
+                        {
+
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+
+                                /*
+                                Answers are sent as:
+
+                                ["A", "C", "B", null, "D"]
+
+                                Flask checks these against
+                                the correct answers in SQLite.
+                                */
+
+                                answers: answers
+
+                            })
+
+                        }
+                    );
+
+
+
+                const data =
+                    await response.json();
+
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.message ||
+                        data.error ||
+                        "Unable to submit interview."
+                    );
+
+                }
+
+
+
+                /*
+                =================================================
+                GO TO RESULT PAGE
+                =================================================
+                */
+
+                if (data.redirect) {
+
+                    window.location.href =
+                        data.redirect;
+
+                } else {
+
+                    window.location.href =
+                        "/aptitude-result";
+
+                }
+
+
+            } catch (error) {
+
+
+                console.error(
+                    "Aptitude submission error:",
+                    error
+                );
+
+
+                alert(
+                    error.message ||
+                    "Something went wrong while submitting."
+                );
+
+
+                submitting = false;
+
+
+                submitButton.disabled =
+                    false;
+
+
+                submitButton.textContent =
+                    "Submit Interview ✓";
+
+            }
+
+        }
+
+
+
+        /*
+        =====================================================
+        TIMER
+        =====================================================
+        */
+
+        let timeLeft =
+            10 * 60;
+
+
+
+        function updateTimer() {
+
+
+            const minutes =
+                Math.floor(
+                    timeLeft / 60
+                );
+
+
+            const seconds =
+                timeLeft % 60;
+
+
+
+            document.getElementById(
+                "timer"
+            ).textContent =
+                `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+
+
+
+            /*
+            Warning
+            */
+
+            if (timeLeft <= 60) {
+
+
+                document.getElementById(
+                    "timerBox"
+                ).classList.add("warning");
+
+            }
+
+
+
+            /*
+            Time finished
+            */
+
+            if (timeLeft <= 0) {
+
+
+                clearInterval(
+                    timerInterval
+                );
+
+
+                submitInterview();
+
+
+                return;
+
+            }
+
+
+            timeLeft--;
+
+        }
+
+
+
+        const timerInterval =
+            setInterval(
+                updateTimer,
+                1000
+            );
+
+
+
+        /*
+        =====================================================
+        INITIAL LOAD
+        =====================================================
+        */
+
+        loadQuestion();
+
+    </script>
+
+
+</body>
+
+</html>

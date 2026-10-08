@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
@@ -9,10 +10,13 @@
 
     <title>Interview Setup | CareerLaunch AI</title>
 
-    <link rel="stylesheet"
-        href="{{ url_for('static', filename='css/style.css') }}">
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
 
 </head>
+
 
 <body>
 
@@ -20,17 +24,38 @@
 
     <div class="career-card">
 
-        <h1>🎤 Interview Setup</h1>
+
+        <!-- =================================================
+             HEADER
+             ================================================= -->
+
+        <h1>
+            🎤 Interview Setup
+        </h1>
+
 
         <p>
-            Welcome, <strong>{{ username }}</strong>! Please review your interview configuration before starting.
+
+            Welcome,
+            <strong>{{ username }}</strong>!
+
+            Please review your interview configuration
+            before starting.
+
         </p>
+
 
         <hr>
 
-        <!-- Role -->
 
-        <h2>💼 Selected Role</h2>
+        <!-- =================================================
+             SELECTED ROLE
+             ================================================= -->
+
+        <h2>
+            💼 Selected Role
+        </h2>
+
 
         <div class="info-box">
 
@@ -38,9 +63,15 @@
 
         </div>
 
-        <!-- Skills -->
 
-        <h2>🛠 Selected Skills</h2>
+        <!-- =================================================
+             SELECTED SKILLS
+             ================================================= -->
+
+        <h2>
+            🛠 Selected Skills
+        </h2>
+
 
         <div class="skills-container">
 
@@ -56,64 +87,156 @@
 
         </div>
 
-        <!-- Other Skills -->
+
+        <!-- =================================================
+             OTHER SKILLS
+             ================================================= -->
 
         {% if other_skills %}
 
-        <h2>➕ Other Skills</h2>
+            <h2>
+                ➕ Other Skills
+            </h2>
 
-        <div class="skills-container">
 
-            {% for skill in other_skills.split(",") %}
+            <div class="skills-container">
 
-                <span class="skill-badge">
+                {% for skill in other_skills.split(",") %}
 
-                    {{ skill.strip() }}
+                    {% if skill.strip() %}
 
-                </span>
+                        <span class="skill-badge">
 
-            {% endfor %}
+                            {{ skill.strip() }}
 
-        </div>
+                        </span>
 
-        {% endif %}
+                    {% endif %}
 
-        <!-- Difficulty -->
-
-        <h2>🎯 Difficulty</h2>
-
-        <form action="/interview" method="GET">
-
-            <div class="difficulty-options">
-
-                <label>
-                    <input type="radio" name="difficulty" value="Beginner">
-                    Beginner
-                </label>
-
-                <label>
-                    <input type="radio" name="difficulty" value="Intermediate" checked>
-                    Intermediate
-                </label>
-
-                <label>
-                    <input type="radio" name="difficulty" value="Advanced">
-                    Advanced
-                </label>
+                {% endfor %}
 
             </div>
 
+        {% endif %}
+
+
+        <!-- =================================================
+             INTERVIEW SETUP FORM
+             ================================================= -->
+
+        <form
+            action="/interview-instructions"
+            method="POST"
+        >
+
+
+            <!-- =================================================
+                 DIFFICULTY
+                 ================================================= -->
+
+            <h2>
+                🎯 Difficulty
+            </h2>
+
+
+            <div class="difficulty-options">
+
+
+                <!-- Beginner -->
+
+                <label>
+
+                    <input
+                        type="radio"
+                        name="difficulty"
+                        value="Beginner"
+                        {% if difficulty == "Beginner" %}
+                            checked
+                        {% endif %}
+                    >
+
+                    Beginner
+
+                </label>
+
+
+                <!-- Intermediate -->
+
+                <label>
+
+                    <input
+                        type="radio"
+                        name="difficulty"
+                        value="Intermediate"
+                        {% if difficulty == "Intermediate" or not difficulty %}
+                            checked
+                        {% endif %}
+                    >
+
+                    Intermediate
+
+                </label>
+
+
+                <!-- Advanced -->
+
+                <label>
+
+                    <input
+                        type="radio"
+                        name="difficulty"
+                        value="Advanced"
+                        {% if difficulty == "Advanced" %}
+                            checked
+                        {% endif %}
+                    >
+
+                    Advanced
+
+                </label>
+
+
+            </div>
+
+
             <hr>
 
-            <h2>📋 Interview Details</h2>
 
-            <p>⏱ Estimated Time: <strong>15 Minutes</strong></p>
+            <!-- =================================================
+                 INTERVIEW DETAILS
+                 ================================================= -->
 
-            <p>❓ Questions: <strong>15</strong></p>
+            <h2>
+                📋 Interview Details
+            </h2>
+
+
+            <p>
+
+                ⏱ Estimated Time:
+                <strong>15 Minutes</strong>
+
+            </p>
+
+
+            <p>
+
+                ❓ Questions:
+                <strong>15</strong>
+
+            </p>
+
+
+            <!-- =================================================
+                 START BUTTON
+                 ================================================= -->
 
             <div class="next-btn-container">
 
-                <button type="submit" class="primary-btn">
+                <button
+                    type="submit"
+                    class="primary-btn"
+                >
 
                     🚀 Start AI Interview
 
@@ -121,7 +244,9 @@
 
             </div>
 
+
         </form>
+
 
     </div>
 

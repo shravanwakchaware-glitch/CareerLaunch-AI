@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>HR Practice - CareerLaunch AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/hr_interview.css') }}">
+
+</head>
+
+
+<body>
+
+
+<!-- ========================================================= -->
+<!-- TOP NAVBAR -->
+<!-- ========================================================= -->
+
+<header class="topbar">
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            🚀
+        </div>
+
+        <div>
+
+            <h2>CareerLaunch AI</h2>
+
+            <span>HR Practice</span>
+
+        </div>
+
+    </div>
+
+
+    <div class="top-actions">
+
+        <div class="timer-box">
+            ⏱️
+            <span id="timer">10:00</span>
+        </div>
+
+
+        <a href="/dashboard"
+           class="dashboard-btn">
+
+            Dashboard
+
+        </a>
+
+    </div>
+
+</header>
+
+
+
+<!-- ========================================================= -->
+<!-- MAIN -->
+<!-- ========================================================= -->
+
+<main class="interview-container">
+
+
+    <!-- ===================================================== -->
+    <!-- QUESTION HEADER -->
+    <!-- ===================================================== -->
+
+    <section class="question-header">
+
+        <div class="question-number">
+
+            QUESTION
+            <span id="questionNumber">1</span>
+            OF
+            <span id="totalQuestions">5</span>
+
+        </div>
+
+
+        <h1 id="questionTitle">
+            HR Interview Question
+        </h1>
+
+    </section>
+
+
+
+    <!-- ===================================================== -->
+    <!-- QUESTION CARD -->
+    <!-- ===================================================== -->
+
+    <section class="question-card">
+
+        <div class="question-icon">
+            💼
+        </div>
+
+
+        <div class="question-content">
+
+            <h2>
+                Interview Question
+            </h2>
+
+
+            <p id="questionText">
+
+                Loading question...
+
+            </p>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ===================================================== -->
+    <!-- ANSWER SECTION -->
+    <!-- ===================================================== -->
+
+    <section class="answer-section">
+
+
+        <div class="answer-header">
+
+            <div>
+
+                <h2>
+                    Your Answer
+                </h2>
+
+                <p>
+
+                    Answer naturally and clearly.
+                    Your response will be evaluated by AI.
+
+                </p>
+
+            </div>
+
+
+            <div id="speechStatus"
+                 class="speech-status">
+
+                Ready
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ================================================= -->
+        <!-- TEXTAREA -->
+        <!-- ================================================= -->
+
+        <div class="textarea-wrapper">
+
+            <textarea
+                id="answerBox"
+                placeholder="Type your answer here..."
+                spellcheck="true"></textarea>
+
+
+            <div class="textarea-footer">
+
+                <span id="wordCount">
+                    0 words
+                </span>
+
+
+                <span class="ai-note">
+                    🤖 AI will evaluate your answer
+                </span>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ================================================= -->
+        <!-- VOICE -->
+        <!-- ================================================= -->
+
+        <div class="voice-section">
+
+            <button
+                type="button"
+                id="voiceBtn"
+                class="voice-btn"
+                onclick="toggleVoice()">
+
+                🎙️ Start Speaking
+
+            </button>
+
+
+            <span class="voice-help">
+
+                Speak your answer and it will appear in the textbox.
+
+            </span>
+
+        </div>
+
+
+
+        <!-- ================================================= -->
+        <!-- ACTION BUTTONS -->
+        <!-- ================================================= -->
+
+        <div class="action-buttons">
+
+            <button
+                type="button"
+                id="skipBtn"
+                class="skip-btn"
+                onclick="skipQuestion()">
+
+                ⏭️ Skip Question
+
+            </button>
+
+
+            <button
+                type="button"
+                id="submitBtn"
+                class="submit-btn"
+                onclick="submitAnswer()">
+
+                Submit Answer 🚀
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ===================================================== -->
+    <!-- PROGRESS -->
+    <!-- ===================================================== -->
+
+    <section class="progress-section">
+
+        <div class="progress-top">
+
+            <span>
+                Progress
+            </span>
+
+            <span id="progressText">
+                1 / 5
+            </span>
+
+        </div>
+
+
+        <div class="progress-track">
+
+            <div
+                id="progressBar"
+                class="progress-bar">
+            </div>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+
+<!-- ========================================================= -->
+<!-- JAVASCRIPT -->
+<!-- ========================================================= -->
+
+<script>
+
+
+/* ========================================================= */
+/* QUESTIONS FROM FLASK / SQLITE */
+/* ========================================================= */
+
+/*
+    Flask sends:
+
+    [
+        {
+            "id": 12,
+            "question": "...",
+            "category": "Teamwork"
+        }
+    ]
+
+    Do NOT hardcode questions here.
+*/
+
+const questions = {{ questions | tojson }};
+
+
+/* ========================================================= */
+/* SAFETY CHECK */
+/* ========================================================= */
+
+if (!questions || questions.length === 0) {
+
+    alert("No HR questions were loaded.");
+
+}
+
+
+/* ========================================================= */
+/* TOTAL QUESTIONS */
+/* ========================================================= */
+
+document.getElementById("totalQuestions").textContent =
+    questions.length;
+
+
+
+/* ========================================================= */
+/* STATE */
+/* ========================================================= */
+
+let currentQuestion = 0;
+
+let answers =
+    Array(questions.length).fill(null);
+
+
+/*
+    submitting = true
+    means AI evaluation is currently running.
+*/
+
+let submitting = false;
+
+
+/*
+    movingQuestion = true
+    means Skip is currently moving to another question.
+*/
+
+let movingQuestion = false;
+
+
+/* ========================================================= */
+/* TIMER */
+/* ========================================================= */
+
+let secondsRemaining = 600;
+
+let timerInterval;
+
+
+
+/* ========================================================= */
+/* SPEECH RECOGNITION */
+/* ========================================================= */
+
+let recognition = null;
+
+let isListening = false;
+
+let finalTranscript = "";
+
+
+const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+
+if (SpeechRecognition) {
+
+    recognition = new SpeechRecognition();
+
+    recognition.continuous = true;
+
+    recognition.interimResults = true;
+
+    recognition.lang = "en-IN";
+
+
+    /* ===================================================== */
+    /* VOICE START */
+    /* ===================================================== */
+
+    recognition.onstart = function () {
+
+        isListening = true;
+
+        updateVoiceUI();
+
+    };
+
+
+    /* ===================================================== */
+    /* VOICE RESULT */
+    /* ===================================================== */
+
+    recognition.onresult = function (event) {
+
+        let interimTranscript = "";
+
+
+        for (
+            let i = event.resultIndex;
+            i < event.results.length;
+            i++
+        ) {
+
+            const transcript =
+                event.results[i][0].transcript;
+
+
+            if (
+                event.results[i].isFinal
+            ) {
+
+                finalTranscript +=
+                    transcript + " ";
+
+            }
+
+            else {
+
+                interimTranscript +=
+                    transcript;
+
+            }
+
+        }
+
+
+        const answerBox =
+            document.getElementById(
+                "answerBox"
+            );
+
+
+        answerBox.value =
+            finalTranscript +
+            interimTranscript;
+
+
+        updateWordCount();
+
+    };
+
+
+    /* ===================================================== */
+    /* VOICE ERROR */
+    /* ===================================================== */
+
+    recognition.onerror = function (event) {
+
+        console.error(
+            "Speech recognition error:",
+            event.error
+        );
+
+
+        document.getElementById(
+            "speechStatus"
+        ).textContent =
+            "Voice error";
+
+    };
+
+
+    /* ===================================================== */
+    /* VOICE END */
+    /* ===================================================== */
+
+    recognition.onend = function () {
+
+        /*
+            Restart only when the user is
+            intentionally still listening.
+        */
+
+        if (isListening) {
+
+            try {
+
+                recognition.start();
+
+            }
+
+            catch (error) {
+
+                console.log(error);
+
+            }
+
+        }
+
+    };
+
+}
+
+
+
+/* ========================================================= */
+/* VOICE BUTTON */
+/* ========================================================= */
+
+function toggleVoice() {
+
+
+    if (!recognition) {
+
+        alert(
+            "Speech recognition is not supported in this browser. Please use Google Chrome."
+        );
+
+        return;
+
+    }
+
+
+    if (isListening) {
+
+        stopVoice();
+
+    }
+
+    else {
+
+        const answerBox =
+            document.getElementById(
+                "answerBox"
+            );
+
+
+        /*
+            Keep existing typed answer.
+        */
+
+        finalTranscript =
+            answerBox.value.trim();
+
+
+        if (finalTranscript.length > 0) {
+
+            finalTranscript += " ";
+
+        }
+
+
+        try {
+
+            recognition.start();
+
+        }
+
+        catch (error) {
+
+            console.log(error);
+
+        }
+
+    }
+
+}
+
+
+
+/* ========================================================= */
+/* STOP VOICE */
+/* ========================================================= */
+
+function stopVoice() {
+
+    if (!recognition) {
+
+        return;
+
+    }
+
+
+    /*
+        Set false BEFORE recognition.stop()
+        so onend does not restart it.
+    */
+
+    isListening = false;
+
+
+    try {
+
+        recognition.stop();
+
+    }
+
+    catch (error) {
+
+        console.log(error);
+
+    }
+
+
+    updateVoiceUI();
+
+}
+
+
+
+/* ========================================================= */
+/* VOICE UI */
+/* ========================================================= */
+
+function updateVoiceUI() {
+
+    const button =
+        document.getElementById(
+            "voiceBtn"
+        );
+
+
+    const status =
+        document.getElementById(
+            "speechStatus"
+        );
+
+
+    if (isListening) {
+
+        button.innerHTML =
+            "⏹️ Stop Speaking";
+
+
+        button.classList.add(
+            "listening"
+        );
+
+
+        status.textContent =
+            "Listening...";
+
+
+        status.classList.add(
+            "active"
+        );
+
+    }
+
+    else {
+
+        button.innerHTML =
+            "🎙️ Start Speaking";
+
+
+        button.classList.remove(
+            "listening"
+        );
+
+
+        status.textContent =
+            "Ready";
+
+
+        status.classList.remove(
+            "active"
+        );
+
+    }
+
+}
+
+
+
+/* ========================================================= */
+/* LOAD QUESTION */
+/* ========================================================= */
+
+function loadQuestion(index) {
+
+    const question =
+        questions[index];
+
+
+    if (!question) {
+
+        console.error(
+            "Question not found:",
+            index
+        );
+
+        return;
+
+    }
+
+
+    /* ===================================================== */
+    /* QUESTION NUMBER */
+    /* ===================================================== */
+
+    document.getElementById(
+        "questionNumber"
+    ).textContent =
+        index + 1;
+
+
+    /* ===================================================== */
+    /* QUESTION TITLE */
+    /* ===================================================== */
+
+    document.getElementById(
+        "questionTitle"
+    ).textContent =
+        "HR Interview Question";
+
+
+    /* ===================================================== */
+    /* QUESTION TEXT */
+    /* ===================================================== */
+
+    document.getElementById(
+        "questionText"
+    ).textContent =
+        question.question;
+
+
+    /* ===================================================== */
+    /* CATEGORY */
+    /* ===================================================== */
+
+    const questionContent =
+        document.querySelector(
+            ".question-content"
+        );
+
+
+    /*
+        Show category if available.
+    */
+
+    let categoryElement =
+        document.getElementById(
+            "questionCategory"
+        );
+
+
+    if (!categoryElement) {
+
+        categoryElement =
+            document.createElement("small");
+
+        categoryElement.id =
+            "questionCategory";
+
+        categoryElement.style.display =
+            "block";
+
+        categoryElement.style.marginTop =
+            "10px";
+
+        categoryElement.style.opacity =
+            "0.7";
+
+        questionContent.appendChild(
+            categoryElement
+        );
+
+    }
+
+
+    categoryElement.textContent =
+        question.category
+            ? "Category: " + question.category
+            : "";
+
+
+    /* ===================================================== */
+    /* RESTORE ANSWER */
+    /* ===================================================== */
+
+    const savedAnswer =
+        answers[index];
+
+
+    document.getElementById(
+        "answerBox"
+    ).value =
+        savedAnswer || "";
+
+
+    finalTranscript =
+        savedAnswer || "";
+
+
+    updateWordCount();
+
+
+    /* ===================================================== */
+    /* PROGRESS */
+    /* ===================================================== */
+
+    document.getElementById(
+        "progressText"
+    ).textContent =
+        `${index + 1} / ${questions.length}`;
+
+
+    const progress =
+        ((index + 1) / questions.length) *
+        100;
+
+
+    document.getElementById(
+        "progressBar"
+    ).style.width =
+        progress + "%";
+
+
+    /* ===================================================== */
+    /* RESET BUTTONS */
+    /* ===================================================== */
+
+    const skipBtn =
+        document.getElementById(
+            "skipBtn"
+        );
+
+
+    const submitBtn =
+        document.getElementById(
+            "submitBtn"
+        );
+
+
+    skipBtn.disabled = false;
+
+    submitBtn.disabled = false;
+
+
+    skipBtn.innerHTML =
+        "⏭️ Skip Question";
+
+
+    submitBtn.innerHTML =
+        index === questions.length - 1
+            ? "Finish & Evaluate 🚀"
+            : "Submit Answer 🚀";
+
+
+    /* ===================================================== */
+    /* RESET STATES */
+    /* ===================================================== */
+
+    submitting = false;
+
+    movingQuestion = false;
+
+}
+
+
+
+/* ========================================================= */
+/* WORD COUNT */
+/* ========================================================= */
+
+function updateWordCount() {
+
+    const text =
+        document.getElementById(
+            "answerBox"
+        )
+        .value
+        .trim();
+
+
+    const count =
+        text.length === 0
+            ? 0
+            : text.split(/\s+/).length;
+
+
+    document.getElementById(
+        "wordCount"
+    ).textContent =
+        `${count} words`;
+
+}
+
+
+
+/* ========================================================= */
+/* WORD COUNT EVENT */
+/* ========================================================= */
+
+document.getElementById(
+    "answerBox"
+).addEventListener(
+    "input",
+    updateWordCount
+);
+
+
+
+/* ========================================================= */
+/* SUBMIT ANSWER */
+/* ========================================================= */
+
+async function submitAnswer() {
+
+
+    /*
+        Do not allow another submission while
+        AI evaluation is running.
+    */
+
+    if (
+        submitting ||
+        movingQuestion
+    ) {
+
+        return;
+
+    }
+
+
+    const answerBox =
+        document.getElementById(
+            "answerBox"
+        );
+
+
+    const answer =
+        answerBox.value.trim();
+
+
+    if (!answer) {
+
+        alert(
+            "Please enter an answer before submitting."
+        );
+
+        return;
+
+    }
+
+
+    /*
+        Stop voice input before submission.
+    */
+
+    stopVoice();
+
+
+    submitting = true;
+
+
+    const submitBtn =
+        document.getElementById(
+            "submitBtn"
+        );
+
+
+    const skipBtn =
+        document.getElementById(
+            "skipBtn"
+        );
+
+
+    submitBtn.disabled = true;
+
+    skipBtn.disabled = true;
+
+
+    submitBtn.innerHTML =
+        "🤖 Evaluating with AI...";
+
+
+    /*
+        Save answer locally.
+    */
+
+    answers[currentQuestion] =
+        answer;
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/hr-submit",
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json"
+
+                    },
+
+                    body: JSON.stringify({
+
+                        question_index:
+                            currentQuestion,
+
+                        question:
+                            questions[
+                                currentQuestion
+                            ].question,
+
+                        answer:
+                            answer
+
+                    })
+
+                }
+            );
+
+
+        /*
+            Safely handle Flask response.
+        */
+
+        const contentType =
+            response.headers.get(
+                "content-type"
+            ) || "";
+
+
+        if (
+            !contentType.includes(
+                "application/json"
+            )
+        ) {
+
+            throw new Error(
+                "Server returned an invalid response. Please check the Flask terminal."
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !response.ok ||
+            !data.success
+        ) {
+
+            throw new Error(
+                data.error ||
+                "Unable to submit answer."
+            );
+
+        }
+
+
+        console.log(
+            "HR Question",
+            currentQuestion + 1,
+            "evaluated successfully."
+        );
+
+
+        /* ================================================= */
+        /* LAST QUESTION */
+        /* ================================================= */
+
+        if (
+            currentQuestion ===
+            questions.length - 1
+        ) {
+
+            window.location.href =
+                "/hr-result";
+
+            return;
+
+        }
+
+
+        /* ================================================= */
+        /* MOVE TO NEXT QUESTION */
+        /* ================================================= */
+
+        currentQuestion++;
+
+
+        loadQuestion(
+            currentQuestion
+        );
+
+    }
+
+
+    catch (error) {
+
+        console.error(error);
+
+
+        alert(
+            error.message ||
+            "Something went wrong while submitting."
+        );
+
+
+        /*
+            Only reset if submission failed.
+        */
+
+        submitting = false;
+
+
+        submitBtn.disabled = false;
+
+        skipBtn.disabled = false;
+
+
+        submitBtn.innerHTML =
+            currentQuestion === questions.length - 1
+                ? "Finish & Evaluate 🚀"
+                : "Submit Answer 🚀";
+
+    }
+
+}
+
+
+
+/* ========================================================= */
+/* SKIP QUESTION */
+/* ========================================================= */
+
+async function skipQuestion() {
+
+
+    /*
+        Skip has its own state.
+    */
+
+    if (
+        submitting ||
+        movingQuestion
+    ) {
+
+        return;
+
+    }
+
+
+    movingQuestion = true;
+
+
+    /*
+        Stop microphone first.
+    */
+
+    stopVoice();
+
+
+    const submitBtn =
+        document.getElementById(
+            "submitBtn"
+        );
+
+
+    const skipBtn =
+        document.getElementById(
+            "skipBtn"
+        );
+
+
+    /*
+        Disable both buttons while
+        Flask processes the skip.
+    */
+
+    submitBtn.disabled = true;
+
+    skipBtn.disabled = true;
+
+
+    skipBtn.innerHTML =
+        "⏳ Skipping...";
+
+
+    /*
+        Store empty answer locally.
+    */
+
+    answers[currentQuestion] =
+        "";
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/hr-skip",
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json"
+
+                    },
+
+                    body: JSON.stringify({
+
+                        question_index:
+                            currentQuestion
+
+                    })
+
+                }
+            );
+
+
+        /*
+            Make sure Flask returned JSON.
+        */
+
+        const contentType =
+            response.headers.get(
+                "content-type"
+            ) || "";
+
+
+        if (
+            !contentType.includes(
+                "application/json"
+            )
+        ) {
+
+            throw new Error(
+                "Server returned an invalid response. Please check the Flask terminal."
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !response.ok ||
+            !data.success
+        ) {
+
+            throw new Error(
+                data.error ||
+                "Unable to skip question."
+            );
+
+        }
+
+
+        console.log(
+            "HR Question",
+            currentQuestion + 1,
+            "skipped."
+        );
+
+
+        /* ================================================= */
+        /* LAST QUESTION */
+        /* ================================================= */
+
+        if (
+            currentQuestion >=
+            questions.length - 1
+        ) {
+
+            window.location.href =
+                "/hr-result";
+
+            return;
+
+        }
+
+
+        /* ================================================= */
+        /* MOVE TO NEXT QUESTION */
+        /* ================================================= */
+
+        currentQuestion++;
+
+
+        loadQuestion(
+            currentQuestion
+        );
+
+    }
+
+
+    catch (error) {
+
+        console.error(
+            "HR skip error:",
+            error
+        );
+
+
+        alert(
+            error.message ||
+            "Unable to skip this question."
+        );
+
+
+        /*
+            Reset everything if
+            Flask request failed.
+        */
+
+        movingQuestion = false;
+
+
+        submitBtn.disabled = false;
+
+        skipBtn.disabled = false;
+
+
+        skipBtn.innerHTML =
+            "⏭️ Skip Question";
+
+    }
+
+}
+
+
+
+/* ========================================================= */
+/* TIMER */
+/* ========================================================= */
+
+function updateTimer() {
+
+    const minutes =
+        Math.floor(
+            secondsRemaining / 60
+        );
+
+
+    const seconds =
+        secondsRemaining % 60;
+
+
+    document.getElementById(
+        "timer"
+    ).textContent =
+        `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+
+
+    /*
+        Time finished.
+    */
+
+    if (
+        secondsRemaining <= 0
+    ) {
+
+        clearInterval(
+            timerInterval
+        );
+
+
+        stopVoice();
+
+
+        finishByTimer();
+
+
+        return;
+
+    }
+
+
+    secondsRemaining--;
+
+}
+
+
+
+/* ========================================================= */
+/* FINISH BY TIMER */
+/* ========================================================= */
+
+function finishByTimer() {
+
+    alert(
+        "Time is up. Your HR practice will now be evaluated."
+    );
+
+
+    window.location.href =
+        "/hr-result";
+
+}
+
+
+
+/* ========================================================= */
+/* START */
+/* ========================================================= */
+
+if (questions.length > 0) {
+
+    loadQuestion(0);
+
+}
+
+
+updateTimer();
+
+
+timerInterval =
+    setInterval(
+        updateTimer,
+        1000
+    );
+
+
+</script>
+
+
+</body>
+
+</html>

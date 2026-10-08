@@ -12,213 +12,803 @@
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/style.css') }}">
 
+    <style>
+
+        /* =====================================================
+           QUICK PRACTICE
+        ===================================================== */
+
+        .quick-practice-section {
+            margin-top: 40px;
+            margin-bottom: 40px;
+            padding: 32px;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+        }
+
+
+        .quick-practice-header {
+            margin-bottom: 26px;
+        }
+
+
+        .quick-practice-header h2 {
+            margin: 0;
+            font-size: 24px;
+            color: #172b4d;
+        }
+
+
+        .quick-practice-header p {
+            margin: 6px 0 0;
+            color: #718096;
+            font-size: 14px;
+        }
+
+
+        .quick-practice-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr));
+
+            gap: 24px;
+
+            width: 100%;
+        }
+
+
+        /* =====================================================
+           QUICK PRACTICE CARD
+        ===================================================== */
+
+        .quick-practice-card {
+
+            display: grid;
+
+            grid-template-columns:
+                64px minmax(0, 1fr) 30px;
+
+            align-items: center;
+
+            column-gap: 16px;
+
+            min-width: 0;
+
+            min-height: 150px;
+
+            padding: 24px;
+
+            background: #f8fafc;
+
+            border: 1px solid #e5e7eb;
+
+            border-radius: 18px;
+
+            text-decoration: none;
+
+            color: inherit;
+
+            transition: all 0.25s ease;
+
+            box-sizing: border-box;
+        }
+
+
+        .quick-practice-card:hover {
+
+            transform: translateY(-5px);
+
+            box-shadow:
+                0 12px 28px rgba(0, 0, 0, 0.10);
+
+            border-color: #2563eb;
+
+        }
+
+
+        /* =====================================================
+           ICON
+        ===================================================== */
+
+        .practice-icon {
+
+            width: 64px;
+
+            height: 64px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 17px;
+
+            font-size: 29px;
+
+            flex-shrink: 0;
+
+            background: #eef4ff;
+        }
+
+
+        .aptitude-card .practice-icon {
+
+            background: #fff4df;
+
+        }
+
+
+        .dsa-card .practice-icon {
+
+            background: #eaf2ff;
+
+        }
+
+
+        .hr-card .practice-icon {
+
+            background: #f4eaff;
+
+        }
+
+
+        /* =====================================================
+           CARD CONTENT
+        ===================================================== */
+
+        .practice-content {
+
+            min-width: 0;
+
+            text-align: left;
+        }
+
+
+        .practice-content h3 {
+
+            margin: 0 0 7px;
+
+            font-size: 19px;
+
+            color: #172b4d;
+
+        }
+
+
+        .practice-content p {
+
+            margin: 0 0 10px;
+
+            font-size: 13px;
+
+            line-height: 1.55;
+
+            color: #718096;
+
+        }
+
+
+        .question-count {
+
+            display: inline-block;
+
+            padding: 5px 11px;
+
+            border-radius: 20px;
+
+            background: #e8f0ff;
+
+            color: #2563eb;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            white-space: nowrap;
+        }
+
+
+        /* =====================================================
+           ARROW
+        ===================================================== */
+
+        .practice-arrow {
+
+            font-size: 27px;
+
+            color: #2563eb;
+
+            text-align: center;
+
+            transition: transform 0.2s ease;
+        }
+
+
+        .quick-practice-card:hover .practice-arrow {
+
+            transform: translateX(5px);
+
+        }
+
+
+        /* =====================================================
+           BOTTOM GRID
+           Recent Activity + AI Career Coach
+        ===================================================== */
+
+        .bottom-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1.6fr)
+                minmax(320px, 0.8fr);
+
+            gap: 28px;
+
+            margin-top: 0;
+
+            align-items: start;
+
+        }
+
+
+        /* =====================================================
+           RECENT ACTIVITY
+        ===================================================== */
+
+        .recent-card {
+
+            min-width: 0;
+
+            padding: 28px;
+
+            border-radius: 20px;
+
+            background: #ffffff;
+
+            box-shadow:
+                0 10px 25px rgba(0, 0, 0, 0.06);
+
+        }
+
+
+        .activity-list {
+
+            gap: 14px;
+
+            margin-top: 12px;
+
+        }
+
+
+        .activity-item {
+
+            padding: 18px 20px;
+
+            min-height: 75px;
+
+            box-sizing: border-box;
+
+        }
+
+
+        .activity-content {
+
+            min-width: 0;
+
+        }
+
+
+        /* =====================================================
+           AI CAREER COACH
+        ===================================================== */
+
+        .recommendation-card {
+
+            min-width: 0;
+
+            padding: 28px;
+
+            border-radius: 20px;
+
+            background: #ffffff;
+
+            box-shadow:
+                0 10px 25px rgba(0, 0, 0, 0.06);
+
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 1200px) {
+
+            .quick-practice-grid {
+
+                grid-template-columns:
+                    repeat(3, minmax(0, 1fr));
+
+                gap: 18px;
+
+            }
+
+            .bottom-grid {
+
+                grid-template-columns: 1fr;
+
+                gap: 25px;
+
+            }
+
+        }
+
+
+        @media (max-width: 900px) {
+
+            .quick-practice-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .quick-practice-section {
+
+                padding: 20px;
+
+                margin-top: 25px;
+
+                margin-bottom: 25px;
+
+            }
+
+            .recent-card,
+            .recommendation-card {
+
+                padding: 20px;
+
+            }
+
+            .quick-practice-card {
+
+                grid-template-columns:
+                    55px minmax(0, 1fr) 25px;
+
+                column-gap: 12px;
+
+                padding: 18px;
+
+            }
+
+            .practice-icon {
+
+                width: 55px;
+
+                height: 55px;
+
+                font-size: 25px;
+
+            }
+
+        }
+
+    </style>
+
 </head>
 
+
 <body>
-    
 
-    <div class="dashboard">
-    
-        <!-- Sidebar -->
-    
-        <aside class="sidebar">
-    
-            <div class="logo">
-    
-                <h2>🤖 CareerLaunch AI</h2>
-                
-    
+
+<div class="dashboard">
+
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <h2>🤖 CareerLaunch AI</h2>
+
+        </div>
+
+
+        <ul class="menu">
+
+            <li class="active">
+
+                <a href="/dashboard">
+
+                    🏠 Dashboard
+
+                </a>
+
+            </li>
+
+
+            <li>
+
+                <a href="/mock_interview">
+
+                    🎤 Mock Interview
+
+                </a>
+
+            </li>
+
+
+            <li>
+
+                <a href="/ats">
+
+                    📄 Resume Analyzer
+
+                </a>
+
+            </li>
+
+
+            <li>
+
+                <a href="/without_resume">
+
+                    🚀 Start Without Resume
+
+                </a>
+
+            </li>
+
+
+            <li>
+
+                <a href="/progress">
+
+                    📈 Progress
+
+                </a>
+
+            </li>
+
+
+            <li>
+
+                <a href="/history">
+
+                    🕒 Interview History
+
+                </a>
+
+            </li>
+
+
+            <li>
+
+                <a href="/logout">
+
+                    🚪 Logout
+
+                </a>
+
+            </li>
+
+        </ul>
+
+    </aside>
+
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- =================================================
+             TOP BAR
+        ================================================== -->
+
+        <header class="topbar">
+
+            <div>
+
+                <h1>
+
+                    Welcome, {{ username }} 👋
+
+                </h1>
+
+                <p>
+
+                    Let's ace your next interview with AI-powered practice.
+
+                </p>
+
             </div>
-    
-            <ul class="menu">
-    
-                <li class="active">
-                    <a href="/dashboard">🏠 Dashboard</a>
-                </li>
-    
-                <li>
-                    <a href="/mock_interview">🎤 Mock Interview</a>
-                </li>
-    
-                <li>
-                    <a href="/ats">📄 Resume Analyzer</a>
-                </li>
-    
-    
-                <li>
-                    <a href="/without_resume">🚀 Start Without Resume</a>
-                </li>
-    
-                <li>
-                    <a href="/progress">📈 Progress</a>
-                </li>
-    
-                <li>
-                    <a href="/history">🕒 Interview History</a>
-                </li>
 
-                <li>
-                    <a href="/logout">🚪 Logout</a>
-                </li>
-    
-            </ul>
-    
-        </aside>
-    
-    
-    
-        <!-- Main Content -->
-    
-        <main class="main-content">
-    
-            <header class="topbar">
-    
+
+            <div class="profile">
+
+                <div class="profile-circle">
+
+                    SW
+
+                </div>
+
+                <span>
+
+                    {{ username }}
+
+                </span>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =================================================
+             STATISTICS
+        ================================================== -->
+
+        <section class="stats">
+
+
+            <div class="stat-card">
+
+                <div class="icon">
+
+                    🎤
+
+                </div>
+
                 <div>
-    
-                    <h1>Welcome,{{ username }} 👋</h1>
-    
-                    <p>
-                        Let's ace your next interview with AI-powered practice.
-                    </p>
-    
-                </div>
-    
-                <div class="profile">
-    
-                    <div class="profile-circle">
-                        SW
-                    </div>
-    
-                    <span>{{ username }}</span>
-    
-                </div>
-    
-            </header>
-    
-    
-    
-            <!-- Statistics -->
-    
-            <section class="stats">
 
-                <div class="stat-card">
-            
-                    <div class="icon">🎤</div>
-            
-                    <div>
-            
-                        <h2>{{ stats[0] }}</h2>
-            
-                        <p>Mock Interviews</p>
-            
-                    </div>
-            
+                    <h2>
+
+                        {{ stats[0] or 0 }}
+
+                    </h2>
+
+                    <p>
+
+                        Mock Interviews
+
+                    </p>
+
                 </div>
-            
-            
-            
-                <div class="stat-card">
-            
-                    <div class="icon">⭐</div>
-            
-                    <div>
-            
-                        <h2>{{ "%.0f"|format(stats[1]) }}%</h2>
-            
-                        <p>Average Score</p>
-            
-                    </div>
-            
+
+            </div>
+
+
+
+            <div class="stat-card">
+
+                <div class="icon">
+
+                    ⭐
+
                 </div>
-            
-            
-            
-                <div class="stat-card">
-            
-                    <div class="icon">🏆</div>
-            
-                    <div>
-            
-                        <h2>{{ stats[2] }}%</h2>
-            
-                        <p>Best Score</p>
-            
-                    </div>
-            
+
+                <div>
+
+                    <h2>
+
+                        {{ "%.0f"|format(stats[1] or 0) }}%
+
+                    </h2>
+
+                    <p>
+
+                        Average Score
+
+                    </p>
+
                 </div>
-            
-            
-            
-                <div class="stat-card">
-            
-                    <div class="icon">📅</div>
-            
-                    <div>
-            
-                        <h2>{{ stats[3][:10] }}</h2>
-            
-                        <p>Last Interview</p>
-            
-                    </div>
-            
+
+            </div>
+
+
+
+            <div class="stat-card">
+
+                <div class="icon">
+
+                    🏆
+
                 </div>
-            
-            </section>
-                    <!-- Quick Actions -->
+
+                <div>
+
+                    <h2>
+
+                        {{ "%.0f"|format(stats[2] or 0) }}%
+
+                    </h2>
+
+                    <p>
+
+                        Best Score
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="stat-card">
+
+                <div class="icon">
+
+                    📅
+
+                </div>
+
+                <div>
+
+                    <h2>
+
+                        {{ (stats[3] or "No interviews")[:10] }}
+
+                    </h2>
+
+                    <p>
+
+                        Last Interview
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             EXISTING QUICK ACTIONS
+        ================================================== -->
 
         <section class="quick-actions">
 
+
             <div class="section-header">
 
-                <h2>Quick Actions</h2>
+                <h2>
 
-                <a href="#">View All</a>
+                    Quick Actions
+
+                </h2>
+
+                <a href="/mock_interview">
+
+                    View All
+
+                </a>
 
             </div>
+
+
 
             <div class="action-grid">
 
-                <a href="/mock_interview" class="action-card">
 
-                    <div class="action-icon">🎤</div>
+                <a href="/mock_interview"
+                   class="action-card">
 
-                    <h3>Start Mock Interview</h3>
+                    <div class="action-icon">
 
-                    <p>Practice technical and HR interviews with AI.</p>
+                        🎤
 
-                </a>
+                    </div>
 
-                <a href="/ats" class="action-card">
+                    <h3>
 
-                    <div class="action-icon">📄</div>
+                        Start Mock Interview
 
-                    <h3>Resume ATS Analyzer</h3>
+                    </h3>
 
-                    <p>Upload your resume and receive an ATS score.</p>
-
-                </a>
-
-                <a href="/without_resume" class="action-card">
-
-                    <div class="action-icon">🚀</div>
-                
-                    <h3>Start Without Resume</h3>
-                
                     <p>
-                        No resume yet? Select your role and skills to practice.
+
+                        Practice technical and HR interviews with AI.
+
                     </p>
-                
-                </a>
-
-                <a href="/progress" class="action-card">
-
-                    <div class="action-icon">📈</div>
-
-                    <h3>Track Progress</h3>
-
-                    <p>Monitor your interview performance.</p>
 
                 </a>
+
+
+
+                <a href="/ats"
+                   class="action-card">
+
+                    <div class="action-icon">
+
+                        📄
+
+                    </div>
+
+                    <h3>
+
+                        Resume ATS Analyzer
+
+                    </h3>
+
+                    <p>
+
+                        Upload your resume and receive an ATS score.
+
+                    </p>
+
+                </a>
+
+
+
+                <a href="/without_resume"
+                   class="action-card">
+
+                    <div class="action-icon">
+
+                        🚀
+
+                    </div>
+
+                    <h3>
+
+                        Start Without Resume
+
+                    </h3>
+
+                    <p>
+
+                        No resume yet? Select your role and skills to practice.
+
+                    </p>
+
+                </a>
+
+
+
+                <a href="/progress"
+                   class="action-card">
+
+                    <div class="action-icon">
+
+                        📈
+
+                    </div>
+
+                    <h3>
+
+                        Track Progress
+
+                    </h3>
+
+                    <p>
+
+                        Monitor your interview performance.
+
+                    </p>
+
+                </a>
+
 
             </div>
 
@@ -226,209 +816,583 @@
 
 
 
-        <!-- Bottom Grid -->
+        <!-- =================================================
+             QUICK PRACTICE
+        ================================================== -->
+
+        <section class="quick-practice-section">
+
+
+            <div class="quick-practice-header">
+
+                <h2>
+
+                    ⚡ Quick Practice
+
+                </h2>
+
+                <p>
+
+                    Focus on one interview area with just 5 questions.
+
+                </p>
+
+            </div>
+
+
+
+            <div class="quick-practice-grid">
+
+
+                <!-- =================================================
+                     APTITUDE
+                ================================================== -->
+
+                <a href="/aptitude"
+                   class="quick-practice-card aptitude-card">
+
+
+                    <div class="practice-icon">
+
+                        🧮
+
+                    </div>
+
+
+                    <div class="practice-content">
+
+                        <h3>
+
+                            Aptitude
+
+                        </h3>
+
+                        <p>
+
+                            Practice quantitative and logical reasoning.
+
+                        </p>
+
+                        <span class="question-count">
+
+                            5 Questions
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="practice-arrow">
+
+                        →
+
+                    </div>
+
+
+                </a>
+
+
+
+                <!-- =================================================
+                     DSA
+                ================================================== -->
+
+                <a href="/dsa"
+                   class="quick-practice-card dsa-card">
+
+
+                    <div class="practice-icon">
+
+                        💻
+
+                    </div>
+
+
+                    <div class="practice-content">
+
+                        <h3>
+
+                            DSA
+
+                        </h3>
+
+                        <p>
+
+                            Test your Data Structures & Algorithms knowledge.
+
+                        </p>
+
+                        <span class="question-count">
+
+                            5 Questions
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="practice-arrow">
+
+                        →
+
+                    </div>
+
+
+                </a>
+
+
+
+                <!-- =================================================
+                     HR
+                ================================================== -->
+
+                <a href="/hr"
+                   class="quick-practice-card hr-card">
+
+
+                    <div class="practice-icon">
+
+                        🗣️
+
+                    </div>
+
+
+                    <div class="practice-content">
+
+                        <h3>
+
+                            HR Interview
+
+                        </h3>
+
+                        <p>
+
+                            Practice common HR and behavioral questions.
+
+                        </p>
+
+                        <span class="question-count">
+
+                            5 Questions
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="practice-arrow">
+
+                        →
+
+                    </div>
+
+
+                </a>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             RECENT ACTIVITY + AI CAREER COACH
+        ================================================== -->
 
         <section class="bottom-grid">
 
-            <!-- Recent Activity -->
+
+            <!-- =================================================
+                 RECENT ACTIVITY
+            ================================================== -->
 
             <div class="recent-card">
 
+
                 <div class="section-header">
-                    <h2>📋 Recent Activity</h2>
+
+                    <h2>
+
+                        📋 Recent Activity
+
+                    </h2>
+
                     <span class="activity-count">
+
                         {{ recent_activities|length if recent_activities else 0 }}
+
                     </span>
+
                 </div>
-            
+
+
+
                 <div class="activity-list">
-            
+
+
                     {% if recent_activities %}
-            
+
+
                         {% for activity in recent_activities %}
-            
+
+
                         <div class="activity-item">
-            
+
+
                             <div class="activity-dot"></div>
-            
+
+
                             <div class="activity-content">
-            
+
+
                                 <div class="activity-top">
-            
+
                                     <div class="activity-title">
+
                                         🎤 Mock Interview
+
                                     </div>
-            
+
+
                                     <span class="activity-score">
+
                                         {{ activity[1] }}%
+
                                     </span>
-            
+
                                 </div>
-            
+
+
                                 <div class="activity-role">
+
                                     {{ activity[0] }}
+
                                 </div>
-            
+
+
                                 <div class="activity-date">
-                                    📅 {{ activity[2][:10] }}
+
+                                    📅 {{ (activity[2] or "")[:10] }}
+
                                 </div>
-            
+
+
                             </div>
-            
+
+
                         </div>
-            
+
+
                         {% endfor %}
-            
+
+
                     {% else %}
-            
+
+
                         <div class="activity-empty">
-            
-                            <div class="empty-icon">🎯</div>
-            
-                            <h3>No Activity Yet</h3>
-            
-                            <p>Complete your first AI mock interview to start building your timeline.</p>
-            
+
+
+                            <div class="empty-icon">
+
+                                🎯
+
+                            </div>
+
+
+                            <h3>
+
+                                No Activity Yet
+
+                            </h3>
+
+
+                            <p>
+
+                                Complete your first AI mock interview to start building your timeline.
+
+                            </p>
+
+
                         </div>
-            
+
+
                     {% endif %}
-            
+
+
                 </div>
-            
+
+
             </div>
-            <!-- AI Recommendation -->
+
+
+
+            <!-- =================================================
+                 AI CAREER COACH
+            ================================================== -->
 
             <div class="recommendation-card">
 
+
                 <div class="section-header">
-                    <h2>🤖 AI Career Coach</h2>
+
+                    <h2>
+
+                        🤖 AI Career Coach
+
+                    </h2>
+
                 </div>
-            
+
+
                 <div class="recommendation-box">
-            
-                    <h3>Hello {{ username }} 👋</h3>
-            
+
+
+                    <h3>
+
+                        Hello {{ username }} 👋
+
+                    </h3>
+
+
                     <p>
+
                         {{ ai_message }}
+
                     </p>
-            
+
+
                     <div class="recommendation-list">
-            
+
+
                         <div class="recommendation-item">
+
                             ✅ {{ recommendation1 }}
+
                         </div>
-            
+
+
                         <div class="recommendation-item">
+
                             ✅ {{ recommendation2 }}
+
                         </div>
-            
+
+
                         <div class="recommendation-item">
+
                             ✅ {{ recommendation3 }}
+
                         </div>
-            
+
+
                     </div>
-            
+
+
                     <div class="prediction-box">
-            
-                        <span>📈 Estimated Placement Readiness</span>
-            
-                        <strong>{{ readiness }}% → {{ predicted_readiness }}%</strong>
-            
+
+                        <span>
+
+                            📈 Estimated Placement Readiness
+
+                        </span>
+
+
+                        <strong>
+
+                            {{ readiness }}% → {{ predicted_readiness }}%
+
+                        </strong>
+
                     </div>
-            
-                    <a href="/ats" class="primary-btn">
-            
+
+
+                    <a href="/ats"
+                       class="primary-btn">
+
                         Improve My Profile 🚀
-            
+
                     </a>
-            
+
+
                 </div>
-            
+
             </div>
 
 
+        </section>
 
-        <!-- Progress -->
+
+
+        <!-- =================================================
+             PLACEMENT READINESS
+        ================================================== -->
 
         <section class="progress-section">
 
+
             <div class="section-header">
-                <h2>🎯 Placement Readiness</h2>
+
+                <h2>
+
+                    🎯 Placement Readiness
+
+                </h2>
+
+
                 <span class="progress-percent">
+
                     {{ readiness }}%
+
                 </span>
+
             </div>
-        
+
+
+
             <div class="progress-bar">
-                <div class="progress-fill" style="width: {{ readiness }}%;"></div>
+
+                <div class="progress-fill"
+                     style="width: {{ readiness }}%;">
+
+                </div>
+
             </div>
-        
+
+
+
             <div class="readiness-status">
+
+
                 <span class="status-badge
-{% if readiness >= 85 %}
-success
-{% elif readiness >= 70 %}
-primary
-{% elif readiness >= 50 %}
-warning
-{% else %}
-danger
-{% endif %}">
-    {{ status }}
-</span>
+                {% if readiness >= 85 %}
+                    success
+                {% elif readiness >= 70 %}
+                    primary
+                {% elif readiness >= 50 %}
+                    warning
+                {% else %}
+                    danger
+                {% endif %}">
+
+                    {{ status }}
+
+                </span>
+
             </div>
-        
+
+
+
             <p class="progress-text">
+
                 Your placement readiness is calculated using your interview performance and practice history.
+
             </p>
-        
+
+
+
             <div class="readiness-stats">
-        
-                <!-- Total Interviews -->
+
+
                 <div class="stat-box">
-                    <div class="stat-icon">🎤</div>
+
+                    <div class="stat-icon">
+
+                        🎤
+
+                    </div>
+
                     <div class="stat-title">
+
                         Interviews
+
                     </div>
+
                     <div class="stat-value">
-                        {{ stats[0] }}
+
+                        {{ stats[0] or 0 }}
+
                     </div>
+
                 </div>
-        
-                <!-- Average Score -->
+
+
+
                 <div class="stat-box">
-                    <div class="stat-icon">📊</div>
+
+                    <div class="stat-icon">
+
+                        📊
+
+                    </div>
+
                     <div class="stat-title">
+
                         Average Score
+
                     </div>
+
                     <div class="stat-value">
+
                         {{ "%.0f"|format(stats[1] or 0) }}%
+
                     </div>
+
                 </div>
-        
-                <!-- Best Score -->
+
+
+
                 <div class="stat-box">
-                    <div class="stat-icon">🏆</div>
+
+                    <div class="stat-icon">
+
+                        🏆
+
+                    </div>
+
                     <div class="stat-title">
+
                         Best Score
+
                     </div>
+
                     <div class="stat-value">
-                        {{ stats[2] or 0 }}%
+
+                        {{ "%.0f"|format(stats[2] or 0) }}%
+
                     </div>
+
                 </div>
-        
+
+
             </div>
-        
+
+
+
             <div class="ai-tip">
-                <strong>💡 AI Tip</strong><br><br>
+
+                <strong>
+
+                    💡 AI Tip
+
+                </strong>
+
+                <br>
+                <br>
+
                 {{ tip }}
+
             </div>
-        
+
+
         </section>
+
 
     </main>
 
+
 </div>
+
 
 </body>
 

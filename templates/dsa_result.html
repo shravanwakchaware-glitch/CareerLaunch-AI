@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>DSA Result - CareerLaunch AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/dsa_result.css') }}">
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     TOP BAR
+====================================================== -->
+
+<header class="topbar">
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            🚀
+        </div>
+
+        <div>
+
+            <h2>
+                CareerLaunch AI
+            </h2>
+
+            <span>
+                DSA Practice Result
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <a href="/dashboard"
+       class="dashboard-btn">
+
+        Dashboard
+
+    </a>
+
+</header>
+
+
+
+<!-- =====================================================
+     MAIN
+====================================================== -->
+
+<main class="container">
+
+
+    <!-- =================================================
+         SCORE
+    ================================================== -->
+
+    <section class="result-hero">
+
+        <div class="trophy">
+            🏆
+        </div>
+
+
+        <h1>
+            DSA Practice Completed
+        </h1>
+
+
+        <p>
+
+            Great work, {{ username }}!
+
+            Here is your AI-evaluated performance.
+
+        </p>
+
+
+        <div class="score-circle">
+
+            <strong>
+                {{ score }}%
+            </strong>
+
+            <span>
+                Score
+            </span>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         STATS
+    ================================================== -->
+
+    <section class="stats">
+
+
+        <!-- TOTAL -->
+
+        <div class="stat-card">
+
+            <span class="icon">
+                📚
+            </span>
+
+            <h3>
+                {{ total }}
+            </h3>
+
+            <p>
+                Total Questions
+            </p>
+
+        </div>
+
+
+
+        <!-- ATTEMPTED -->
+
+        <div class="stat-card">
+
+            <span class="icon">
+                📝
+            </span>
+
+            <h3>
+                {{ attempted }}
+            </h3>
+
+            <p>
+                Attempted
+            </p>
+
+        </div>
+
+
+
+        <!-- CORRECT -->
+
+        <div class="stat-card correct">
+
+            <span class="icon">
+                ✅
+            </span>
+
+            <h3>
+                {{ correct }}
+            </h3>
+
+            <p>
+                Correct
+            </p>
+
+        </div>
+
+
+
+        <!-- INCORRECT -->
+
+        <div class="stat-card incorrect">
+
+            <span class="icon">
+                ❌
+            </span>
+
+            <h3>
+                {{ incorrect }}
+            </h3>
+
+            <p>
+                Incorrect
+            </p>
+
+        </div>
+
+
+
+        <!-- SKIPPED -->
+
+        <div class="stat-card skipped">
+
+            <span class="icon">
+                ⏭️
+            </span>
+
+            <h3>
+                {{ skipped }}
+            </h3>
+
+            <p>
+                Skipped
+            </p>
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         QUESTION RESULTS
+    ================================================== -->
+
+    <section class="questions">
+
+
+        <h2>
+            Question-wise Results
+        </h2>
+
+
+        {% for result in results %}
+
+
+        <!-- =================================================
+             SKIPPED QUESTION
+        ================================================== -->
+
+        {% if result.skipped %}
+
+        <div class="question-card skipped-card">
+
+
+            <div class="question-top">
+
+
+                <div>
+
+                    <span class="question-number">
+
+                        Question {{ result.question_id }}
+
+                    </span>
+
+
+                    <h3>
+
+                        {{ result.title }}
+
+                    </h3>
+
+                </div>
+
+
+                <span class="status skipped-status">
+
+                    ⏭️ Skipped
+
+                </span>
+
+
+            </div>
+
+
+
+            <div class="skipped-message">
+
+                <strong>
+                    ⏭️ Question Skipped
+                </strong>
+
+
+                <p>
+
+                    You skipped this question.
+
+                    It was not counted as correct or
+                    incorrect.
+
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =================================================
+             ATTEMPTED QUESTION
+        ================================================== -->
+
+        {% else %}
+
+
+        <div class="question-card
+            {% if result.correct %}
+                correct-card
+            {% else %}
+                incorrect-card
+            {% endif %}">
+
+
+            <!-- QUESTION HEADER -->
+
+            <div class="question-top">
+
+
+                <div>
+
+                    <span class="question-number">
+
+                        Question {{ result.question_id }}
+
+                    </span>
+
+
+                    <h3>
+
+                        {{ result.title }}
+
+                    </h3>
+
+                </div>
+
+
+                {% if result.correct %}
+
+                <span class="status correct-status">
+
+                    ✅ Correct
+
+                </span>
+
+                {% else %}
+
+                <span class="status incorrect-status">
+
+                    ❌ Incorrect
+
+                </span>
+
+                {% endif %}
+
+
+            </div>
+
+
+
+            <!-- AI FEEDBACK -->
+
+            <div class="feedback">
+
+                <strong>
+                    🤖 AI Feedback
+                </strong>
+
+
+                <p>
+
+                    {{ result.feedback }}
+
+                </p>
+
+            </div>
+
+
+
+            <!-- COMPLEXITY -->
+
+            <div class="complexity">
+
+
+                <div>
+
+                    <strong>
+                        Time Complexity
+                    </strong>
+
+                    <span>
+
+                        {{ result.time_complexity }}
+
+                    </span>
+
+                </div>
+
+
+                <div>
+
+                    <strong>
+                        Space Complexity
+                    </strong>
+
+                    <span>
+
+                        {{ result.space_complexity }}
+
+                    </span>
+
+                </div>
+
+
+                <div>
+
+                    <strong>
+                        Language
+                    </strong>
+
+                    <span>
+
+                        {{ result.language }}
+
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- CORRECT APPROACH -->
+
+            {% if result.correct_approach %}
+
+            <div class="approach">
+
+
+                <strong>
+
+                    💡 Correct Approach
+
+                </strong>
+
+
+                <p>
+
+                    {{ result.correct_approach }}
+
+                </p>
+
+
+            </div>
+
+            {% endif %}
+
+
+        </div>
+
+
+        {% endif %}
+
+
+        {% endfor %}
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         ACTION BUTTONS
+    ================================================== -->
+
+    <div class="bottom-actions">
+
+
+        <a href="/dsa"
+           class="secondary-btn">
+
+            Try Again
+
+        </a>
+
+
+        <a href="/dashboard"
+           class="primary-btn">
+
+            Back to Dashboard
+
+        </a>
+
+
+    </div>
+
+
+</main>
+
+
+</body>
+
+</html>

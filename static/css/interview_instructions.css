@@ -1,0 +1,501 @@
+/* =========================================================
+   GLOBAL
+   ========================================================= */
+
+   * {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Geist', sans-serif;
+
+    background: #f3f6fc;
+
+    color: #111827;
+}
+
+
+/* =========================================================
+   PAGE WRAPPER
+   ========================================================= */
+
+.page-wrapper {
+
+    min-height: 100vh;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 30px 20px;
+}
+
+
+/* =========================================================
+   MAIN CARD
+   ========================================================= */
+
+.main-card {
+
+    width: 100%;
+
+    max-width: 850px;
+
+    background: #ffffff;
+
+    border-radius: 28px;
+
+    padding: 42px;
+
+    box-shadow:
+        0 15px 45px rgba(15, 23, 42, 0.08);
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.header {
+
+    text-align: center;
+
+    margin-bottom: 30px;
+}
+
+
+.logo {
+
+    font-size: 34px;
+
+    margin-bottom: 6px;
+}
+
+
+.header h1 {
+
+    margin: 0;
+
+    font-size: 34px;
+
+    font-weight: 800;
+
+    color: #2563eb;
+}
+
+
+.header p {
+
+    margin: 8px 0 0;
+
+    color: #6b7280;
+
+    font-size: 15px;
+}
+
+
+/* =========================================================
+   OVERVIEW
+   ========================================================= */
+
+.overview {
+
+    text-align: center;
+
+    margin-bottom: 25px;
+}
+
+
+.overview h2 {
+
+    margin: 0;
+
+    font-size: 25px;
+
+    font-weight: 700;
+
+    color: #1f2937;
+}
+
+
+.subtitle {
+
+    margin-top: 6px;
+
+    color: #6b7280;
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   ROUND CONTAINER
+   ========================================================= */
+
+.round-container {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 16px;
+}
+
+
+/* =========================================================
+   ROUND BOX
+   ========================================================= */
+
+.round-box {
+
+    border-radius: 18px;
+
+    padding: 20px;
+
+    min-height: 190px;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.round-box:hover {
+
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 10px 25px rgba(15, 23, 42, 0.08);
+}
+
+
+/* =========================================================
+   ROUND COLORS
+   ========================================================= */
+
+.aptitude {
+
+    background: #eff6ff;
+
+    border: 1px solid #dbeafe;
+}
+
+
+.coding {
+
+    background: #faf5ff;
+
+    border: 1px solid #ede9fe;
+}
+
+
+.hr {
+
+    background: #f0fdf4;
+
+    border: 1px solid #dcfce7;
+}
+
+
+/* =========================================================
+   ROUND ICON
+   ========================================================= */
+
+.round-icon {
+
+    font-size: 28px;
+
+    margin-bottom: 8px;
+}
+
+
+/* =========================================================
+   ROUND TITLE
+   ========================================================= */
+
+.round-box h3 {
+
+    margin: 0;
+
+    font-size: 19px;
+
+    font-weight: 700;
+}
+
+
+.aptitude h3 {
+
+    color: #2563eb;
+}
+
+
+.coding h3 {
+
+    color: #7c3aed;
+}
+
+
+.hr h3 {
+
+    color: #16a34a;
+}
+
+
+/* =========================================================
+   QUESTION RANGE
+   ========================================================= */
+
+.question-range {
+
+    margin: 5px 0 0;
+
+    color: #6b7280;
+
+    font-size: 13px;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   ROUND DESCRIPTION
+   ========================================================= */
+
+.round-description {
+
+    margin: 13px 0 0;
+
+    color: #6b7280;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   BASIC INSTRUCTION
+   ========================================================= */
+
+.basic-instruction {
+
+    margin-top: 22px;
+
+    text-align: center;
+
+    color: #6b7280;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   COUNTDOWN SECTION
+   ========================================================= */
+
+.countdown-section {
+
+    text-align: center;
+
+    margin-top: 30px;
+}
+
+
+.countdown-label {
+
+    margin: 0 0 12px;
+
+    color: #6b7280;
+
+    font-size: 15px;
+
+    font-weight: 500;
+}
+
+
+/* =========================================================
+   COUNTDOWN CIRCLE
+   ========================================================= */
+
+.countdown {
+
+    width: 115px;
+
+    height: 115px;
+
+    margin: 0 auto;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: #eff6ff;
+
+    border: 6px solid #2563eb;
+
+    box-shadow:
+        0 10px 30px rgba(37, 99, 235, 0.18);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.countdown:hover {
+
+    transform: scale(1.04);
+
+    box-shadow:
+        0 12px 35px rgba(37, 99, 235, 0.24);
+}
+
+
+/* =========================================================
+   COUNTDOWN NUMBER
+   ========================================================= */
+
+#countdownNumber {
+
+    font-size: 50px;
+
+    font-weight: 800;
+
+    line-height: 1;
+
+    color: #2563eb;
+}
+
+
+/* =========================================================
+   STARTING TEXT
+   ========================================================= */
+
+.starting-text {
+
+    margin: 12px 0 0;
+
+    color: #9ca3af;
+
+    font-size: 13px;
+
+    transition: opacity 0.3s ease;
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    .main-card {
+
+        padding: 30px;
+
+        border-radius: 22px;
+    }
+
+
+    .header h1 {
+
+        font-size: 30px;
+    }
+
+
+    .round-container {
+
+        grid-template-columns: 1fr;
+    }
+
+
+    .round-box {
+
+        min-height: auto;
+    }
+
+
+    .countdown {
+
+        width: 105px;
+
+        height: 105px;
+    }
+
+
+    #countdownNumber {
+
+        font-size: 44px;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+    .page-wrapper {
+
+        padding: 15px;
+    }
+
+
+    .main-card {
+
+        padding: 22px;
+
+        border-radius: 18px;
+    }
+
+
+    .header {
+
+        margin-bottom: 22px;
+    }
+
+
+    .header h1 {
+
+        font-size: 27px;
+    }
+
+
+    .overview h2 {
+
+        font-size: 22px;
+    }
+
+
+    .round-box {
+
+        padding: 17px;
+    }
+
+
+    .countdown {
+
+        width: 95px;
+
+        height: 95px;
+
+        border-width: 5px;
+    }
+
+
+    #countdownNumber {
+
+        font-size: 38px;
+    }
+}

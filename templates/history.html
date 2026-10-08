@@ -5,7 +5,9 @@
 
     <meta charset="UTF-8">
 
-    <title>Interview History</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Interview History | CareerLaunch AI</title>
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/history.css') }}">
@@ -14,46 +16,351 @@
 
 <body>
 
-<div class="container">
+<div class="page">
 
-    <h1>📜 Interview History</h1>
+    <!-- ================= HEADER ================= -->
 
-    <table>
+    <header class="topbar">
 
-        <thead>
+        <div class="brand">
 
-            <tr>
+            <div class="brand-icon">
+                🚀
+            </div>
 
-                <th>Job Role</th>
-                <th>Interview</th>
-                <th>Overall</th>
-                <th>Date</th>
+            <div>
+                <div class="brand-name">CareerLaunch AI</div>
+                <div class="brand-subtitle">Interview Performance</div>
+            </div>
 
-            </tr>
+        </div>
 
-        </thead>
+        <a href="{{ url_for('dashboard') }}" class="dashboard-btn">
+            ← Dashboard
+        </a>
 
-        <tbody>
+    </header>
 
-        {% for interview in interviews %}
 
-            <tr>
+    <!-- ================= MAIN ================= -->
 
-                <td>{{ interview[3] }}</td>
+    <main class="container">
 
-                <td>{{ interview[4] }}</td>
+        <!-- Page heading -->
 
-                <td>{{ interview[5] }}%</td>
+        <section class="page-heading">
 
-                <td>{{ interview[11] }}</td>
+            <div>
 
-            </tr>
+                <span class="eyebrow">
+                    PERFORMANCE CENTER
+                </span>
 
-        {% endfor %}
+                <h1>
+                    Interview History
+                </h1>
 
-        </tbody>
+                <p>
+                    Review your previous AI mock interviews and track your performance over time.
+                </p>
 
-    </table>
+            </div>
+
+            <div class="heading-icon">
+                📜
+            </div>
+
+        </section>
+
+
+        <!-- ================= STATS ================= -->
+
+        <section class="stats-grid">
+
+            <div class="stat-card">
+
+                <div class="stat-icon blue">
+                    🎯
+                </div>
+
+                <div class="stat-content">
+
+                    <span>Total Interviews</span>
+
+                    <strong>{{ interviews|length }}</strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon green">
+                    📈
+                </div>
+
+                <div class="stat-content">
+
+                    <span>Average Score</span>
+
+                    <strong>
+                        {% if interviews %}
+                            {{ "%.0f"|format(
+                                interviews|map(attribute=5)|map('float')|sum / interviews|length
+                            ) }}%
+                        {% else %}
+                            0%
+                        {% endif %}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon purple">
+                    🏆
+                </div>
+
+                <div class="stat-content">
+
+                    <span>Best Score</span>
+
+                    <strong>
+                        {% if interviews %}
+                            {{ interviews|map(attribute=5)|map('float')|max }}%
+                        {% else %}
+                            0%
+                        {% endif %}
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= HISTORY CARD ================= -->
+
+        <section class="history-card">
+
+            <div class="history-header">
+
+                <div>
+
+                    <h2>
+                        Previous Interviews
+                    </h2>
+
+                    <p>
+                        Your latest mock interview attempts
+                    </p>
+
+                </div>
+
+                <div class="history-count">
+                    {{ interviews|length }} Attempts
+                </div>
+
+            </div>
+
+
+            {% if interviews %}
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Job Role</th>
+
+                            <th>Interview</th>
+
+                            <th>Overall Score</th>
+
+                            <th>Date</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                    {% for interview in interviews %}
+
+                        <tr>
+
+                            <!-- Job Role -->
+
+                            <td>
+
+                                <div class="role-cell">
+
+                                    <div class="role-icon">
+                                        💼
+                                    </div>
+
+                                    <div>
+
+                                        <strong>
+                                            {{ interview[3] }}
+                                        </strong>
+
+                                        <span>
+                                            Career Interview
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+
+                            <!-- Interview -->
+
+                            <td>
+
+                                <span class="interview-name">
+                                    {{ interview[4] }}
+                                </span>
+
+                            </td>
+
+
+                            <!-- Score -->
+
+                            <td>
+
+                                {% set score = interview[5]|float %}
+
+                                <div class="score-cell">
+
+                                    <div class="score-circle
+                                        {% if score >= 80 %}
+                                            excellent
+                                        {% elif score >= 60 %}
+                                            good
+                                        {% elif score >= 40 %}
+                                            average
+                                        {% else %}
+                                            low
+                                        {% endif %}
+                                    ">
+
+                                        {{ score|int }}
+
+                                    </div>
+
+                                    <div class="score-info">
+
+                                        <strong>{{ score|int }}%</strong>
+
+                                        <span>
+                                            {% if score >= 80 %}
+                                                Excellent
+                                            {% elif score >= 60 %}
+                                                Good
+                                            {% elif score >= 40 %}
+                                                Needs Work
+                                            {% else %}
+                                                Keep Practicing
+                                            {% endif %}
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+
+                            <!-- Date -->
+
+                            <td>
+
+                                <div class="date-cell">
+
+                                    <span class="calendar-icon">
+                                        📅
+                                    </span>
+
+                                    <span>
+                                        {{ interview[11] }}
+                                    </span>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+            <!-- Empty state -->
+
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    📭
+                </div>
+
+                <h3>
+                    No interviews yet
+                </h3>
+
+                <p>
+                    Complete your first AI mock interview and your results will appear here.
+                </p>
+
+                <a href="{{ url_for('dashboard') }}" class="start-btn">
+                    Start an Interview →
+                </a>
+
+            </div>
+
+            {% endif %}
+
+        </section>
+
+
+        <!-- ================= FOOTER MESSAGE ================= -->
+
+        {% if interviews %}
+
+        <div class="bottom-message">
+
+            <span>💡</span>
+
+            <p>
+                Keep practicing to improve your interview performance.
+            </p>
+
+            <a href="{{ url_for('dashboard') }}">
+                Start another interview →
+            </a>
+
+        </div>
+
+        {% endif %}
+
+    </main>
 
 </div>
 

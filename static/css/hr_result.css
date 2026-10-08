@@ -1,0 +1,801 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+    background: #f5f7fb;
+
+    color: #172033;
+
+    min-height: 100vh;
+}
+
+
+/* =========================
+   TOPBAR
+========================= */
+
+.topbar {
+    height: 78px;
+
+    background: #ffffff;
+
+    border-bottom: 1px solid #e5e8ef;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 42px;
+}
+
+
+.brand {
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+}
+
+
+.brand-icon {
+    width: 44px;
+    height: 44px;
+
+    background: #eef1ff;
+
+    border-radius: 13px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 22px;
+}
+
+
+.brand h2 {
+    font-size: 19px;
+
+    color: #101a2f;
+}
+
+
+.brand span {
+    display: block;
+
+    margin-top: 3px;
+
+    font-size: 12px;
+
+    color: #748097;
+}
+
+
+.dashboard-btn {
+    text-decoration: none;
+
+    background: #101827;
+
+    color: white;
+
+    padding: 11px 20px;
+
+    border-radius: 10px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+}
+
+
+.dashboard-btn:hover {
+    background: #1d293d;
+}
+
+
+/* =========================
+   CONTAINER
+========================= */
+
+.container {
+    width: min(1150px, calc(100% - 40px));
+
+    margin: 32px auto 60px;
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.result-hero {
+    background: #ffffff;
+
+    border: 1px solid #e3e7ee;
+
+    border-radius: 22px;
+
+    padding: 48px 30px;
+
+    text-align: center;
+
+    box-shadow: 0 8px 30px rgba(20, 30, 60, 0.05);
+}
+
+
+.trophy {
+    font-size: 48px;
+
+    margin-bottom: 10px;
+}
+
+
+.result-hero h1 {
+    font-size: 32px;
+
+    color: #111b32;
+
+    margin-bottom: 8px;
+}
+
+
+.result-hero p {
+    color: #68758d;
+
+    font-size: 16px;
+}
+
+
+/* =========================
+   SCORE
+========================= */
+
+.score-circle {
+    width: 150px;
+    height: 150px;
+
+    margin: 30px auto 0;
+
+    border-radius: 50%;
+
+    border: 10px solid #6357e8;
+
+    background: #f0efff;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+
+.score-circle strong {
+    font-size: 32px;
+
+    color: #4137c5;
+}
+
+
+.score-circle span {
+    font-size: 12px;
+
+    color: #68758d;
+
+    margin-top: 3px;
+}
+
+
+/* =========================
+   STATS
+========================= */
+
+.stats {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 20px;
+
+    margin-top: 26px;
+}
+
+
+.stat-card {
+    background: #ffffff;
+
+    border: 1px solid #e3e7ee;
+
+    border-radius: 18px;
+
+    padding: 25px 18px;
+
+    text-align: center;
+
+    box-shadow: 0 5px 20px rgba(20, 30, 60, 0.04);
+}
+
+
+.stat-card .icon {
+    display: block;
+
+    font-size: 25px;
+
+    margin-bottom: 8px;
+}
+
+
+.stat-card h3 {
+    font-size: 27px;
+
+    color: #172033;
+
+    margin-bottom: 4px;
+}
+
+
+.stat-card p {
+    color: #758197;
+
+    font-size: 13px;
+}
+
+
+.stat-card.attempted {
+    border-top: 3px solid #6357e8;
+}
+
+
+.stat-card.correct {
+    border-top: 3px solid #27b477;
+}
+
+
+.stat-card.skipped {
+    border-top: 3px solid #f1a329;
+}
+
+
+/* =========================
+   PERFORMANCE
+========================= */
+
+.performance {
+    margin-top: 38px;
+}
+
+
+.performance h2 {
+    font-size: 23px;
+
+    margin-bottom: 18px;
+
+    color: #111b32;
+}
+
+
+.performance-grid {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 16px;
+}
+
+
+.performance-card {
+    background: #ffffff;
+
+    border: 1px solid #e3e7ee;
+
+    border-radius: 15px;
+
+    padding: 19px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+}
+
+
+.performance-icon {
+    width: 42px;
+    height: 42px;
+
+    border-radius: 11px;
+
+    background: #f0efff;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 20px;
+}
+
+
+.performance-card span {
+    display: block;
+
+    color: #748097;
+
+    font-size: 12px;
+
+    margin-bottom: 4px;
+}
+
+
+.performance-card strong {
+    color: #172033;
+
+    font-size: 20px;
+}
+
+
+/* =========================
+   QUESTIONS
+========================= */
+
+.questions {
+    margin-top: 40px;
+}
+
+
+.section-heading {
+    margin-bottom: 18px;
+}
+
+
+.section-heading h2 {
+    font-size: 23px;
+
+    color: #111b32;
+
+    margin-bottom: 5px;
+}
+
+
+.section-heading p {
+    font-size: 14px;
+
+    color: #748097;
+}
+
+
+/* =========================
+   QUESTION CARD
+========================= */
+
+.question-card {
+    background: #ffffff;
+
+    border: 1px solid #e3e7ee;
+
+    border-radius: 17px;
+
+    padding: 24px;
+
+    margin-bottom: 18px;
+
+    box-shadow: 0 5px 20px rgba(20, 30, 60, 0.035);
+}
+
+
+.answered-card {
+    border-left: 5px solid #6357e8;
+}
+
+
+.skipped-card {
+    border-left: 5px solid #f1a329;
+}
+
+
+.question-top {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    gap: 20px;
+}
+
+
+.question-number {
+    display: block;
+
+    color: #6357e8;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    margin-bottom: 7px;
+}
+
+
+.question-top h3 {
+    font-size: 17px;
+
+    line-height: 1.6;
+
+    color: #172033;
+}
+
+
+/* =========================
+   SCORE BADGE
+========================= */
+
+.score-badge {
+    flex-shrink: 0;
+
+    background: #eeeaff;
+
+    color: #5144d0;
+
+    padding: 8px 14px;
+
+    border-radius: 20px;
+
+    font-size: 13px;
+
+    font-weight: 700;
+}
+
+
+/* =========================
+   SKIPPED
+========================= */
+
+.skipped-status {
+    background: #fff5df;
+
+    color: #bd7b08;
+
+    padding: 8px 13px;
+
+    border-radius: 20px;
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+
+.skipped-message {
+    margin-top: 18px;
+
+    padding: 17px;
+
+    background: #fff9ed;
+
+    border: 1px solid #f5ddb0;
+
+    border-radius: 12px;
+}
+
+
+.skipped-message strong {
+    color: #9a690c;
+
+    font-size: 14px;
+}
+
+
+.skipped-message p {
+    margin-top: 5px;
+
+    color: #806d45;
+
+    font-size: 13px;
+}
+
+
+/* =========================
+   ANSWER
+========================= */
+
+.answer-section {
+    margin-top: 20px;
+
+    padding: 18px;
+
+    background: #f8f9fc;
+
+    border: 1px solid #e3e7ee;
+
+    border-radius: 12px;
+}
+
+
+.answer-title {
+    color: #6357e8;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    margin-bottom: 9px;
+}
+
+
+.answer-section p {
+    color: #4e5c74;
+
+    font-size: 14px;
+
+    line-height: 1.8;
+
+    white-space: pre-wrap;
+}
+
+
+/* =========================
+   AI FEEDBACK
+========================= */
+
+.feedback-section {
+    margin-top: 15px;
+
+    padding: 18px;
+
+    background: #f4f2ff;
+
+    border: 1px solid #ddd8ff;
+
+    border-radius: 12px;
+}
+
+
+.feedback-title {
+    color: #4e42c8;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    margin-bottom: 8px;
+}
+
+
+.feedback-section p {
+    color: #59667e;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================
+   STRENGTHS
+========================= */
+
+.strengths-section {
+    margin-top: 15px;
+
+    padding: 17px;
+
+    background: #effaf5;
+
+    border: 1px solid #c6ead8;
+
+    border-radius: 12px;
+}
+
+
+.strengths-section strong {
+    color: #16865d;
+
+    font-size: 14px;
+}
+
+
+.strengths-section ul {
+    margin-top: 8px;
+
+    padding-left: 20px;
+}
+
+
+.strengths-section li {
+    color: #527565;
+
+    font-size: 13px;
+
+    margin: 6px 0;
+
+    line-height: 1.5;
+}
+
+
+/* =========================
+   IMPROVEMENTS
+========================= */
+
+.improvements-section {
+    margin-top: 15px;
+
+    padding: 17px;
+
+    background: #fff7e8;
+
+    border: 1px solid #f0dbad;
+
+    border-radius: 12px;
+}
+
+
+.improvements-section strong {
+    color: #a46c08;
+
+    font-size: 14px;
+}
+
+
+.improvements-section ul {
+    margin-top: 8px;
+
+    padding-left: 20px;
+}
+
+
+.improvements-section li {
+    color: #776641;
+
+    font-size: 13px;
+
+    margin: 6px 0;
+
+    line-height: 1.5;
+}
+
+
+/* =========================
+   ACTIONS
+========================= */
+
+.bottom-actions {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 14px;
+
+    margin-top: 32px;
+}
+
+
+.primary-btn,
+.secondary-btn {
+    text-decoration: none;
+
+    padding: 13px 23px;
+
+    border-radius: 11px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+}
+
+
+.primary-btn {
+    background: #5b4bea;
+
+    color: #ffffff;
+}
+
+
+.primary-btn:hover {
+    background: #493bd0;
+}
+
+
+.secondary-btn {
+    background: #ffffff;
+
+    color: #202b42;
+
+    border: 1px solid #d8dde7;
+}
+
+
+.secondary-btn:hover {
+    background: #f3f5f8;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+
+    .stats,
+    .performance-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .topbar {
+        padding: 0 18px;
+    }
+
+
+    .brand span {
+        display: none;
+    }
+
+
+    .container {
+        width: calc(100% - 24px);
+
+        margin-top: 18px;
+    }
+
+
+    .result-hero {
+        padding: 35px 18px;
+    }
+
+
+    .result-hero h1 {
+        font-size: 25px;
+    }
+
+
+    .stats,
+    .performance-grid {
+        grid-template-columns: 1fr 1fr;
+
+        gap: 10px;
+    }
+
+
+    .question-top {
+        flex-direction: column;
+    }
+
+
+    .bottom-actions {
+        flex-direction: column;
+    }
+
+
+    .primary-btn,
+    .secondary-btn {
+        text-align: center;
+    }
+
+}

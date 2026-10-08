@@ -2,47 +2,176 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Progress Tracker</title>
+    <title>Progress Tracker | CareerLaunch AI</title>
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/progress.css') }}">
-
 </head>
 
 <body>
 
-<div class="container">
+<div class="progress-page">
 
-    <h1>📈 Progress Tracker</h1>
-
-    <div class="grid">
-
-        <div class="card">
-            <h3>Total Interviews</h3>
-            <p>{{ stats[0] }}</p>
+    <!-- Header -->
+    <div class="page-header">
+        <div>
+            <span class="eyebrow">CAREERLAUNCH AI</span>
+            <h1>📈 Progress Tracker</h1>
+            <p>Track your interview performance and see how you're improving.</p>
         </div>
 
-        <div class="card">
-            <h3>Average Score</h3>
-            <p>{{ "%.0f"|format(stats[1]) }}%</p>
+        <a href="{{ url_for('dashboard') }}" class="back-btn">
+            ← Dashboard
+        </a>
+    </div>
+
+
+    <!-- Main Statistics -->
+    <div class="stats-grid">
+
+        <div class="stat-card interviews">
+            <div class="icon">🎤</div>
+
+            <div class="stat-content">
+                <h3>Total Interviews</h3>
+                <p>{{ stats[0] }}</p>
+                <span>Interviews completed</span>
+            </div>
         </div>
 
-        <div class="card">
-            <h3>Best Score</h3>
-            <p>{{ stats[2] }}%</p>
+
+        <div class="stat-card average">
+            <div class="icon">📊</div>
+
+            <div class="stat-content">
+                <h3>Average Score</h3>
+                <p>{{ "%.0f"|format(stats[1] or 0) }}%</p>
+                <span>Overall performance</span>
+            </div>
         </div>
 
-        <div class="card">
-            <h3>Technical Avg.</h3>
-            <p>{{ "%.0f"|format(stats[3]) }}%</p>
+
+        <div class="stat-card best">
+            <div class="icon">🏆</div>
+
+            <div class="stat-content">
+                <h3>Best Score</h3>
+                <p>{{ "%.0f"|format(stats[2] or 0) }}%</p>
+                <span>Your highest score</span>
+            </div>
         </div>
 
-        <div class="card">
-            <h3>Communication Avg.</h3>
-            <p>{{ "%.0f"|format(stats[4]) }}%</p>
+
+        <div class="stat-card technical">
+            <div class="icon">💻</div>
+
+            <div class="stat-content">
+                <h3>Technical Avg.</h3>
+                <p>{{ "%.0f"|format(stats[3] or 0) }}%</p>
+                <span>Technical performance</span>
+            </div>
+        </div>
+
+
+        <div class="stat-card communication">
+            <div class="icon">💬</div>
+
+            <div class="stat-content">
+                <h3>Communication Avg.</h3>
+                <p>{{ "%.0f"|format(stats[4] or 0) }}%</p>
+                <span>Communication skills</span>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- Performance Overview -->
+    <div class="overview-card">
+
+        <div class="overview-header">
+            <div>
+                <span class="section-label">PERFORMANCE</span>
+                <h2>Your Interview Performance</h2>
+            </div>
+
+            <div class="performance-badge">
+                🚀 Keep improving
+            </div>
+        </div>
+
+
+        <div class="performance-grid">
+
+            <div class="performance-item">
+
+                <div class="performance-top">
+                    <span>Overall Performance</span>
+                    <strong>{{ "%.0f"|format(stats[1] or 0) }}%</strong>
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill"
+                         style="width: {{ stats[1] or 0 }}%;">
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="performance-item">
+
+                <div class="performance-top">
+                    <span>Technical Skills</span>
+                    <strong>{{ "%.0f"|format(stats[3] or 0) }}%</strong>
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill"
+                         style="width: {{ stats[3] or 0 }}%;">
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="performance-item">
+
+                <div class="performance-top">
+                    <span>Communication</span>
+                    <strong>{{ "%.0f"|format(stats[4] or 0) }}%</strong>
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill"
+                         style="width: {{ stats[4] or 0 }}%;">
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Motivation -->
+    <div class="motivation-card">
+
+        <div class="motivation-icon">
+            💡
+        </div>
+
+        <div>
+            <h2>Keep building your confidence</h2>
+            <p>
+                Every mock interview helps you identify weaknesses,
+                improve your communication and get closer to being
+                placement ready.
+            </p>
         </div>
 
     </div>
@@ -50,5 +179,4 @@
 </div>
 
 </body>
-
 </html>
